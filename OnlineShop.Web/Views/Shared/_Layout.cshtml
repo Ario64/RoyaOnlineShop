@@ -1,0 +1,259 @@
+﻿@using System.Security.Claims
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+
+<head>
+    <partial name="_MetaTags" />
+    <title>فروشگاه آنلاین رویا | @ViewData["Title"]</title>
+    <partial name="_Styles" />
+    <script src="/js/vendor/custom.modernizr.js"></script>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <!-- Header top -->
+        <div class="headertop">
+
+            <!-- Content Row -->
+            <div class="row">
+                <!-- Welcome Txt -->
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="small-12 medium-5 large-4 welcome-guest-text columns">
+                         @User.Identity.Name خوش آمدید
+                    </div>
+                }
+                else
+                {
+                    <div class="small-12 medium-5 large-4 welcome-guest-text columns">
+                        کاربر مهمان خوش آمدید
+                    </div>
+                }
+              
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="small-12 medium-5 large-4 welcome-guest-text columns">
+                        <a href="#" class="welcome-guest-text">@User.Identity.Name</a> |
+                        <a href="logout" class="welcome-guest-text">خروج</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="small-12 medium-5 large-4 welcome-guest-text columns">
+                        <a href="register" class="welcome-guest-text">عضویت</a> |
+                        <a href="login" class="welcome-guest-text">ورود</a>
+                    </div>
+                }
+                <!-- End Welcome Txt -->
+                <!-- Topcart -->
+                <div class="small-12 medium-5 large-4 left topcartbg columns">
+                    <!-- Carticon -->
+                    <div class="topcart-icon text-center">
+                        <i class="icon-cart2"></i>
+                    </div>
+                    <!-- End Carticon -->
+                    <!-- Topcart Text -->
+                    <div class="topcart-text">
+
+                        سبد خرید (3 مورد)
+                    </div>
+                    <!-- End Topcart Text -->
+                    <!-- Topcart Arrow Down -->
+                    <div class="topcart-arrow-down">
+                        <a href="#">
+                            <i class="icon-arrow-down"></i>
+
+                        </a>
+
+
+                    </div>
+                    <!-- End Topcart Arrow Down -->
+                    <!-- Cart items -->
+                    <div class="small-12 medium-12 large-4 cart-dropdown">
+
+                        <!-- Item List -->
+                        <div class="cart-item-list">
+
+                            <!-- Thumb -->
+                            <div class="cart-item-thumb right">
+                                <img src="/img/cart/1.jpg" alt="Cart product 1" />
+                            </div>
+                            <!-- End thumb -->
+                            <!-- Content -->
+                            <div class="cart-item-content">
+                                <!-- {product name} -->
+                                <div class="cart-item-title">
+                                    <a href="#">
+
+                                        لورم ایپسوم یا طرح‌نما
+                                    </a>
+                                </div>
+                                <!-- PRice -->
+                                <div class="cart-item-price">
+                                    $109.00
+                                </div>
+                                <!-- Remove -->
+                                <a href="#" class="cart-remove">X</a>
+                                <!-- Quanitity -->
+                                <div class="cart-item-quantity">
+
+                                    تعداد: (1)
+                                </div>
+
+
+
+                            </div>
+                            <!-- End Content -->
+                            <!-- Clearing -->
+                            <div class="clearing"></div>
+
+                        </div>
+                        <!-- End item list -->
+                        <!-- Item List -->
+                        <div class="cart-item-list">
+
+                            <!-- Thumb -->
+                            <div class="cart-item-thumb right">
+                                <img src="/img/cart/1.jpg" alt="Cart product 1" />
+                            </div>
+                            <!-- End thumb -->
+                            <!-- Content -->
+                            <div class="cart-item-content">
+                                <!-- {product name} -->
+                                <div class="cart-item-title">
+                                    <a href="#">
+
+                                        لورم ایپسوم یا طرح‌نما
+                                    </a>
+                                </div>
+                                <!-- PRice -->
+                                <div class="cart-item-price">
+                                    $109.00
+                                </div>
+                                <!-- Remove -->
+                                <a href="#" class="cart-remove">X</a>
+                                <!-- Quanitity -->
+                                <div class="cart-item-quantity">
+
+                                    تعداد: (1)
+                                </div>
+
+                            </div>
+                            <!-- End Content -->
+                            <!-- Clearing -->
+                            <div class="clearing"></div>
+
+                        </div>
+                        <!-- End item list -->
+                        <!-- Total -->
+                        <div class="small-12 large-12 text-center medium-12 columns cart-total">
+
+                            مجموع: 124.00 $
+
+                        </div>
+                        <button class="small-12 large-12 btn btn-3 btn-3a icon-arrow-left">
+                            سبد خرید
+                        </button>
+                        <button class="small-12 large-12 btn btn-3 btn-3a icon-lock">بررسی</button>
+
+                    </div>
+                    <!-- End Cart item -->
+                </div>
+                <!-- End Topcart -->
+
+            </div>
+            <!-- End Content Row -->
+
+        </div>
+        <!-- End Header top -->
+        <!-- Header Bottom -->
+        <div class="headerbottom">
+            <!-- Content Row -->
+            <div class="row headerbottomrow">
+                <!--  Main Navigation -->
+                <partial name="_MainMenu"/>
+                <!-- End Main Navigation -->
+                <!-- Searchbox -->
+                @RenderSection("SearchBox", false)
+                <!-- End Searchbox -->
+
+            </div>
+            <!-- End Content Row -->
+        </div>
+        <!-- End Header Bottom -->
+    </div>
+    <!-- End header -->
+    <!-- content -->
+    @RenderBody()
+    <!-- end content -->
+    <!-- Footer  -->
+    <partial name="_Footer"/>
+    <!-- End Footer Links -->
+ 
+    <!-- End Footer -->
+
+    <script type="text/javascript" src="/js/vendor/jquery.js"></script>
+    <script src="/js/foundation/foundation.js"></script>
+    <script type="text/javascript" src="/js/nexx.js"></script>
+
+    <!-- FlexSlider -->
+    <script type="text/javascript" src="/js/vendor/jquery.flexslider-min.js"></script>
+    <script type="text/javascript">
+
+        // Main Slider
+        var $ = jQuery.noConflict();
+        $(window).load(function () {
+
+            $('.flexslider').flexslider();
+
+        });
+
+    </script>
+
+    <!-- Jquery Selectric (Custom Selecbox Styling ) -->
+    <script type="text/javascript" src="/js/jquery.selectric.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('select').selectric(); // this function turn all <select> to custom Styling for specific select box use $("#selectbox").selectric();
+        });
+    </script>
+    <!-- Owl Carousel -->
+    <script src="/owl-carousel/owl.carousel.min.js"></script>
+
+    <!--  Image Zoom Plugin -->
+    <script src="/js/zoomsl-3.0.min.js"></script>
+    <script>
+        jQuery(function () {
+
+            $(".p-photo").imagezoomsl({
+
+
+                zoomrange: [1.68, 10],
+                zoomstart: 1.68,
+                cursorshadeborder: "10px solid black",
+                magnifiereffectanimate: "fadeIn",
+            });
+
+
+            $(".item img").click(function () {
+
+                var that = this;
+                $(".p-photo").fadeOut(600, function () {
+
+                    $(this).attr("src", $(that).attr("data-medium"))
+                        .attr("data-large", $(that).attr("data-tmb-large"))
+                        .fadeIn(1000);
+                });
+
+                return false;
+            });
+
+        });
+    </script>
+    @RenderSection("Scripts", false)
+</body>
+</html>
+
+

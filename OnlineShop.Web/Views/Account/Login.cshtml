@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model OnlineShop.Core.DTOs.User.LoginViewModel
+@{
+    ViewData["Title"] = "ورود به سایت";
+}
+
+<div class="breadcrumb-holder">
+    <!-- Content Row -->
+    <div class="row">
+        <ul class="breadcrumbs small-12 medium-8 large-8 columns">
+            <li><a href="/">فروشگاه آنلاین رویا</a></li>
+            <li><a>@ViewData["Title"]</a></li>
+        </ul>
+    </div>
+    <!-- End Content Row -->
+</div>
+<div class="row bottom-margin featured-row">
+
+    <h1>@ViewData["Title"]</h1>
+    <div class="fr-border"></div>
+    @if (ViewBag.IsLogin != null)
+    {
+        <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
+            <div class="input-group contact-item text-center" style="max-width: 530px;">
+                <i>ورود شما با موفقیت انجام شد</i>
+            </div>
+        </div>
+
+        <script>
+            // Your delay in milliseconds
+            var delay = 3000;
+            setTimeout(function () { window.location = "/"; }, delay);
+        </script>
+    }
+    <!-- Contact form -->
+    <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
+        <form asp-action="Login" class="form" method="post">
+
+            <div class="input-group" style="margin-top: 15px;">
+                <span class="input-group-addon"><i>ایمیل:</i></span>
+                <input asp-for="Email" type="email" class="form-control" />
+            </div>
+
+            <div class="input-group" style="margin-top: 15px;">
+                <span class="input-group-addon"><i>کلمه عبور:</i></span>
+                <input asp-for="Password" type="password" class="form-control" />
+            </div>
+
+            <div class="input-group" style="margin-top: 15px;">
+                <span class="input-group-addon">
+                    <input asp-for="RememberMe" type="checkbox" style="max-height: 15px; max-width: 15px;" class="text-right" />
+                    <i>مرا بخاطر بسپار</i>
+                </span>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <a href="forgotPassword" class="btn-group btn-sm btn-success">رمز عبور خود را فراموش کرده ام !</a>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <a href="register" class="btn-group btn-sm btn-success">عضویت در سایت</a>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <button class="btn-group btn-sm btn-success">ورود به سایت</button>
+            </div>
+
+            <div asp-validation-summary="All" style="margin-top: 15px;"></div>
+        </form>
+
+        <div style="margin-top: 35px;">
+            <a href="active-account" class="btn-group btn-sm btn-success">ارسال ایمیل فعال سازی</a>
+        </div>
+    </div>
+</div>

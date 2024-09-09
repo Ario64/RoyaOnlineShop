@@ -1,0 +1,22 @@
+﻿@model OnlineShop.DataLayer.Entities.User.User
+@{
+    ViewData["Title"] = "پایان ثبت نام";
+}
+
+<div class="breadcrumb-holder">
+    <!-- Content Row -->
+    <div class="row">
+        <ul class="breadcrumbs small-12 medium-8 large-8 columns">
+            <li><a href="/">فروشگاه آنلاین رویا</a></li>
+            <li><a>@ViewData["Title"]</a></li>
+        </ul>
+    </div>
+    <!-- End Content Row -->
+</div>
+<div class="row bottom-margin featured-row">
+    <div class="alert alert-success">
+        <h2>@Model.FullName عزیز</h2>
+        <p>ثبت نام شما با موفقیت انجام شد، ایمیلی حاوی لینک فعال سازی برای "@Model.Email" ارسال شد.</p>
+        <p>جهت ادامه ثبت نام وارد ایمیل خود شوید و بر روی لینک کلیک کنید. در صورت عدم مشاهده ایمیل ارسالی لطفا پوشه <bold>spam</bold> را چک کنید. با تشکر</p>
+    </div>
+</div>

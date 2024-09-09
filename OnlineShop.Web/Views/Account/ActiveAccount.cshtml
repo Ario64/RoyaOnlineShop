@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "فعالسازی حساب کاربری";
+}
+
+<div class="breadcrumb-holder">
+    <!-- Content Row -->
+    <div class="row">
+        <ul class="breadcrumbs small-12 medium-8 large-8 columns">
+            <li><a href="/">فروشگاه آنلاین رویا</a></li>
+            <li><a>@ViewData["Title"]</a></li>
+        </ul>
+    </div>
+    <!-- End Content Row -->
+</div>
+<div class="row bottom-margin featured-row">
+    @if (ViewBag.IsActive)
+    {
+        <div class="alert alert-success">
+            <h2>کاربر عزیز</h2>
+            <p>فعالسازی حساب کاربری شما با موفقیت انجام شد، می توانید از طریق لینک زیر وارد سایت شوید.</p>
+            <p><b><a href="/login">ورود به سایت</a></b></p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <p>حساب کاربری با مشخصات ارسال شده یافت نشد !</p>
+        </div>
+    }
+</div>
