@@ -161,16 +161,22 @@ namespace OnlineShop.Web.Controllers
                 return View(model);
             }
             var user = _userService.GetUserByEmailAddress(model.Email);
-            if (user.IsActive)
-            {
-                ModelState.AddModelError("Email", "حساب شما فعال می باشد");
-                return Redirect("login");
-            }
             if (user != null)
             {
-                var body = _viewRenderService.RenderToStringAsync("_ActiveEmail", user);
-                SendEmail.Send(user.Email, "فعالسازی حساب", body);
+                if (user.IsActive)
+                {
+                    ModelState.AddModelError("Email", "حساب شما فعال می باشد");
+                    return View(model);
+                }
+                else
+                {
+                    var body = _viewRenderService.RenderToStringAsync("_ActiveEmail", user);
+                    SendEmail.Send(user.Email, "فعالسازی حساب", body);
+                    ViewBag.SendActivationEmail = true;
+                    return View("ReSendActivationEmail");
+                }
             }
+
             ModelState.AddModelError("Email", "کاربری یافت نشد !");
             return View(model);
         }
