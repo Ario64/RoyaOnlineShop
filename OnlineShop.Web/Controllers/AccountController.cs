@@ -165,7 +165,7 @@ namespace OnlineShop.Web.Controllers
             {
                 if (user.IsActive)
                 {
-                    ModelState.AddModelError("Email", "حساب شما فعال می باشد");
+                    ModelState.AddModelError("Email", "حساب شما فعال می باشد !");
                     return View(model);
                 }
                 else
@@ -176,7 +176,6 @@ namespace OnlineShop.Web.Controllers
                     return View("ReSendActivationEmail");
                 }
             }
-
             ModelState.AddModelError("Email", "کاربری یافت نشد !");
             return View(model);
         }
