@@ -192,5 +192,72 @@ namespace OnlineShop.Web.Controllers
         }
 
         #endregion
+
+        #region Forgot Password
+
+        [HttpGet("forgot-password")]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost("forgot-password")]
+        public IActionResult ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            User? user = _userService.GetUserByEmailAddress(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("Email", "کاربری با ایمیل وارد شده یافت نشد !");
+                return View(model);
+            }
+            string emailBody = _viewRenderService.RenderToStringAsync("_ForgotPassword", user);
+            SendEmail.Send(user.Email, "بازیابی کلمه عبور", emailBody);
+            ViewBag.IsSuccess = true;
+            return View();
+        }
+
+        #endregion
+
+        #region Reset Password
+
+        [HttpGet]
+        public IActionResult ResetPassword(string id)
+        {
+            return View(new ResetPasswordViewModel()
+            {
+                ActiveCode = id
+            });
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = _userService.GetUserByActiveCode(model.ActiveCode);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            string hashPassword = PasswordHelper.EncodePasswordMd5(model.Password);
+            user.Password = hashPassword;
+            user.ActiveCode = NameGenerator.GenerateUniqueName();
+            _userService.UpdateUser(user);
+            var body = _viewRenderService.RenderToStringAsync("_ResetPassword", user);
+            SendEmail.Send(user.Email, "تغییر کلمه عبور", body);
+            ViewBag.EmailSent = true;
+            return View("Login");
+        }
+
+        #endregion
     }
 }

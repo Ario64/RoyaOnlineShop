@@ -71,4 +71,20 @@ public class UserService : IUserService
         var user = _context.Users.SingleOrDefault(w => w.Email == newEmail);
         return user;
     }
+
+    public User? GetUserByActiveCode(string activeCode)
+    {
+        return _context.Users.SingleOrDefault(s => s.ActiveCode == activeCode);
+    }
+
+    public void UpdateUser(User user)
+    {
+        _context.Users.Update(user);
+        _context.SaveChanges();
+    }
+
+    public void ResetPassword()
+    {
+        throw new NotImplementedException();
+    }
 }

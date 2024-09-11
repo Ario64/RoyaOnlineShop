@@ -18,6 +18,7 @@
 
     <h1>@ViewData["Title"]</h1>
     <div class="fr-border"></div>
+    <!-- delay in login -->
     @if (ViewBag.IsLogin != null)
     {
         <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
@@ -32,6 +33,19 @@
             setTimeout(function () { window.location = "/"; }, delay);
         </script>
     }
+    <!-- end delay in login -->
+
+    <!-- changing password-->
+    @if (ViewBag.EmailSent != null)
+    {
+        <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
+            <div class="input-group contact-item text-center" style="max-width: 530px;">
+                <i>تغییر کلمه عبور با موفقیت انجام شد</i>
+            </div>
+        </div>
+    }
+    <!-- end changing password-->
+
     <!-- Contact form -->
     <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
         <form asp-action="Login" class="form" method="post">
@@ -54,7 +68,7 @@
             </div>
 
             <div style="margin-top: 40px;">
-                <a href="forgotPassword" class="btn-group btn-sm btn-success">رمز عبور خود را فراموش کرده ام !</a>
+                <a href="forgot-password" class="btn-group btn-sm btn-success">رمز عبور خود را فراموش کرده ام !</a>
             </div>
             
             <div style="margin-top: 10px;">

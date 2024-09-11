@@ -13,7 +13,10 @@ public interface IUserService
     int AddUser(User user);
     User LoginUser(LoginViewModel login);
     bool ActiveAccount(string activeCode);
-    User? GetUserByEmailAddress(string email);
+    User? GetUserByEmailAddress(string email); 
+    User? GetUserByActiveCode(string activeCode);
+    void UpdateUser(User user);
+    void ResetPassword();
 
     #endregion
 

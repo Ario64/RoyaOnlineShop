@@ -64,3 +64,27 @@ public class ResendActivationViewModel
     [EmailAddress(ErrorMessage = "فرمت وارد شده صحیح نمی باشد")]
     public required string Email { get; set; }
 }
+
+public class ForgotPasswordViewModel
+{
+    [DisplayName("ایمیل")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [MaxLength(100, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
+    [EmailAddress(ErrorMessage = "فرمت وارد شده صحیح نمی باشد")]
+    public required string Email { get; set; }
+}
+
+public class ResetPasswordViewModel
+{
+    public required string  ActiveCode { get; set; }
+
+    [DisplayName("کلمه عبور")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [MaxLength(50, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
+    public string? Password { get; set; }
+
+    [DisplayName("تکرار کلمه عبور")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [Compare("Password", ErrorMessage = "{0} وارد شده با کلمه عبور مطابقت ندارد")]
+    public string? ConfirmedPassword { get; set; }
+}
