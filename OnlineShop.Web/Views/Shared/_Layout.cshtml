@@ -15,7 +15,6 @@
     <div class="header">
         <!-- Header top -->
         <div class="headertop">
-
             <!-- Content Row -->
             <div class="row">
                 <!-- Welcome Txt -->
@@ -66,16 +65,12 @@
                             <i class="icon-arrow-down"></i>
 
                         </a>
-
-
                     </div>
                     <!-- End Topcart Arrow Down -->
                     <!-- Cart items -->
                     <div class="small-12 medium-12 large-4 cart-dropdown">
-
                         <!-- Item List -->
                         <div class="cart-item-list">
-
                             <!-- Thumb -->
                             <div class="cart-item-thumb right">
                                 <img src="/img/cart/1.jpg" alt="Cart product 1" />
@@ -86,7 +81,6 @@
                                 <!-- {product name} -->
                                 <div class="cart-item-title">
                                     <a href="#">
-
                                         لورم ایپسوم یا طرح‌نما
                                     </a>
                                 </div>
@@ -96,24 +90,18 @@
                                 </div>
                                 <!-- Remove -->
                                 <a href="#" class="cart-remove">X</a>
-                                <!-- Quanitity -->
+                                <!-- Quantity -->
                                 <div class="cart-item-quantity">
-
                                     تعداد: (1)
                                 </div>
-
-
-
                             </div>
                             <!-- End Content -->
                             <!-- Clearing -->
                             <div class="clearing"></div>
-
                         </div>
                         <!-- End item list -->
                         <!-- Item List -->
                         <div class="cart-item-list">
-
                             <!-- Thumb -->
                             <div class="cart-item-thumb right">
                                 <img src="/img/cart/1.jpg" alt="Cart product 1" />
@@ -124,7 +112,6 @@
                                 <!-- {product name} -->
                                 <div class="cart-item-title">
                                     <a href="#">
-
                                         لورم ایپسوم یا طرح‌نما
                                     </a>
                                 </div>
@@ -134,38 +121,31 @@
                                 </div>
                                 <!-- Remove -->
                                 <a href="#" class="cart-remove">X</a>
-                                <!-- Quanitity -->
+                                <!-- Quantity -->
                                 <div class="cart-item-quantity">
 
                                     تعداد: (1)
                                 </div>
-
                             </div>
                             <!-- End Content -->
                             <!-- Clearing -->
                             <div class="clearing"></div>
-
                         </div>
                         <!-- End item list -->
                         <!-- Total -->
                         <div class="small-12 large-12 text-center medium-12 columns cart-total">
-
                             مجموع: 124.00 $
-
                         </div>
                         <button class="small-12 large-12 btn btn-3 btn-3a icon-arrow-left">
                             سبد خرید
                         </button>
                         <button class="small-12 large-12 btn btn-3 btn-3a icon-lock">بررسی</button>
-
                     </div>
                     <!-- End Cart item -->
                 </div>
-                <!-- End Topcart -->
-
+                <!-- End Top cart -->
             </div>
             <!-- End Content Row -->
-
         </div>
         <!-- End Header top -->
         <!-- Header Bottom -->
@@ -175,9 +155,9 @@
                 <!--  Main Navigation -->
                 <partial name="_MainMenu"/>
                 <!-- End Main Navigation -->
-                <!-- Searchbox -->
+                <!-- Search box -->
                 @RenderSection("SearchBox", false)
-                <!-- End Searchbox -->
+                <!-- End Searc hbox -->
 
             </div>
             <!-- End Content Row -->
@@ -212,11 +192,11 @@
 
     </script>
 
-    <!-- Jquery Selectric (Custom Selecbox Styling ) -->
+    <!-- Jquery Selectric (Custom Select box Styling ) -->
     <script type="text/javascript" src="/js/jquery.selectric.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('select').selectric(); // this function turn all <select> to custom Styling for specific select box use $("#selectbox").selectric();
+            $('select').selectric(); // this function turn all <select> to custom Styling for specific select box use $("#select box").selectric();
         });
     </script>
     <!-- Owl Carousel -->
@@ -226,16 +206,12 @@
     <script src="/js/zoomsl-3.0.min.js"></script>
     <script>
         jQuery(function () {
-
             $(".p-photo").imagezoomsl({
-
-
                 zoomrange: [1.68, 10],
                 zoomstart: 1.68,
                 cursorshadeborder: "10px solid black",
-                magnifiereffectanimate: "fadeIn",
+                magnifiereffectanimate: "fadeIn"
             });
-
 
             $(".item img").click(function () {
 
@@ -249,7 +225,6 @@
 
                 return false;
             });
-
         });
     </script>
     @RenderSection("Scripts", false)
