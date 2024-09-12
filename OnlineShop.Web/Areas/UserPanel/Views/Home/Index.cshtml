@@ -1,0 +1,116 @@
+﻿@using OnlineShop.Core.Convertors
+@model OnlineShop.Core.DTOs.User.UserInformationViewModel
+@{
+    ViewData["Title"] = "پنل کاربری" + " " + Model.FullName;
+}
+
+<div class="breadcrumb-holder">
+    <!-- Content Row -->
+    <div class="row">
+        <ul class="breadcrumbs small-12 medium-8 large-8 columns">
+            <li><a href="/">فروشگاه آنلاین رویا</a></li>
+            <li><a>@ViewData["Title"]</a></li>
+        </ul>
+    </div>
+    <!-- End Content Row -->
+</div>
+<div class="row bottom-margin featured-row">
+    <!-- Category Listing Module -->
+    <div class="small-3 small-centered medium-3 large-3 large-uncentered medium-uncentered  columns" style="margin-top: 16px;">
+        <div class="lft-module-heading">
+            تصویر پروفایل
+        </div>
+        <div class="bst-seller-list">
+            <div class="bst-seller-thumb">
+                <img src="/UserAvatar/DefaultAvatar.jpg" alt="thumbnail1">
+            </div>
+            <div class="bst-seller-content" style="margin-top: 10px;">
+                <div class="bst-seller-title">
+                    <p>@Model.FullName</p>
+                </div>
+                <div class="bst-seller-cart"><i></i>@Model.RegisterDate.ToShamsi()</div>
+            </div>
+
+            <div class="clearing"></div>
+        </div>
+        <div class="lft-module-heading">
+            میز کار
+        </div>
+        <!-- Listing -->
+        <ul class="cat-listing">
+            <li>
+                <a href="#" title="Dress">
+                    لباس (10)
+                </a>
+            </li>
+            <li>
+                <a href="#" title="Shoes">
+                    کفش
+                </a>
+            </li>
+            <li>
+                <a href="#" title="Accesories">
+                    لوازم جانبی (100)
+                </a>
+            </li>
+            <li><a href="#" title="belts">کیف و کمربند</a></li>
+            <li>
+                <a href="#" title="Handbads">
+                    کیف های دستی (10)
+                </a>
+            </li>
+            <li>
+                <a href="#" title="Clearance">
+                    فروش ترخیص (320)
+                </a>
+            </li>
+        </ul>
+        <!-- End Category Listing Module -->
+        <!-- BestSeller Module -->
+    </div>
+    <div class="small-6 small-centered medium-9 medium-uncentered large-9 large-uncentered featured-row columns">
+        <div class="lft-module-heading">
+            دشبورد
+        </div>
+        <ul class="cat-listing">
+            <h1>اطلاعات کاربری</h1>
+            <div class="fr-border"></div>
+            <li>
+                <p>
+                    نام و نام خانوادگی:  @Model.FullName
+                </p>
+            </li>
+            <li>
+                <p>
+                    نام کاربری:  @Model.UserName
+                </p>
+            </li>
+            <li>
+                <p>
+                    ایمیل:  @Model.Email
+                </p>
+            </li>
+            <li>
+                <p>
+                    موبایل:  @Model.Phone
+                </p>
+            </li>
+            <li>
+                <p>
+                    آدرس:  @Model.Address
+                </p>
+            </li>
+            <li>
+                <p>
+                    تاریخ عضویت:  @Model.RegisterDate.ToShamsi()
+                </p>
+            </li>
+            <li>
+                <p>
+                     موجودی حساب:  @Model.Wallet.ToString("#,0 تومان")
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+

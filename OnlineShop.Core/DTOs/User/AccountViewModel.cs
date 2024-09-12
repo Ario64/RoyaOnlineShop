@@ -3,6 +3,8 @@ using System.ComponentModel;
 
 namespace OnlineShop.Core.DTOs.User;
 
+#region Register And Login
+
 public class RegisterViewModel
 {
 
@@ -25,7 +27,7 @@ public class RegisterViewModel
     [DisplayName("موبایل")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(11, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
-    [MinLength(11,ErrorMessage = "{0} نباید کمتر از {1} کاراکتر باشد")]
+    [MinLength(11, ErrorMessage = "{0} نباید کمتر از {1} کاراکتر باشد")]
     public required string PhoneNumber { get; set; }
 
     [DisplayName("کلمه عبور")]
@@ -76,7 +78,7 @@ public class ForgotPasswordViewModel
 
 public class ResetPasswordViewModel
 {
-    public required string  ActiveCode { get; set; }
+    public required string ActiveCode { get; set; }
 
     [DisplayName("کلمه عبور")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -88,3 +90,5 @@ public class ResetPasswordViewModel
     [Compare("Password", ErrorMessage = "{0} وارد شده با کلمه عبور مطابقت ندارد")]
     public string? ConfirmedPassword { get; set; }
 }
+
+#endregion

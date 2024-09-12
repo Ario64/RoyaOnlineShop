@@ -5,7 +5,7 @@ namespace OnlineShop.Core.Services.Interfaces;
 
 public interface IUserService
 {
-    #region User Account
+    #region Register And Login Actions
 
     bool IsUserNameExist(string userName);
     bool IsEmailExist(string email);
@@ -13,10 +13,15 @@ public interface IUserService
     int AddUser(User user);
     User LoginUser(LoginViewModel login);
     bool ActiveAccount(string activeCode);
-    User? GetUserByEmailAddress(string email); 
+    User? GetUserByEmailAddress(string email);
     User? GetUserByActiveCode(string activeCode);
     void UpdateUser(User user);
-    void ResetPassword();
+    User GetUserByUserName(string userName);
+    #endregion
+
+    #region User Panel Actions
+
+    UserInformationViewModel GetUserInformationForUserPanel(string userName);
 
     #endregion
 

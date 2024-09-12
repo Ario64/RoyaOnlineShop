@@ -66,8 +66,14 @@ namespace OnlineShop.Web
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseMvcWithDefaultRoute();
-            app.MapGet("/", () => "Hello World!");
-
+            app.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+            app.MapControllerRoute(
+                name: "areas",
+                pattern: "{controller=Home}/{action=Index}/{id?}"
+            );
             app.Run();
         }
     }

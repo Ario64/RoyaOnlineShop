@@ -83,8 +83,22 @@ public class UserService : IUserService
         _context.SaveChanges();
     }
 
-    public void ResetPassword()
+    public User GetUserByUserName(string userName)
     {
-        throw new NotImplementedException();
+        return _context.Users.SingleOrDefault(s => s.UserName == userName);
+    }
+
+    public UserInformationViewModel GetUserInformationForUserPanel(string userName)
+    {
+        var user = GetUserByUserName(userName);
+        UserInformationViewModel information = new UserInformationViewModel();
+        information.FullName = user.FullName;
+        information.UserName = user.UserName;
+        information.Email = user.Email;
+        information.Phone = user.PhoneNumber;
+        information.Address = "اهواز";
+        information.RegisterDate = user.RegisterDate;
+        information.Wallet = 0;
+        return information;
     }
 }
