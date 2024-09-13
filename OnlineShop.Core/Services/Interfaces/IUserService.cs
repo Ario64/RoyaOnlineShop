@@ -22,6 +22,7 @@ public interface IUserService
     #region User Panel Actions
 
     UserInformationViewModel GetUserInformationForUserPanel(string userName);
+    SideBarUserPanelViewModel GetUserInformationForSideBar(string userName);
 
     #endregion
 

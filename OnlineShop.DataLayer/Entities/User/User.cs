@@ -28,6 +28,11 @@ public class User
     [MaxLength(11, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
     public required string PhoneNumber { get; set; }
 
+    [DisplayName("آدرس")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [MaxLength(300, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
+    public required string Address { get; set; }
+
     [DisplayName("کد فعال سازی")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(50, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]

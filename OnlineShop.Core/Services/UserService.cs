@@ -96,9 +96,22 @@ public class UserService : IUserService
         information.UserName = user.UserName;
         information.Email = user.Email;
         information.Phone = user.PhoneNumber;
-        information.Address = "اهواز";
+        information.Address = user.Address;
         information.RegisterDate = user.RegisterDate;
         information.Wallet = 0;
         return information;
+    }
+
+    public SideBarUserPanelViewModel GetUserInformationForSideBar(string userName)
+    {
+        return _context.Users
+            .Where(w => w.UserName == userName)
+            .Select(s =>
+                new SideBarUserPanelViewModel()
+                {
+                    FullName = s.FullName,
+                    UserImage = s.UserAvatar,
+                    RegisterDate = s.RegisterDate
+                }).SingleOrDefault();
     }
 }

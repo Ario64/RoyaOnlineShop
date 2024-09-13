@@ -1,0 +1,48 @@
+﻿@using OnlineShop.Core.Convertors
+@using OnlineShop.Core.DTOs.User
+@using OnlineShop.Core.Services.Interfaces
+@inject IUserService UserService
+@{
+    SideBarUserPanelViewModel user = UserService.GetUserInformationForSideBar(User.Identity.Name);
+}
+<div class="small-3 small-centered medium-3 large-3 large-uncentered medium-uncentered  columns" style="margin-top: 16px;">
+    <div class="lft-module-heading">
+        تصویر پروفایل
+    </div>
+    <div class="bst-seller-list">
+        <div class="bst-seller-thumb">
+            <img src="/UserAvatar/@user.UserImage" alt="thumbnail1">
+        </div>
+        <div class="bst-seller-content" style="margin-top: 10px;">
+            <div class="bst-seller-title">
+                <span>@user.FullName</span>
+            </div>
+            <div class="bst-seller-cart"><i></i>@user.RegisterDate.ToShamsi()</div>
+        </div>
+
+        <div class="clearing"></div>
+    </div>
+    <div class="lft-module-heading" style="margin-top: 30px;">
+        میز کار
+    </div>
+    <!-- Listing -->
+    <ul class="cat-listing">
+        <li>
+            <a href="/userpanel">مشاهده حساب کاربری</a>
+        </li>
+        <li>
+            <a href="#">ویرایش حساب کاربری</a>
+        </li>
+        <li>
+            <a href="#">تغییر کلمه عبور</a>
+        </li>
+        <li>
+            <a href="#">تنظیمات حساب کاربری</a>
+        </li>
+        <li>
+            <a href="/logout">خروج از حساب کاربری</a>
+        </li>
+    </ul>
+    <!-- End Category Listing Module -->
+    <!-- BestSeller Module -->
+</div>

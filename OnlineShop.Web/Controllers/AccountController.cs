@@ -63,6 +63,7 @@ namespace OnlineShop.Web.Controllers
                 UserName = register.UserName,
                 Email = FixedText.FixedEmail(register.Email),
                 PhoneNumber = register.PhoneNumber,
+                Address = register.Address,
                 Password = PasswordHelper.EncodePasswordMd5(register.Password),
                 ActiveCode = NameGenerator.GenerateUniqueName(),
                 RegisterDate = DateTime.Now,
