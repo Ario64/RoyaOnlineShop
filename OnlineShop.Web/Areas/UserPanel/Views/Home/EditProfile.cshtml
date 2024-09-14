@@ -1,0 +1,81 @@
+﻿@model OnlineShop.Core.DTOs.User.EditUserInformationViewModel
+@{
+    ViewData["Title"] = "ویرایش اطلاعات";
+}
+
+<div class="breadcrumb-holder">
+    <!-- Content Row -->
+    <div class="row">
+        <ul class="breadcrumbs small-12 medium-8 large-8 columns">
+            <li><a href="/">فروشگاه آنلاین رویا</a></li>
+            <li><a>@ViewData["Title"]</a></li>
+        </ul>
+    </div>
+    <!-- End Content Row -->
+</div>
+
+<div class="row bottom-margin featured-row">
+    <partial name="_SideBar" />
+    <div class="small-6 small-centered medium-9 medium-uncentered large-9 large-uncentered featured-row columns">
+        <div class="lft-module-heading">
+            @ViewData["Title"]
+        </div>
+        <h1>اطلاعات کاربری</h1>
+        <div class="fr-border"></div>
+        @if (ViewBag.IsSuccess == true)
+        {
+            <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
+                <div class="input-group contact-item text-center" style="max-width: 530px;">
+                    <i>اطلاعات شما با موفقیت بروزرسانی شد</i>
+                </div>
+            </div>
+
+            <script>
+                // Your delay in milliseconds
+                var delay = 4000;
+                setTimeout(function () { window.location = "/UserPanel"; }, delay);
+            </script>
+            <div class="fr-border"></div>
+        }
+        @if (ViewBag.IsSuccess == false)
+        {
+            <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
+                <div class="input-group contact-item text-center" style="max-width: 530px;">
+                    <i>موبایل وارد شده از قبل موجود می باشد !</i>
+                </div>
+            </div>
+        }
+        <!-- Contact form -->
+        <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
+            <form asp-action="EditProfile" class="form" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="AvatarName" />
+                <div class="input-group" style="margin-top: 15px;">
+                    <span class="input-group-addon"><i>موبایل:</i></span>
+                    <input asp-for="PhoneNumber" type="text" class="form-control" />
+                </div>
+
+                <div class="input-group" style="margin-top: 15px;">
+                    <span class="input-group-addon"><i>آدرس:</i></span>
+                    <textarea asp-for="Address" rows="3" type="text" class="form-control"></textarea>
+                </div>
+
+                <div class="input-group" style="margin-top: 15px;">
+                    <span class="input-group-addon"><i>آواتار:</i></span>
+                    <input asp-for="UserAvatar" type="file" class="form-control"></input>
+                    <span class="help-block">
+                        لطفا فقط تصویر انتخاب کنید !
+                    </span>
+                </div>
+
+                <div class="input-group">
+                    <img class="thumbnail" style="max-width: 150px;" src="/UserAvatar/@Model.AvatarName" />
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <button class="btn-group btn-sm btn-success">ویرایش اطلاعات</button>
+                </div>
+                <div asp-validation-summary="All" style="margin-top: 15px;"></div>
+            </form>
+        </div>
+    </div>
+</div>

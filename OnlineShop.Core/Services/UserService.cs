@@ -88,6 +88,11 @@ public class UserService : IUserService
         return _context.Users.SingleOrDefault(s => s.UserName == userName);
     }
 
+    public int GetUserIdByUserName(string userName)
+    {
+        return _context.Users.SingleOrDefault(s => s.UserName == userName).UserId;
+    }
+
     public UserInformationViewModel GetUserInformationForUserPanel(string userName)
     {
         var user = GetUserByUserName(userName);
@@ -113,5 +118,54 @@ public class UserService : IUserService
                     UserImage = s.UserAvatar,
                     RegisterDate = s.RegisterDate
                 }).SingleOrDefault();
+    }
+
+    public EditUserInformationViewModel GetUserInformationForEditProfile(string userName)
+    {
+        return _context.Users.Where(w => w.UserName == userName)
+            .Select(s =>
+                new EditUserInformationViewModel()
+                {
+                    PhoneNumber = s.PhoneNumber,
+                    Address = s.Address,
+                    AvatarName = s.UserAvatar
+                }).Single();
+    }
+
+    public bool EditProfile(string userName, EditUserInformationViewModel profile)
+    {
+        if (profile.UserAvatar != null)
+        {
+            string imagePath = "";
+            if (profile.AvatarName != "DefaultAvatar.jpg")
+            {
+                imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UserAvatar/", profile.AvatarName);
+                if (File.Exists(imagePath))
+                {
+                    File.Delete(imagePath);
+                }
+            }
+            profile.AvatarName = NameGenerator.GenerateUniqueName() + Path.GetExtension(profile.UserAvatar.FileName);
+            imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UserAvatar/", profile.AvatarName);
+            using (FileStream stream = new FileStream(imagePath, FileMode.Create))
+            {
+                profile.UserAvatar.CopyTo(stream);
+            }
+        }
+
+        var user = GetUserByUserName(userName);
+        if (user.PhoneNumber != profile.PhoneNumber)
+        {
+            if (IsPhoneNumberExist(profile.PhoneNumber))
+            {
+                return false;
+            }
+        }
+
+        user.PhoneNumber = profile.PhoneNumber;
+        user.Address = profile.Address;
+        user.UserAvatar = profile.AvatarName;
+        UpdateUser(user);
+        return true;
     }
 }

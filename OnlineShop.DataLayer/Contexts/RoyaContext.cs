@@ -34,6 +34,7 @@ public class RoyaContext : DbContext
                 u.Property(p => p.PhoneNumber).HasMaxLength(11).IsRequired();
                 u.Property(p => p.ActiveCode).HasMaxLength(50).IsRequired();
                 u.Property(p => p.Address).HasMaxLength(300).IsRequired();
+                u.Property(p => p.UserAvatar).HasMaxLength(50);
                 u.Property(p => p.IsActive).HasDefaultValue(false);
                 u.Property(p => p.RegisterDate);
                 u.Property(p => p.IsDeleted).HasDefaultValue(false);

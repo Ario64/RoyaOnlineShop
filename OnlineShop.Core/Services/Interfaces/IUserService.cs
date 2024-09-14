@@ -17,12 +17,16 @@ public interface IUserService
     User? GetUserByActiveCode(string activeCode);
     void UpdateUser(User user);
     User GetUserByUserName(string userName);
+    int GetUserIdByUserName(string userName);
+
     #endregion
 
     #region User Panel Actions
 
     UserInformationViewModel GetUserInformationForUserPanel(string userName);
     SideBarUserPanelViewModel GetUserInformationForSideBar(string userName);
+    EditUserInformationViewModel GetUserInformationForEditProfile(string userName);
+    bool EditProfile(string userName, EditUserInformationViewModel profile);
 
     #endregion
 

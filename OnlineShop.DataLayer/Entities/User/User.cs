@@ -44,7 +44,7 @@ public class User
     public required string Password { get; set; }
 
     [DisplayName("آواتار")]
-    [MaxLength(30, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
+    [MaxLength(50, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
     public string? UserAvatar { get; set; }
 
     [DisplayName("وضعیت")]
