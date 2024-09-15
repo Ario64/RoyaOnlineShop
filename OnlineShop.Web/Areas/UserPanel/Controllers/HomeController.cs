@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Core.Convertors;
 using OnlineShop.Core.DTOs.User;
+using OnlineShop.Core.Security;
+using OnlineShop.Core.Senders;
 using OnlineShop.Core.Services.Interfaces;
+using OnlineShop.DataLayer.Entities.User;
 
 namespace OnlineShop.Web.Areas.UserPanel.Controllers
 {
@@ -10,10 +14,12 @@ namespace OnlineShop.Web.Areas.UserPanel.Controllers
     public class HomeController : Controller
     {
         private IUserService _userService;
+        private IViewRenderService _viewRenderService;
 
-        public HomeController(IUserService userService)
+        public HomeController(IUserService userService, IViewRenderService viewRenderService)
         {
             _userService = userService;
+            _viewRenderService = viewRenderService;
         }
 
         #region Index
@@ -45,6 +51,35 @@ namespace OnlineShop.Web.Areas.UserPanel.Controllers
         }
 
         #endregion
+
+        #region Change Password
+
+        [HttpGet("UserPanel/ChangePassword")]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost("UserPanel/ChangePassword")]
+        public IActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            var user = _userService.GetUserByUserName(User.Identity.Name);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            ViewBag.IsSuccess = _userService.ChangePassword(User.Identity.Name,model);
+            if (ViewBag.IsSuccess == true)
+            {
+                var body = _viewRenderService.RenderToStringAsync("_ChangePassword", user);
+                SendEmail.Send(user.Email, "تغییر کلمه عبور", body);
+                return Redirect("/login?ChangePassword=true");
+            }
+            return View(model);
+        }
+
+        #endregion 
 
     }
 }

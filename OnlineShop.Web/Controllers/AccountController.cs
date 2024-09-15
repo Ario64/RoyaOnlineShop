@@ -87,8 +87,9 @@ namespace OnlineShop.Web.Controllers
         #region Login
 
         [HttpGet("login")]
-        public IActionResult Login()
+        public IActionResult Login(bool ChangePassword = false)
         {
+            ViewBag.ChangePassword = ChangePassword;
             return View();
         }
 

@@ -34,7 +34,6 @@
         </script>
     }
     <!-- end delay in login -->
-
     <!-- changing password-->
     @if (ViewBag.EmailSent != null)
     {
@@ -44,8 +43,16 @@
             </div>
         </div>
     }
-    <!-- end changing password-->
 
+    @if (ViewBag.ChangePassword == true)
+    {
+        <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
+            <div class="input-group contact-item text-center" style="max-width: 530px;">
+                <i>تغییر کلمه عبور شما با موفقیت انجام شد، لطفا مجددا وارد سایت شوید</i>
+            </div>
+        </div>
+    }
+    <!-- end changing password-->
     <!-- Contact form -->
     <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
         <form asp-action="Login" class="form" method="post">
@@ -70,7 +77,7 @@
             <div style="margin-top: 40px;">
                 <a href="forgot-password" class="btn-group btn-sm btn-success">رمز عبور خود را فراموش کرده ام !</a>
             </div>
-            
+
             <div style="margin-top: 10px;">
                 <a href="active-account" class="btn-group btn-sm btn-success">ارسال مجدد ایمیل فعال سازی</a>
             </div>

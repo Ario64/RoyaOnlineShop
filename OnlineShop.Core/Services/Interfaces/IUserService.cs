@@ -27,6 +27,7 @@ public interface IUserService
     SideBarUserPanelViewModel GetUserInformationForSideBar(string userName);
     EditUserInformationViewModel GetUserInformationForEditProfile(string userName);
     bool EditProfile(string userName, EditUserInformationViewModel profile);
+    bool ChangePassword(string userName, ChangePasswordViewModel model);
 
     #endregion
 

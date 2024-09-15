@@ -39,3 +39,21 @@ public class EditUserInformationViewModel
 
     public string? AvatarName { get; set; }
 }
+
+public class ChangePasswordViewModel
+{
+    [DisplayName(" کلمه عبور فعلی")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [MaxLength(50, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
+    public required string CurrentPassword { get; set; }
+
+    [DisplayName("کلمه عبور جدید")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [MaxLength(50, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
+    public required string Password { get; set; }
+
+    [DisplayName("تکرار کلمه عبور جدید")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [Compare("Password", ErrorMessage = "{0} وارد شده با کلمه عبور جدید مطابقت ندارد")]
+    public required string ConfirmedNewPassword { get; set; }
+}

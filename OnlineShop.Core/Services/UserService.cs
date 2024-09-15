@@ -139,14 +139,14 @@ public class UserService : IUserService
             string imagePath = "";
             if (profile.AvatarName != "DefaultAvatar.jpg")
             {
-                imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UserAvatar/", profile.AvatarName);
+                imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/useravatar/", profile.AvatarName);
                 if (File.Exists(imagePath))
                 {
                     File.Delete(imagePath);
                 }
             }
             profile.AvatarName = NameGenerator.GenerateUniqueName() + Path.GetExtension(profile.UserAvatar.FileName);
-            imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/UserAvatar/", profile.AvatarName);
+            imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/useravatar/", profile.AvatarName);
             using (FileStream stream = new FileStream(imagePath, FileMode.Create))
             {
                 profile.UserAvatar.CopyTo(stream);
@@ -165,6 +165,24 @@ public class UserService : IUserService
         user.PhoneNumber = profile.PhoneNumber;
         user.Address = profile.Address;
         user.UserAvatar = profile.AvatarName;
+        UpdateUser(user);
+        return true;
+    }
+
+    public bool ChangePassword(string userName, ChangePasswordViewModel model)
+    {
+        var user = _context.Users.SingleOrDefault(s => s.UserName == userName);
+        if (user == null)
+        {
+            return false;
+        }
+
+        if (user.Password != PasswordHelper.EncodePasswordMd5(model.CurrentPassword))
+        {
+            return false;
+        }
+
+        user.Password = PasswordHelper.EncodePasswordMd5(model.Password);
         UpdateUser(user);
         return true;
     }

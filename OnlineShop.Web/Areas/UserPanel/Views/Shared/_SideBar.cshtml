@@ -17,6 +17,9 @@
             <div class="bst-seller-title">
                 <span>@user.FullName</span>
             </div>
+            <div class="bst-seller-title" style="margin-top: 10px;">
+                <span>عضویت:</span>
+            </div>
             <div class="bst-seller-cart"><i></i>@user.RegisterDate.ToShamsi()</div>
         </div>
 
@@ -28,19 +31,19 @@
     <!-- Listing -->
     <ul class="cat-listing">
         <li>
-            <a href="/userpanel">مشاهده حساب کاربری</a>
+            <a href="/UserPanel">مشاهده حساب کاربری</a>
         </li>
         <li>
-            <a href="UserPanel/EditProfile">ویرایش حساب کاربری</a>
+            <a href="/UserPanel/EditProfile">ویرایش حساب کاربری</a>
         </li>
         <li>
-            <a href="#">تغییر کلمه عبور</a>
+            <a href="/UserPanel/ChangePassword">تغییر کلمه عبور</a>
         </li>
         <li>
             <a href="#">تنظیمات حساب کاربری</a>
         </li>
         <li>
-            <a href="/logout">خروج از حساب کاربری</a>
+            <a href="/Logout">خروج از حساب کاربری</a>
         </li>
     </ul>
     <!-- End Category Listing Module -->
