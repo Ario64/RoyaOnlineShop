@@ -131,6 +131,58 @@ namespace OnlineShop.DataLayer.Migrations
                     b.ToTable("UserRoles");
                 });
 
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Wallet.Wallet", b =>
+                {
+                    b.Property<int>("WalletId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WalletId"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsPayed")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WalletTypeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("WalletId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WalletTypeId");
+
+                    b.ToTable("Wallets");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Wallet.WalletType", b =>
+                {
+                    b.Property<int>("WalletTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WalletTypeTitle")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("WalletTypeId");
+
+                    b.ToTable("WalletTypes");
+                });
+
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.UserRole", b =>
                 {
                     b.HasOne("OnlineShop.DataLayer.Entities.User.Role", "Role")
@@ -146,6 +198,23 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Wallet.Wallet", b =>
+                {
+                    b.HasOne("OnlineShop.DataLayer.Entities.User.User", "User")
+                        .WithMany("Wallets")
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("OnlineShop.DataLayer.Entities.Wallet.WalletType", "WalletType")
+                        .WithMany("Wallets")
+                        .HasForeignKey("WalletTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("WalletType");
+                });
+
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>
                 {
                     b.Navigation("UserRoles");
@@ -154,6 +223,13 @@ namespace OnlineShop.DataLayer.Migrations
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.User", b =>
                 {
                     b.Navigation("UserRoles");
+
+                    b.Navigation("Wallets");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Wallet.WalletType", b =>
+                {
+                    b.Navigation("Wallets");
                 });
 #pragma warning restore 612, 618
         }

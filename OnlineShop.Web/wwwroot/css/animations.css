@@ -161,7 +161,7 @@ slideRight
 		transform: translateX(150%);
 	}
 	50%{
-		ransform: translateX(-8%);
+		transform: translateX(-8%);
 	}
 	65%{
 		transform: translateX(4%);
@@ -743,7 +743,7 @@ pulse
 		opacity: 0.7;		
 	}
 	50% {
-		ransform: scale(1);
+		transform: scale(1);
 		opacity: 1;	
 	}	
 	100% {

@@ -171,7 +171,7 @@ public class UserService : IUserService
 
     public bool ChangePassword(string userName, ChangePasswordViewModel model)
     {
-        var user = _context.Users.SingleOrDefault(s => s.UserName == userName);
+        var user = GetUserByUserName(userName);
         if (user == null)
         {
             return false;

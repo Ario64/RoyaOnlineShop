@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using OnlineShop.DataLayer.Entities.User;
+using OnlineShop.DataLayer.Entities.Wallet;
 
 namespace OnlineShop.DataLayer.Contexts;
 
@@ -17,6 +19,13 @@ public class RoyaContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
+
+    #endregion
+
+    #region Wallet
+
+    public DbSet<WalletType> WalletTypes { get; set; }
+    public DbSet<Wallet> Wallets { get; set; }
 
     #endregion
 
@@ -57,6 +66,33 @@ public class RoyaContext : DbContext
                     .HasForeignKey(f => f.UserId);
                 ur.HasOne(h => h.Role).WithMany("UserRoles")
                     .HasForeignKey(f => f.RoleId);
+            });
+
+        #endregion
+
+        #region Wallet Data
+
+        modelBuilder.Entity<WalletType>(
+            w =>
+            {
+                w.HasKey(h => h.WalletTypeId);
+                w.Property(p => p.WalletTypeTitle).HasMaxLength(150).IsRequired();
+            
+            });
+
+        modelBuilder.Entity<Wallet>(
+            w =>
+            {
+                w.HasKey(h => h.WalletId);
+                w.Property(p => p.Amount).IsRequired();
+                w.Property(p => p.Description).HasMaxLength(500);
+                w.Property(p => p.IsPayed);
+                w.Property(p => p.CreateDate);
+                w.HasOne(h => h.User).WithMany("Wallets")
+                    .HasForeignKey(f => f.UserId);
+                w.HasOne(h => h.WalletType).WithMany("Wallets")
+                    .HasForeignKey(f => f.WalletTypeId);
+
             });
 
         #endregion

@@ -60,6 +60,7 @@ public class User
     #region Relations
 
     public List<UserRole>? UserRoles { get; set; }
+    public List<Wallet.Wallet>? Wallets{ get; set; }
 
     #endregion
 }

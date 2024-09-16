@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "کیف پول شما";
+}
+<div class="breadcrumb-holder">
+    <!-- Content Row -->
+    <div class="row">
+        <ul class="breadcrumbs small-12 medium-8 large-8 columns">
+            <li><a href="/">فروشگاه آنلاین رویا</a></li>
+            <li><a>@ViewData["Title"]</a></li>
+        </ul>
+    </div>
+    <!-- End Content Row -->
+</div>
+
+<div class="row bottom-margin featured-row">
+    <partial name="_SideBar" />
+    <div class="small-6 small-centered medium-9 medium-uncentered large-9 large-uncentered featured-row columns">
+        <div class="lft-module-heading">
+            @ViewData["Title"]
+        </div>
+        <h1>شارژ کیف پول</h1>
+        <div class="fr-border"></div>
+        <div class="small-6 small-centered medium-9 medium-uncentered large-9 large-uncentered featured-row columns">
+            <form class="form" method="post">
+                <div class="input-group" style="margin-top: 15px;">
+                    <span class="input-group-addon"><i>مبلغ به تومان:</i></span>
+                    <input type="text" class="form-control" />
+                </div>
+                <div style="margin-top: 15px;">
+                    <button class="btn-group btn-sm btn-success">شارژ کیف پول</button>
+                </div>
+
+                <div asp-validation-summary="All" style="margin-top: 15px;"></div>
+            </form>
+            <div class="fr-border"></div>
+            <div class="small-6 small-centered medium-9 medium-uncentered large-9 large-uncentered featured-row columns">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">تاریخ</th>
+                            <th scope="col">مبلغ</th>
+                            <th scope="col">تراکنش</th>
+                            <th scope="col">توضیحات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1396/02/26</th>
+                            <td>120000</td>
+                            <td>واریز</td>
+                            <td>بابت فاکتور #3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
