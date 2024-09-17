@@ -1,4 +1,7 @@
-﻿@{
+﻿@using OnlineShop.Core.Convertors
+@using OnlineShop.Core.DTOs.Wallet
+@model OnlineShop.Core.DTOs.Wallet.ChargeWalletViewModel
+@{
     ViewData["Title"] = "کیف پول شما";
 }
 <div class="breadcrumb-holder">
@@ -11,7 +14,6 @@
     </div>
     <!-- End Content Row -->
 </div>
-
 <div class="row bottom-margin featured-row">
     <partial name="_SideBar" />
     <div class="small-6 small-centered medium-9 medium-uncentered large-9 large-uncentered featured-row columns">
@@ -20,39 +22,52 @@
         </div>
         <h1>شارژ کیف پول</h1>
         <div class="fr-border"></div>
-        <div class="small-6 small-centered medium-9 medium-uncentered large-9 large-uncentered featured-row columns">
-            <form class="form" method="post">
-                <div class="input-group" style="margin-top: 15px;">
-                    <span class="input-group-addon"><i>مبلغ به تومان:</i></span>
-                    <input type="text" class="form-control" />
+        <div class="small-6 small-centered medium-12 medium-uncentered large-12 large-uncentered featured-row columns">
+            <form asp-action="Index" class="form" method="post">
+                <div class="input-group" style="margin-top: 15px; width: 50%;">
+                    <span class="input-group-addon"><i>مبلغ :</i></span>
+                    <input type="number" asp-for="Amount" class="form-control" placeholder="مبلغ به ریال ..." />
                 </div>
                 <div style="margin-top: 15px;">
-                    <button class="btn-group btn-sm btn-success">شارژ کیف پول</button>
+                    <button class=" btn-sm btn-xs btn-success">شارژ کیف پول</button>
                 </div>
 
                 <div asp-validation-summary="All" style="margin-top: 15px;"></div>
             </form>
-            <div class="fr-border"></div>
-            <div class="small-6 small-centered medium-9 medium-uncentered large-9 large-uncentered featured-row columns">
-                <table>
-                    <thead>
+            <hr />
+            @{
+                List<WalletViewModel> Wallets = ViewBag.WalletList as List<WalletViewModel>;
+            }
+            <table class="form table-bordered" width="100%">
+                <thead>
+                    <tr>
+                        <th>تاریخ</th>
+                        <th>مبلغ</th>
+                        <th>نوع تراکنش</th>
+                        <th>شرح</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var wallet in Wallets)
+                    {
                         <tr>
-                            <th scope="col">تاریخ</th>
-                            <th scope="col">مبلغ</th>
-                            <th scope="col">تراکنش</th>
-                            <th scope="col">توضیحات</th>
+                            <th class="text-center">@wallet.CreateDate.ToShamsi()</th>
+                            <td class="text-center">@wallet.Amount.ToString("#,0 تومان")</td>
+                            <td class="text-center">
+                                @if (wallet.TypeId == 1)
+                                {
+                                    <p class="text-success">واریز</p>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">برداشت</p>
+                                }
+                            </td>
+                            <td class="text-center">@wallet.Description</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1396/02/26</th>
-                            <td>120000</td>
-                            <td>واریز</td>
-                            <td>بابت فاکتور #3</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

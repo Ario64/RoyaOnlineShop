@@ -1,4 +1,5 @@
 ﻿using OnlineShop.Core.DTOs.User;
+using OnlineShop.Core.DTOs.Wallet;
 using OnlineShop.DataLayer.Entities.User;
 
 namespace OnlineShop.Core.Services.Interfaces;
@@ -28,6 +29,13 @@ public interface IUserService
     EditUserInformationViewModel GetUserInformationForEditProfile(string userName);
     bool EditProfile(string userName, EditUserInformationViewModel profile);
     bool ChangePassword(string userName, ChangePasswordViewModel model);
+
+    #endregion
+
+    #region Wallet Actions
+
+    int UserBalance(string userName);
+    List<WalletViewModel> GetUserWallets(string userName);
 
     #endregion
 

@@ -1,5 +1,6 @@
 ﻿using OnlineShop.Core.Convertors;
 using OnlineShop.Core.DTOs.User;
+using OnlineShop.Core.DTOs.Wallet;
 using OnlineShop.Core.Generators;
 using OnlineShop.Core.Security;
 using OnlineShop.Core.Services.Interfaces;
@@ -103,7 +104,7 @@ public class UserService : IUserService
         information.Phone = user.PhoneNumber;
         information.Address = user.Address;
         information.RegisterDate = user.RegisterDate;
-        information.Wallet = 0;
+        information.Wallet = UserBalance(user.UserName);
         return information;
     }
 
@@ -185,5 +186,35 @@ public class UserService : IUserService
         user.Password = PasswordHelper.EncodePasswordMd5(model.Password);
         UpdateUser(user);
         return true;
+    }
+
+    public int UserBalance(string userName)
+    {
+        int userId = GetUserIdByUserName(userName);
+        var deposit = _context.Wallets
+            .Where(w => w.UserId == userId && w.WalletTypeId == 1 && w.IsPayed)
+            .Select(s => s.Amount)
+            .ToList();
+        var withdraw = _context.Wallets
+            .Where(w => w.UserId == userId && w.WalletTypeId == 2 && w.IsPayed)
+            .Select(s => s.Amount)
+            .ToList();
+        return (deposit.Sum() - withdraw.Sum());
+    }
+
+    public List<WalletViewModel> GetUserWallets(string userName)
+    {
+        int userId = GetUserIdByUserName(userName);
+        return _context.Wallets
+            .Where(w => w.UserId == userId && w.IsPayed)
+            .Select(s =>
+                new WalletViewModel()
+                {
+                    CreateDate = s.CreateDate,
+                    Amount = s.Amount,
+                    TypeId = s.WalletTypeId,
+                    Description = s.Description
+                })
+            .ToList();
     }
 }
