@@ -6,6 +6,7 @@ using OnlineShop.Core.Security;
 using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Contexts;
 using OnlineShop.DataLayer.Entities.User;
+using OnlineShop.DataLayer.Entities.Wallet;
 
 namespace OnlineShop.Core.Services;
 
@@ -216,5 +217,38 @@ public class UserService : IUserService
                     Description = s.Description
                 })
             .ToList();
+    }
+
+    public int ChargeWallet(string userName, int amount, string description, bool isPayed = false)
+    {
+        int userId = GetUserIdByUserName(userName);
+        Wallet wallet = new Wallet()
+        {
+            Amount = amount,
+            CreateDate = DateTime.Now,
+            UserId = userId,
+            WalletTypeId = 1,
+            Description = description,
+            IsPayed = isPayed
+        };
+        return AddWallet(wallet);
+    }
+
+    public int AddWallet(Wallet wallet)
+    {
+        _context.Wallets.Add(wallet);
+        _context.SaveChanges();
+        return wallet.WalletId;
+    }
+
+    public Wallet GetWalletByWalletId(int walletId)
+    {
+        return _context.Wallets.Find(walletId);
+    }
+
+    public void UpdateWallet(Wallet wallet)
+    {
+        _context.Wallets.Update(wallet);
+        _context.SaveChanges();
     }
 }

@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "نتیجه پرداخت";
+}
+
+<div class="breadcrumb-holder">
+    <!-- Content Row -->
+    <div class="row">
+        <ul class="breadcrumbs small-12 medium-8 large-8 columns">
+            <li><a href="/">فروشگاه آنلاین رویا</a></li>
+            <li><a>@ViewData["Title"]</a></li>
+        </ul>
+    </div>
+    <!-- End Content Row -->
+</div>
+<div class="row bottom-margin featured-row">
+    @if (ViewBag.IsSucces == true)
+    {
+        <div class="alert alert-success">
+            <h2>پرادخت با موفقیت انجام شد</h2>
+            <p>کد پیگیری: @ViewBag.Code</p>
+        </div>
+        <a href="/">بازگشت به پیشخوان</a>
+    }
+    else
+    {
+        <div class="alert alert-danger">
+            <h2>عملیات با شکست مواجه شد !</h2>
+        </div>
+        <a href="/">بازگشت به پیشخوان</a>
+
+    }
+</div>

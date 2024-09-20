@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
-using NuGet.Protocol;
 using OnlineShop.Core.DTOs.Wallet;
 using OnlineShop.Core.Services.Interfaces;
+using ZarinpalSandbox;
+
 
 namespace OnlineShop.Web.Areas.UserPanel.Controllers
 {
@@ -18,6 +18,8 @@ namespace OnlineShop.Web.Areas.UserPanel.Controllers
             _userService = userService;
         }
 
+        #region Index
+
         [HttpGet("UserPanel/Wallet")]
         public IActionResult Index()
         {
@@ -25,22 +27,44 @@ namespace OnlineShop.Web.Areas.UserPanel.Controllers
             return View();
         }
 
+        #endregion
+
+        #region Charge Wallet
+
         [HttpPost("UserPanel/Wallet")]
         public IActionResult Index(ChargeWalletViewModel model)
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.WalletList = _userService.GetUserWallets(User.Identity.Name);
                 return View(model);
             }
 
             if (model.Amount <= 0)
             {
-                ModelState.AddModelError("Amount","لطفا مبلغی بیشتر از صفر وارد کنید !");
+                ViewBag.WalletList = _userService.GetUserWallets(User.Identity.Name);
+                ModelState.AddModelError("Amount", "لطفا مبلغی بیشتر از صفر وارد کنید !");
                 return View(model);
             }
-            return View();
+
+            ViewBag.WalletList = _userService.GetUserWallets(User.Identity.Name);
+            int walletId = _userService.ChargeWallet(User.Identity.Name, model.Amount, "شارژ حساب");
+
+            #region Online Payment
+
+            Payment payment = new Payment(model.Amount);
+            var res = payment.PaymentRequest("شارژ حساب", "https://localhost:7189/OnlinePayment/" + walletId);
+            if (res.Result.Status == 100)
+            {
+                return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
+            }
+
+            #endregion
+
+            return BadRequest();
         }
 
+        #endregion
 
     }
 }
