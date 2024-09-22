@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Admin\" />
     <Folder Include="wwwroot\useravatar\" />
   </ItemGroup>
 

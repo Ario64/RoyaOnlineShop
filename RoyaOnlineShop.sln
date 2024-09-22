@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Web", "OnlineShop.Web\OnlineShop.Web.csproj", "{AA09CAD8-7C75-4EA4-882C-71D65CEA6B7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Web", "OnlineShop.Web\OnlineShop.Web.csproj", "{AA09CAD8-7C75-4EA4-882C-71D65CEA6B7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Core", "OnlineShop.Core\OnlineShop.Core.csproj", "{17933EA1-A674-4F97-8E03-2DCF8E7F16B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Core", "OnlineShop.Core\OnlineShop.Core.csproj", "{17933EA1-A674-4F97-8E03-2DCF8E7F16B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.DataLayer", "OnlineShop.DataLayer\OnlineShop.DataLayer.csproj", "{784A4496-236A-4D2F-907C-18860EEA526E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.DataLayer", "OnlineShop.DataLayer\OnlineShop.DataLayer.csproj", "{784A4496-236A-4D2F-907C-18860EEA526E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

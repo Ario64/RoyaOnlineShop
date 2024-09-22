@@ -10,7 +10,6 @@
     <script src="/js/vendor/custom.modernizr.js"></script>
 </head>
 <body>
-
     <!-- Header -->
     <div class="header">
         <!-- Header top -->
@@ -21,7 +20,7 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div class="small-12 medium-5 large-4 welcome-guest-text columns">
-                         @User.Identity.Name خوش آمدید
+                        @User.Identity.Name خوش آمدید
                     </div>
                 }
                 else
@@ -30,7 +29,7 @@
                         کاربر مهمان خوش آمدید
                     </div>
                 }
-              
+
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div class="small-12 medium-5 large-4 welcome-guest-text columns">
@@ -153,7 +152,7 @@
             <!-- Content Row -->
             <div class="row headerbottomrow">
                 <!--  Main Navigation -->
-                <partial name="_MainMenu"/>
+                <partial name="_MainMenu" />
                 <!-- End Main Navigation -->
                 <!-- Search box -->
                 @RenderSection("SearchBox", false)
@@ -169,9 +168,9 @@
     @RenderBody()
     <!-- end content -->
     <!-- Footer  -->
-    <partial name="_Footer"/>
+    <partial name="_Footer" />
     <!-- End Footer Links -->
- 
+
     <script type="text/javascript" src="/js/vendor/jquery.js"></script>
     <script src="/js/foundation/foundation.js"></script>
     <script type="text/javascript" src="/js/nexx.js"></script>
