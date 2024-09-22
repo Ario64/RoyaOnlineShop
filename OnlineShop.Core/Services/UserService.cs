@@ -1,4 +1,6 @@
-﻿using OnlineShop.Core.Convertors;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using OnlineShop.Core.Convertors;
 using OnlineShop.Core.DTOs.User;
 using OnlineShop.Core.DTOs.Wallet;
 using OnlineShop.Core.Generators;
@@ -250,5 +252,36 @@ public class UserService : IUserService
     {
         _context.Wallets.Update(wallet);
         _context.SaveChanges();
+    }
+
+    public UsersForAdminPanelViewModel GetUsersForAdminPanel(int pageId = 1, string filterEmail = "", string filterUserName = "")
+    {
+        IQueryable<User> result = _context.Users;
+
+        if (!string.IsNullOrEmpty(filterEmail))
+        {
+            result = result.Where(w => w.Email.Contains(filterEmail));
+        }
+
+        if (!string.IsNullOrEmpty(filterUserName))
+        {
+            result = result.Where(w => w.UserName.Contains(filterUserName));
+        }
+
+        int take = 2;
+        int skip = (pageId - 1) * take;
+        var list = new UsersForAdminPanelViewModel();
+        list.CurrentPage = pageId;
+        int quantity = result.OrderByDescending(o => o.RegisterDate).Count();
+        if (quantity % 2 == 0)
+        {
+            list.PageCount = quantity / take;
+        }
+        else
+        {
+            list.PageCount = (quantity / take) + 1;
+        }
+        list.Users = result.OrderByDescending(o => o.RegisterDate).Skip(skip).Take(take).ToList();
+        return list;
     }
 }

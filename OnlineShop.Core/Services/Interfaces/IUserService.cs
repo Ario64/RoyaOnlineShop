@@ -37,10 +37,16 @@ public interface IUserService
 
     int UserBalance(string userName);
     List<WalletViewModel> GetUserWallets(string userName);
-    int ChargeWallet(string userName, int amount,string description, bool isPay=false);
+    int ChargeWallet(string userName, int amount, string description, bool isPay = false);
     int AddWallet(Wallet wallet);
     Wallet GetWalletByWalletId(int walletId);
     void UpdateWallet(Wallet wallet);
+
+    #endregion
+
+    #region Admin Panel Actions
+
+    UsersForAdminPanelViewModel GetUsersForAdminPanel(int pageId = 1, string filterEmail = "", string filterUserName = "");
 
     #endregion
 
