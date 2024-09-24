@@ -36,6 +36,7 @@ namespace OnlineShop.Web
 
             builder.Services.AddTransient<IUserService, UserService>();
             builder.Services.AddTransient<IViewRenderService, RenderViewToString>();
+            builder.Services.AddTransient<IPermissionService, PermissionService>();
 
             #endregion
 

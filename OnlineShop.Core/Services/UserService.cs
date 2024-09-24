@@ -268,7 +268,7 @@ public class UserService : IUserService
             result = result.Where(w => w.UserName.Contains(filterUserName));
         }
 
-        int take = 2;
+        int take = 20;
         int skip = (pageId - 1) * take;
         var list = new UsersForAdminPanelViewModel();
         list.CurrentPage = pageId;
@@ -283,5 +283,33 @@ public class UserService : IUserService
         }
         list.Users = result.OrderByDescending(o => o.RegisterDate).Skip(skip).Take(take).ToList();
         return list;
+    }
+
+    public int AddUserByAdmin(CreateUserViewModel user)
+    {
+        User newUser = new User();
+        if (user.UserAvatar != null)
+        {
+            newUser.UserAvatar = NameGenerator.GenerateUniqueName() + Path.GetExtension(user.UserAvatar.FileName);
+            string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/useravatar/", newUser.UserAvatar);
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                user.UserAvatar.CopyTo(stream);
+            }
+        }
+        else
+        {
+            newUser.UserAvatar = "DefaultAvatar.jpg";
+        }
+        newUser.FullName = user.FullName;
+        newUser.UserName = user.UserName;
+        newUser.Email = user.Email;
+        newUser.PhoneNumber = user.PhoneNumber;
+        newUser.Address = user.Address;
+        newUser.Password = PasswordHelper.EncodePasswordMd5(user.Password);
+        newUser.ActiveCode = NameGenerator.GenerateUniqueName();
+        newUser.IsActive = true;
+        newUser.RegisterDate = DateTime.Now;
+        return AddUser(newUser);
     }
 }

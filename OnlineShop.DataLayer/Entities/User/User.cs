@@ -11,37 +11,37 @@ public class User
     [DisplayName("نام و نام خانوادگی")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(150, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
-    public required string FullName { get; set; }
+    public string FullName { get; set; }
 
     [DisplayName("نام کاربری")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(30, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
-    public required string UserName { get; set; }
+    public string UserName { get; set; }
 
     [DisplayName("ایمیل")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(100, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
-    public required string Email { get; set; }
+    public string Email { get; set; }
 
     [DisplayName("تلفن")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(11, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
-    public required string PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; }
 
     [DisplayName("آدرس")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(300, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
-    public required string Address { get; set; }
+    public string Address { get; set; }
 
     [DisplayName("کد فعال سازی")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(50, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
-    public required string ActiveCode { get; set; }
+    public string ActiveCode { get; set; }
 
     [DisplayName("کلمه عبور")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(50, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
-    public required string Password { get; set; }
+    public string Password { get; set; }
 
     [DisplayName("آواتار")]
     [MaxLength(50, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
@@ -53,7 +53,7 @@ public class User
 
     [DisplayName("تاریخ ثبت نام")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-    public required DateTime RegisterDate { get; set; }
+    public DateTime RegisterDate { get; set; }
 
     public bool IsDeleted { get; set; }
 
