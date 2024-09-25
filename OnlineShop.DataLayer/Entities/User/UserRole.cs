@@ -5,7 +5,7 @@ public class UserRole
 {
     public int UrId { get; set; }
     public int? UserId { get; set; }
-    public int? RoleId { get; set; }
+    public int RoleId { get; set; }
 
     #region Relations
 

@@ -31,4 +31,13 @@ public class PermissionService : IPermissionService
 
         _context.SaveChanges();
     }
+
+    public void EditUserRolesByAdmin(int userId, List<int> userRoles)
+    {
+        _context.UserRoles
+            .Where(w => w.UserId == userId)
+            .ToList()
+            .ForEach(f => _context.UserRoles.Remove(f));
+        AddRolesToUser(userId, userRoles);
+    }
 }

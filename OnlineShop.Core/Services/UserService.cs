@@ -92,6 +92,11 @@ public class UserService : IUserService
         return _context.Users.SingleOrDefault(s => s.UserName == userName);
     }
 
+    public User GetUserByUserId(int userId)
+    {
+        return _context.Users.Find(userId);
+    }
+
     public int GetUserIdByUserName(string userName)
     {
         return _context.Users.SingleOrDefault(s => s.UserName == userName).UserId;
@@ -100,6 +105,20 @@ public class UserService : IUserService
     public UserInformationViewModel GetUserInformationForUserPanel(string userName)
     {
         var user = GetUserByUserName(userName);
+        UserInformationViewModel information = new UserInformationViewModel();
+        information.FullName = user.FullName;
+        information.UserName = user.UserName;
+        information.Email = user.Email;
+        information.Phone = user.PhoneNumber;
+        information.Address = user.Address;
+        information.RegisterDate = user.RegisterDate;
+        information.Wallet = UserBalance(user.UserName);
+        return information;
+    }
+
+    public UserInformationViewModel GetUserInformationForUserPanel(int userId)
+    {
+        var user = GetUserByUserId(userId);
         UserInformationViewModel information = new UserInformationViewModel();
         information.FullName = user.FullName;
         information.UserName = user.UserName;
@@ -311,5 +330,117 @@ public class UserService : IUserService
         newUser.IsActive = true;
         newUser.RegisterDate = DateTime.Now;
         return AddUser(newUser);
+    }
+
+    public EditUserViewModel GetUserForEditByAdmin(int userId)
+    {
+        return _context.Users
+            .Where(w => w.UserId == userId)
+            .Select(s => new EditUserViewModel()
+            {
+                UserId = s.UserId,
+                UserName = s.UserName,
+                FullName = s.FullName,
+                Email = s.Email,
+                PhoneNumber = s.PhoneNumber,
+                Address = s.Address,
+                AvatarName = s.UserAvatar,
+                UserRoles = s.UserRoles.Select(s => s.RoleId).ToList()
+            }).Single();
+    }
+
+    public void EditUserByAdmin(EditUserViewModel editUser)
+    {
+        User user = GetUserByUserId(editUser.UserId);
+
+        #region Save Image
+
+        if (editUser.UserAvatar != null)
+        {
+            string imagePath = "";
+            if (editUser.AvatarName != "DefaultAvatar.jpg")
+            {
+                imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/useravatar/", editUser.AvatarName);
+                if (File.Exists(imagePath))
+                {
+                    File.Delete(imagePath);
+                }
+            }
+
+            user.UserAvatar = NameGenerator.GenerateUniqueName() + Path.GetExtension(editUser.UserAvatar.FileName);
+            imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/useravatar/", user.UserAvatar);
+            using (var stream = new FileStream(imagePath, FileMode.Create))
+            {
+                editUser.UserAvatar.CopyTo(stream);
+            }
+        }
+
+        #endregion
+
+        if (FixedText.FixedEmail(editUser.Email) != user.Email)
+        {
+            if (IsEmailExist(FixedText.FixedEmail(editUser.Email)))
+            {
+                return;
+            }
+        }
+        user.Email = FixedText.FixedEmail(editUser.Email);
+
+        if (editUser.PhoneNumber != user.PhoneNumber)
+        {
+            if (IsPhoneNumberExist(editUser.PhoneNumber))
+            {
+                return;
+            }
+        }
+        user.PhoneNumber = editUser.PhoneNumber;
+
+        if (!string.IsNullOrEmpty(editUser.Password))
+        {
+            user.Password = PasswordHelper.EncodePasswordMd5(editUser.Password);
+        }
+
+        user.Address = editUser.Address;
+        _context.Update(user);
+        _context.SaveChanges();
+    }
+
+    public UsersForAdminPanelViewModel GetDeletedUsersForAdminPanel(int pageId = 1, string filterEmail = "", string filterUserName = "")
+    {
+        IQueryable<User> result = _context.Users.IgnoreQueryFilters().Where(w => w.IsDeleted);
+
+        if (!string.IsNullOrEmpty(filterEmail))
+        {
+            result = result.Where(w => w.Email.Contains(filterEmail));
+        }
+
+        if (!string.IsNullOrEmpty(filterUserName))
+        {
+            result = result.Where(w => w.UserName.Contains(filterUserName));
+        }
+
+        int take = 20;
+        int skip = (pageId - 1) * take;
+        var list = new UsersForAdminPanelViewModel();
+        list.CurrentPage = pageId;
+        int quantity = result.OrderByDescending(o => o.RegisterDate).Count();
+        if (quantity % 2 == 0)
+        {
+            list.PageCount = quantity / take;
+        }
+        else
+        {
+            list.PageCount = (quantity / take) + 1;
+        }
+        list.Users = result.OrderByDescending(o => o.RegisterDate).Skip(skip).Take(take).ToList();
+        return list;
+    }
+
+    public void DeleteUserByAdmin(int userId)
+    {
+        var user = GetUserByUserId(userId);
+        user.IsActive = false;
+        user.IsDeleted = true;
+        UpdateUser(user);
     }
 }

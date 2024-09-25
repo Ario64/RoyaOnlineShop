@@ -49,5 +49,14 @@ namespace OnlineShop.Web.Controllers
 
         #endregion
 
+        #region Check Email Exist  Ajax
+
+        public void IsEmailExist(string email)
+        {
+            _userService.IsEmailExist(email);
+        }
+
+        #endregion
+
     }
 }

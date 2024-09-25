@@ -19,6 +19,7 @@ public interface IUserService
     User? GetUserByActiveCode(string activeCode);
     void UpdateUser(User user);
     User GetUserByUserName(string userName);
+    User GetUserByUserId(int userId);
     int GetUserIdByUserName(string userName);
 
     #endregion
@@ -26,6 +27,7 @@ public interface IUserService
     #region User Panel Actions
 
     UserInformationViewModel GetUserInformationForUserPanel(string userName);
+    UserInformationViewModel GetUserInformationForUserPanel(int userId);
     SideBarUserPanelViewModel GetUserInformationForSideBar(string userName);
     EditUserInformationViewModel GetUserInformationForEditProfile(string userName);
     bool EditProfile(string userName, EditUserInformationViewModel profile);
@@ -48,6 +50,10 @@ public interface IUserService
 
     UsersForAdminPanelViewModel GetUsersForAdminPanel(int pageId = 1, string filterEmail = "", string filterUserName = "");
     int AddUserByAdmin(CreateUserViewModel user);
+    EditUserViewModel GetUserForEditByAdmin(int userId);
+    void EditUserByAdmin(EditUserViewModel user);
+    UsersForAdminPanelViewModel GetDeletedUsersForAdminPanel(int pageId = 1, string filterEmail = "", string filterUserName = "");
+    void DeleteUserByAdmin(int userId);
 
     #endregion
 

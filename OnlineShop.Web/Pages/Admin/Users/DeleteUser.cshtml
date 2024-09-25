@@ -1,0 +1,43 @@
+﻿@page "{id}"
+@using OnlineShop.Core.Convertors
+@model OnlineShop.Web.Pages.Admin.Users.DeleteUserModel
+@{
+    ViewData["Title"] = "حذف کاربر";
+}
+<div class="col-lg-12">
+    <h1>@ViewData["Title"]</h1>
+</div>
+<hr />
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @ViewData["Title"]
+        </div>
+        <div class="panel-body">
+            <form method="post">
+                <input type="hidden" name="UserId" value="@ViewData["UserId"].ToString()" />
+                <dl class="dl-horizontal">
+                    <dt>نام و نام خانوادگی:</dt>
+                    <dd>@Model.User.FullName</dd>
+                    <dt>  نام کاربری:</dt>
+                    <dd>@Model.User.UserName</dd>
+                    <dt>ایمیل: </dt>
+                    <dd>@Model.User.Email</dd>
+                    <dt>موجودی کیف پول: </dt>
+                    <dd>@Model.User.Wallet.ToString("#,0 ریال")</dd>
+                    <dt>تاریخ عضویت در سایت: </dt>
+                    <dd>@Model.User.RegisterDate.ToShamsi()</dd>
+                    <dt style="margin-top: 25px;">
+                        <div>
+                            <input type="submit" class="btn btn-sm btn-danger" value="حذف کاربر"/>
+                        </div>
+                    </dt>
+               
+                </dl>
+               
+            </form>
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>

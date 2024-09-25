@@ -8,6 +8,7 @@ public interface IPermissionService
 
     List<Role> GetRoles();
     void AddRolesToUser(int userId, List<int> roleIdList);
+    void EditUserRolesByAdmin(int userId, List<int> userRoles);
 
     #endregion
 
