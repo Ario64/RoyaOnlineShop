@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using OnlineShop.DataLayer.Entities.Permission;
 using OnlineShop.DataLayer.Entities.User;
 using OnlineShop.DataLayer.Entities.Wallet;
 
@@ -22,10 +23,17 @@ public class RoyaContext : DbContext
 
     #endregion
 
-    #region Wallet
+    #region Wallet Tables
 
     public DbSet<WalletType> WalletTypes { get; set; }
     public DbSet<Wallet> Wallets { get; set; }
+
+    #endregion
+
+    #region Role Tables
+
+    public DbSet<RolePermission> RolePermissions { get; set; }
+    public DbSet<Permission> Permissions { get; set; }
 
     #endregion
 
@@ -93,6 +101,28 @@ public class RoyaContext : DbContext
                 w.HasOne(h => h.WalletType).WithMany("Wallets")
                     .HasForeignKey(f => f.WalletTypeId);
 
+            });
+
+        #endregion
+
+        #region Permission Data
+
+        modelBuilder.Entity<Permission>(
+            p =>
+            {
+                p.HasKey(h => h.PermissionId);
+                p.Property(p => p.PermissionTitle);
+          
+            });
+
+        modelBuilder.Entity<RolePermission>(
+            rp =>
+            {
+                rp.HasKey(h => h.RpId);
+                rp.HasOne(h => h.Role).WithMany("RolePermissions")
+                    .HasForeignKey(f => f.RoleId);
+                rp.HasOne(h => h.Permission).WithMany("RolePermissions")
+                    .HasForeignKey(f => f.PermissionId);
             });
 
         #endregion

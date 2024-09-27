@@ -14,7 +14,7 @@ namespace OnlineShop.Core.Services;
 
 public class UserService : IUserService
 {
-    private RoyaContext _context;
+    private readonly RoyaContext _context;
 
     public UserService(RoyaContext context)
     {

@@ -86,3 +86,13 @@ public class EditUserViewModel
 
     public string? AvatarName { get; set; }
 }
+
+public class EditRoleViewModel
+{
+    public int RoleId { get; set; }
+
+    [DisplayName("عنوان نقش")]
+    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
+    [MaxLength(30, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
+    public required string RoleTitle { get; set; }
+}

@@ -1,4 +1,5 @@
-﻿using OnlineShop.Core.Services.Interfaces;
+﻿using OnlineShop.Core.DTOs.User;
+using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Contexts;
 using OnlineShop.DataLayer.Entities.User;
 
@@ -39,5 +40,29 @@ public class PermissionService : IPermissionService
             .ToList()
             .ForEach(f => _context.UserRoles.Remove(f));
         AddRolesToUser(userId, userRoles);
+    }
+
+    public int AddRoleToRoles(Role role)
+    {
+        _context.Roles.Add(role);
+        _context.SaveChanges();
+        return role.RoleId;
+    }
+
+    public Role GetRoleByRoleId(int roleId)
+    {
+        return _context.Roles.Find(roleId);
+    }
+
+    public void UpdateRoleByAdmin(Role role)
+    {
+        _context.Roles.Update(role);
+        _context.SaveChanges();
+    }
+
+    public void DeleteRoleByAdmin(Role role)
+    {
+        role.IsDeleted = true;
+       UpdateRoleByAdmin(role);
     }
 }
