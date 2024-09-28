@@ -1,7 +1,9 @@
 ﻿@page
+@using OnlineShop.DataLayer.Entities.Permission
 @model OnlineShop.Web.Pages.Admin.Roles.AddRoleModel
 @{
     ViewData["Title"] = "افزودن نقش جدید";
+    List<Permission> permissions = ViewData["PermissionList"] as List<Permission>;
 }
 <div class="col-lg-12">
     <h1>@ViewData["Title"]</h1>
@@ -34,7 +36,37 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label>دسترسی ها</label>
-                        <hr/>
+                        <hr />
+                        <ul>
+                            @foreach (var permission in permissions.Where(w => w.ParentId == null))
+                            {
+                                <li>
+                                    <input type="checkbox" name="SelectedPermission" value="@permission.PermissionId" />@permission.PermissionTitle
+                                    @if (permissions.Any(a => a.ParentId == permission.PermissionId))
+                                    {
+                                        <ul>
+                                            @foreach (var subPermission in permissions.Where(w => w.ParentId == permission.PermissionId))
+                                            {
+                                                <li>
+                                                    <input type="checkbox" name="SelectedPermission" value="@subPermission.PermissionId" />@subPermission.PermissionTitle
+                                                    @if (permissions.Any(a => a.ParentId == subPermission.PermissionId))
+                                                    {
+                                                        <ul>
+                                                            @foreach (var subSubPermission in permissions.Where(w => w.ParentId == subPermission.PermissionId))
+                                                            {
+                                                                <li>
+                                                                    <input type="checkbox" name="SelectedPermission" value="@subSubPermission.PermissionId" />@subSubPermission.PermissionTitle
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
                     </div>
                 </div>
             </div>

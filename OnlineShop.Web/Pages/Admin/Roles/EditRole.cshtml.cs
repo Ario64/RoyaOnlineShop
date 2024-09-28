@@ -21,15 +21,18 @@ namespace OnlineShop.Web.Pages.Admin.Roles
         public void OnGet(int id)
         {
             Role = _permissionService.GetRoleByRoleId(id);
+            ViewData["PermissionList"] = _permissionService.GetPermissions();
+            ViewData["SelectedPermissions"] = _permissionService.GetPermissionsRole(id);
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost(List<int> SelectedPermission)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
             _permissionService.UpdateRoleByAdmin(Role);
+            _permissionService.UpdateRolePermissions(Role.RoleId, SelectedPermission);
             return RedirectToPage("Index");
         }
     }

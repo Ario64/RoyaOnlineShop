@@ -111,8 +111,10 @@ public class RoyaContext : DbContext
             p =>
             {
                 p.HasKey(h => h.PermissionId);
-                p.Property(p => p.PermissionTitle);
-          
+                p.Property(h => h.PermissionTitle).HasMaxLength(200).IsRequired();
+                p.HasOne(h => h._Permission).WithMany("Permissions")
+                    .HasForeignKey(f => f.ParentId);
+
             });
 
         modelBuilder.Entity<RolePermission>(

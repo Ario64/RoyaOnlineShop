@@ -1,6 +1,7 @@
 ﻿using OnlineShop.Core.DTOs.User;
 using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Contexts;
+using OnlineShop.DataLayer.Entities.Permission;
 using OnlineShop.DataLayer.Entities.User;
 
 namespace OnlineShop.Core.Services;
@@ -63,6 +64,42 @@ public class PermissionService : IPermissionService
     public void DeleteRoleByAdmin(Role role)
     {
         role.IsDeleted = true;
-       UpdateRoleByAdmin(role);
+        UpdateRoleByAdmin(role);
+    }
+
+    public List<Permission> GetPermissions()
+    {
+        return _context.Permissions.ToList();
+    }
+
+    public void AddPermissionsToRole(int roleId, List<int> permissionIdList)
+    {
+        foreach (int permissionId in permissionIdList)
+        {
+            _context.RolePermissions.Add(new RolePermission()
+            {
+                RoleId = roleId,
+                PermissionId = permissionId
+            });
+        }
+
+        _context.SaveChanges();
+    }
+
+    public List<int> GetPermissionsRole(int roleId)
+    {
+        return _context.RolePermissions
+            .Where(w => w.RoleId == roleId)
+            .Select(s => s.PermissionId)
+            .ToList();
+    }
+
+    public void UpdateRolePermissions(int roleId, List<int> permissionIdList)
+    {
+        _context.RolePermissions
+            .Where(w => w.RoleId == roleId)
+            .ToList()
+            .ForEach(f => _context.RolePermissions.Remove(f));
+        AddPermissionsToRole(roleId, permissionIdList);
     }
 }
