@@ -24,6 +24,7 @@ public interface IPermissionService
     void AddPermissionsToRole(int roleId, List<int> permissionIdList);
     List<int> GetPermissionsRole(int roleId);
     void UpdateRolePermissions(int roleId, List<int> permissionIdList);
+    bool CheckPermission(string userName, int permissionId);
 
     #endregion
 }

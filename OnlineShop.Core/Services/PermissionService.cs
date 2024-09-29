@@ -102,4 +102,27 @@ public class PermissionService : IPermissionService
             .ForEach(f => _context.RolePermissions.Remove(f));
         AddPermissionsToRole(roleId, permissionIdList);
     }
+
+    public bool CheckPermission(string userName, int permissionId)
+    {
+        int userId = _context.Users.Single(s => s.UserName == userName).UserId;
+
+        List<int> userRoleIdList = _context.UserRoles
+            .Where(w => w.UserId == userId)
+            .Select(s => s.RoleId)
+            .ToList();
+
+        if (!userRoleIdList.Any())
+        {
+            return false;
+        }
+
+        List<int> rolePermissionIdList = _context.RolePermissions
+            .Where(w => w.PermissionId == permissionId)
+            .Select(s => s.RoleId)
+            .ToList();
+
+
+        return rolePermissionIdList.Any(a => userRoleIdList.Contains(a));
+    }
 }
