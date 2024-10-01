@@ -12,8 +12,8 @@ using OnlineShop.DataLayer.Contexts;
 namespace OnlineShop.DataLayer.Migrations
 {
     [DbContext(typeof(RoyaContext))]
-    [Migration("20240927104559_Mig_")]
-    partial class Mig_
+    [Migration("20241001070327_Mig_Addmainmenu")]
+    partial class Mig_Addmainmenu
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,11 +33,17 @@ namespace OnlineShop.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PermissionId"));
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PermissionTitle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("PermissionId");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Permissions");
                 });
@@ -63,6 +69,32 @@ namespace OnlineShop.DataLayer.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
+                {
+                    b.Property<int>("ProductGroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductGroupId"));
+
+                    b.Property<string>("GroupTitle")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductGroupId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("ProductGroups");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>
@@ -226,6 +258,15 @@ namespace OnlineShop.DataLayer.Migrations
                     b.ToTable("WalletTypes");
                 });
 
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Permission.Permission", b =>
+                {
+                    b.HasOne("OnlineShop.DataLayer.Entities.Permission.Permission", "_Permission")
+                        .WithMany("Permissions")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("_Permission");
+                });
+
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Permission.RolePermission", b =>
                 {
                     b.HasOne("OnlineShop.DataLayer.Entities.Permission.Permission", "Permission")
@@ -243,6 +284,15 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("Permission");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
+                {
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.ProductGroup", "Groups")
+                        .WithMany("ProductGroups")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Groups");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.UserRole", b =>
@@ -281,7 +331,14 @@ namespace OnlineShop.DataLayer.Migrations
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Permission.Permission", b =>
                 {
+                    b.Navigation("Permissions");
+
                     b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
+                {
+                    b.Navigation("ProductGroups");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>

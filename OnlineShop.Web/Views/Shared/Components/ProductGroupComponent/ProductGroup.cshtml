@@ -1,0 +1,36 @@
+﻿@model IEnumerable<OnlineShop.DataLayer.Entities.Product.ProductGroup>
+
+<!-- Logo -->
+<div class="small-12 medium-3 large-2 small-centered large-uncentered text-center logo columns">
+    <a href="/" title="nexx Homepage"><img src="/img/logo.png" alt="فروشگاه آنلاین رویا" /></a>
+</div>
+<!-- End Logo -->
+<!-- Menu Icon For Mobile -->
+<div class="menu-icon">
+    <i class="icon-menu"></i>
+</div>
+<!-- Main Navigation -->
+<div class="small-12 medium-12 large-7 mainnav columns">
+    <ul class="navigation">
+        @foreach (var group in Model.Where(w => w.ParentId == null))
+        {
+            <li>
+                <a href="#" title="Product Grid">@group.GroupTitle</a>
+                @if (Model.Any(a => a.ParentId == group.ProductGroupId))
+                {
+                    <div class="dropdown-menu">
+                        <ul class="dropdown">
+                            @foreach (var subGroup in Model.Where(w => w.ParentId == group.ProductGroupId))
+                            {
+                                <li>
+                                    <a href="#" title="Product Grid">@subGroup.GroupTitle</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </li>
+        }
+    </ul>
+
+</div>

@@ -12,8 +12,8 @@ using OnlineShop.DataLayer.Contexts;
 namespace OnlineShop.DataLayer.Migrations
 {
     [DbContext(typeof(RoyaContext))]
-    [Migration("20240928052252_Mig_makingrelationbetweenpermissionanditsself")]
-    partial class Mig_makingrelationbetweenpermissionanditsself
+    [Migration("20240930182808_Mig_Initdb")]
+    partial class Mig_Initdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

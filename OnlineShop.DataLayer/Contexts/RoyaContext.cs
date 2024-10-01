@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using OnlineShop.DataLayer.Entities.Permission;
+using OnlineShop.DataLayer.Entities.Product;
 using OnlineShop.DataLayer.Entities.User;
 using OnlineShop.DataLayer.Entities.Wallet;
 
@@ -37,6 +38,12 @@ public class RoyaContext : DbContext
 
     #endregion
 
+    #region Product Group Table
+
+    public DbSet<ProductGroup> ProductGroups { get; set; }
+
+    #endregion
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         #region User Data
@@ -55,7 +62,7 @@ public class RoyaContext : DbContext
                 u.Property(p => p.IsActive).HasDefaultValue(false);
                 u.Property(p => p.RegisterDate);
                 u.Property(p => p.IsDeleted).HasDefaultValue(false);
-                u.HasQueryFilter(h => h.IsDeleted == false);
+                u.HasQueryFilter(h => !h.IsDeleted);
             });
 
         modelBuilder.Entity<Role>(
@@ -85,7 +92,7 @@ public class RoyaContext : DbContext
             {
                 w.HasKey(h => h.WalletTypeId);
                 w.Property(p => p.WalletTypeTitle).HasMaxLength(150).IsRequired();
-            
+
             });
 
         modelBuilder.Entity<Wallet>(
@@ -125,6 +132,20 @@ public class RoyaContext : DbContext
                     .HasForeignKey(f => f.RoleId);
                 rp.HasOne(h => h.Permission).WithMany("RolePermissions")
                     .HasForeignKey(f => f.PermissionId);
+            });
+
+        #endregion
+
+        #region Product Group Data
+
+        modelBuilder.Entity<ProductGroup>(
+            pg =>
+            {
+                pg.HasKey(h => h.ProductGroupId);
+                pg.Property(p => p.GroupTitle).HasMaxLength(150).IsRequired();
+                pg.HasOne(h => h.Groups).WithMany("ProductGroups")
+                    .HasForeignKey(f => f.ParentId);
+                pg.HasQueryFilter(h => !h.IsDeleted);
             });
 
         #endregion

@@ -149,9 +149,9 @@
         <div class="headerbottom">
             <!-- Content Row -->
             <div class="row headerbottomrow">
-                <!--  Main Navigation -->
-                <partial name="_MainMenu" />
-                <!-- End Main Navigation -->
+                <!--  Main Menu -->
+                @await Component.InvokeAsync("ProductGroupComponent")
+                <!-- End Main Menu -->
                 <!-- Search box -->
                 @RenderSection("SearchBox", false)
                 <!-- End Searc hbox -->

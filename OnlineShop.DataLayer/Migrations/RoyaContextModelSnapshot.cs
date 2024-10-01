@@ -68,6 +68,32 @@ namespace OnlineShop.DataLayer.Migrations
                     b.ToTable("RolePermissions");
                 });
 
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
+                {
+                    b.Property<int>("ProductGroupId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductGroupId"));
+
+                    b.Property<string>("GroupTitle")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductGroupId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("ProductGroups");
+                });
+
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>
                 {
                     b.Property<int>("RoleId")
@@ -257,6 +283,15 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
+                {
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.ProductGroup", "Groups")
+                        .WithMany("ProductGroups")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Groups");
+                });
+
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.UserRole", b =>
                 {
                     b.HasOne("OnlineShop.DataLayer.Entities.User.Role", "Role")
@@ -296,6 +331,11 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("Permissions");
 
                     b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
+                {
+                    b.Navigation("ProductGroups");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>
