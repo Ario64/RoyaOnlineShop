@@ -22,6 +22,9 @@ public class ProductGroup
 
     public List<ProductGroup>? ProductGroups { get; set; }
     public ProductGroup Groups { get; set; }
+    public List<Product>? Products { get; set; }
+    public List<Product>? ProductList { get; set; }
 
     #endregion
+
 }

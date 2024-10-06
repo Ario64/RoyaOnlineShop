@@ -55,7 +55,7 @@
     <!-- end changing password-->
     <!-- Contact form -->
     <div class="small-12 small-centered medium-7 medium-uncentered large-7 large-uncentered columns">
-        <form asp-action="Login" class="form" method="post">
+        <form asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl" class="form" method="post">
 
             <div class="input-group" style="margin-top: 15px;">
                 <span class="input-group-addon"><i>ایمیل:</i></span>

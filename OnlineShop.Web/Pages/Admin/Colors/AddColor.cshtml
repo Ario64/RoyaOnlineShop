@@ -1,0 +1,26 @@
+﻿@page
+@model OnlineShop.Web.Pages.Admin.Colors.AddColorModel
+@{
+    ViewData["Title"] = "افزودن رنگ";
+}
+<div class="row">
+    <form method="post">
+        <div class="col-lg-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @ViewData["Title"]
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>رنگ</label>
+                       <input type="text" asp-for="Color.ColorName" class="form-control"/>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-group-lg btn-success">افزودن رنگ</button>
+                        <div asp-validation-summary="All"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

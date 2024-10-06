@@ -1,0 +1,99 @@
+﻿@page
+@model OnlineShop.Web.Pages.Admin.Products.AddProductModel
+@{
+    ViewData["Title"] = "افزودن محصول جدید";
+}
+<div class="col-lg-12">
+    <h1>@ViewData["Title"]</h1>
+</div>
+<hr />
+<div class="row">
+    <form method="post" enctype="multipart/form-data">
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    اطلاعات محصول
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>نام محصول </label>
+                        <input type="text" asp-for="Product.ProductName" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>گروه اصلی</label>
+                        <select type="text" asp-for="Product.ProductGroupId" asp-items="@(ViewData["MainGroups"] as SelectList)" class="form-control"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>گروه فرعی</label>
+                        <select type="text" asp-for="Product.SubGroup" asp-items="@(ViewData["SubMainGroups"] as SelectList)" class="form-control"></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>قیمت محصول</label>
+                        <input type="number" asp-for="Product.ProductPrice" class="form-control"></input>
+                    </div> 
+
+                    <div class="form-group">
+                        <label>شرح محصول</label>
+                        <textarea type="text" rows="7" asp-for="Product.Description" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>تعداد </label>
+                        <input type="number" rows="7" asp-for="Product.Quantity" class="form-control"></input>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>برچسب ها </label>
+                        <input type="text" rows="7" asp-for="Product.Tags" class="form-control"></input>
+                    </div>
+
+                    <button type="submit" class="btn btn-group-lg btn-success">ثبت محصول</button>
+                    <div asp-validation-summary="All"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    تصویر پروفایل
+                </div>
+                <div class="panel-body">
+                    <img class="thumbnail" id="img" src="/useravatar/DefaultAvatar.jpg" style="max-width: 350px; max-height: 550px;" />
+                    <div class="form-group">
+                        <label>انتخاب تصویر</label>
+                        <input type="file" id="imgInp" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts
+{
+    <script>
+        imgInp.onchange = evt => {
+            const [file] = window.imgInp.files;
+            if (file) {
+                window.img.src = URL.createObjectURL(file);
+            }
+        }
+    </script>
+
+    <script>
+        $("#Product_ProductGroupId").change(function () {
+            $("#Product_SubGroup").empty();
+            $.getJSON("/home/GetSubGroups/" + $("#Product_ProductGroupId :selected").val(),
+                function (data) {
+
+                    $.each(data,
+                        function () {
+                            $("#Product_SubGroup").append('<option value=' + this.value + '>' + this.text + '</option>');
+                        });
+                });
+        });
+    </script>
+}

@@ -1,0 +1,23 @@
+﻿@page
+@model OnlineShop.Web.Pages.Admin.Products.IndexModel
+@{
+    ViewData["Title"] = "محصولات سایت";
+}
+<div class="col-lg-12">
+    <h1>@ViewData["Title"]</h1>
+</div>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @ViewData["Title"]
+            </div>
+            <div class="panel-body">
+                <div style="margin: 10px 0px;">
+                    <a asp-page="AddProduct" class="btn btn-outline btn-success">افزودن محصول جدید</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -38,9 +38,15 @@ public class RoyaContext : DbContext
 
     #endregion
 
-    #region Product Group Table
+    #region Product Tables
 
+    public DbSet<Product> Products { get; set; }
     public DbSet<ProductGroup> ProductGroups { get; set; }
+    public DbSet<ProductSize> ProductSizes { get; set; }
+    public DbSet<ProductPicture> ProductPictures { get; set; }
+    public DbSet<Size> Sizes { get; set; }
+    public DbSet<Color> Colors { get; set; }
+    public DbSet<ProductColor> ProductColors { get; set; }
 
     #endregion
 
@@ -136,7 +142,7 @@ public class RoyaContext : DbContext
 
         #endregion
 
-        #region Product Group Data
+        #region Product Data
 
         modelBuilder.Entity<ProductGroup>(
             pg =>
@@ -148,8 +154,65 @@ public class RoyaContext : DbContext
                 pg.HasQueryFilter(h => !h.IsDeleted);
             });
 
+        modelBuilder.Entity<Product>(
+            pr =>
+            {
+                pr.HasKey(h => h.ProductId);
+                pr.Property(p => p.ProductName).HasMaxLength(400).IsRequired();
+                pr.Property(p => p.Description).IsRequired();
+                pr.Property(p => p.ProductPrice).IsRequired();
+                pr.Property(p => p.Quantity).IsRequired();
+                pr.Property(p => p.Tags).HasMaxLength(600).IsRequired();
+                pr.Property(p => p.SeoDescription).HasMaxLength(300).IsRequired();
+                pr.Property(p => p.CreateDate);
+                pr.HasOne(h => h.ProductGroup).WithMany("Products")
+                    .HasForeignKey(f => f.ProductGroupId);
+                pr.HasOne(h => h.Group).WithMany("ProductList")
+                    .HasForeignKey(f => f.SubGroup);
+                pr.HasQueryFilter(h => !h.IsDeleted);
+            });
+
+        modelBuilder.Entity<ProductPicture>(
+            pi =>
+            {
+                pi.HasKey(h => h.ProductPictureId);
+                pi.Property(p => p.PictureName).HasMaxLength(50).IsRequired();
+                pi.HasOne(h => h.Product).WithMany("ProductPictures")
+                    .HasForeignKey(f => f.ProductId);
+              
+            });
+
+        modelBuilder.Entity<ProductSize>(
+            ps =>
+            {
+                ps.HasKey(h => h.ProductSizeId);
+                ps.HasOne(h => h.Product).WithMany("ProductSizes")
+                    .HasForeignKey(f => f.ProductId);
+                ps.HasOne(h => h.Size).WithMany("ProductSizes")
+                    .HasForeignKey(f => f.SizeId);
+            });
+
+        modelBuilder.Entity<Color>(
+            c =>
+            {
+                c.HasKey(h => h.ColorId);
+                c.Property(p => p.ColorName).HasMaxLength(100).IsRequired();
+                c.HasQueryFilter(h => !h.IsDeleted);
+            });
+
+        modelBuilder.Entity<ProductColor>(
+            pc =>
+            {
+                pc.HasKey(h => h.ProductColorId);
+                pc.HasOne(h => h.Product).WithMany("ProductColors")
+                    .HasForeignKey(f => f.ProductId);
+                pc.HasOne(h => h.Color).WithMany("ProductColors")
+                    .HasForeignKey(f => f.ColorId);
+            });
+
         #endregion
 
         base.OnModelCreating(modelBuilder);
     }
+
 }

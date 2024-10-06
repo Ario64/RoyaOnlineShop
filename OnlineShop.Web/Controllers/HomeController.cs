@@ -1,17 +1,22 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json.Linq;
 using OnlineShop.Core.Services.Interfaces;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OnlineShop.Web.Controllers
 {
     public class HomeController : Controller
     {
         private IUserService _userService;
+        private IProductService _productService;
 
-        public HomeController(IUserService userService)
+        public HomeController(IUserService userService, IProductService productService)
         {
             _userService = userService;
+            _productService = productService;
         }
 
         #region Index
@@ -54,6 +59,20 @@ namespace OnlineShop.Web.Controllers
         public void IsEmailExist(string email)
         {
             _userService.IsEmailExist(email);
+        }
+
+        #endregion
+
+        #region Return Sub Main Grpoups Ajax
+
+        public IActionResult GetSubGroups(int id)
+        {
+            List<SelectListItem> list = new List<SelectListItem>()
+            {
+                new SelectListItem(){ Text = "انتخاب کنید !", Value = "0" }
+            };
+            list.AddRange(_productService.GetSubMainGroup(id));
+            return Json(new SelectList(list, "Value", "Text"));
         }
 
         #endregion

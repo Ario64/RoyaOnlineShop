@@ -87,20 +87,21 @@ namespace OnlineShop.Web.Controllers
         #region Login
 
         [HttpGet("login")]
-        public IActionResult Login(bool ChangePassword = false)
+        public IActionResult Login(bool ChangePassword = false, string? returnUrl = null)
         {
+            ViewBag.ReturnUrl = returnUrl;
             ViewBag.ChangePassword = ChangePassword;
             return View();
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginViewModel login)
+        public IActionResult Login(LoginViewModel login, string? returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
                 return View(login);
             }
-
+            ViewBag.ReturnUrl = returnUrl;
             var user = _userService.LoginUser(login);
             if (user != null)
             {

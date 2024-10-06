@@ -12,8 +12,8 @@ using OnlineShop.DataLayer.Contexts;
 namespace OnlineShop.DataLayer.Migrations
 {
     [DbContext(typeof(RoyaContext))]
-    [Migration("20241001070327_Mig_Addmainmenu")]
-    partial class Mig_Addmainmenu
+    [Migration("20241004110953_Mig_InitDb")]
+    partial class Mig_InitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,6 +71,122 @@ namespace OnlineShop.DataLayer.Migrations
                     b.ToTable("RolePermissions");
                 });
 
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Color", b =>
+                {
+                    b.Property<int>("ColorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ColorId"));
+
+                    b.Property<string>("ColorName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ColorId");
+
+                    b.ToTable("Colors");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Picture", b =>
+                {
+                    b.Property<int>("PictureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PictureId"));
+
+                    b.Property<string>("PictureName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("PictureId");
+
+                    b.ToTable("Pictures");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Product", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ProductGroupId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasMaxLength(400)
+                        .HasColumnType("nvarchar(400)");
+
+                    b.Property<int>("ProductPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SeoDescription")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<int?>("SubGroup")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Tags")
+                        .IsRequired()
+                        .HasMaxLength(600)
+                        .HasColumnType("nvarchar(600)");
+
+                    b.HasKey("ProductId");
+
+                    b.HasIndex("ProductGroupId");
+
+                    b.HasIndex("SubGroup");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductColor", b =>
+                {
+                    b.Property<int>("ProductColorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductColorId"));
+
+                    b.Property<int?>("ColorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductColorId");
+
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductColors");
+                });
+
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
                 {
                     b.Property<int>("ProductGroupId")
@@ -95,6 +211,70 @@ namespace OnlineShop.DataLayer.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("ProductGroups");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductPicture", b =>
+                {
+                    b.Property<int>("ProductPictureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductPictureId"));
+
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductPictureId");
+
+                    b.HasIndex("ImageId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductPictures");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductSize", b =>
+                {
+                    b.Property<int>("ProductSizeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductSizeId"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SizeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductSizeId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SizeId");
+
+                    b.ToTable("ProductSizes");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Size", b =>
+                {
+                    b.Property<int>("SizeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeId"));
+
+                    b.Property<string>("SizeName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("SizeId");
+
+                    b.ToTable("Sizes");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>
@@ -286,6 +466,38 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Product", b =>
+                {
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.ProductGroup", "ProductGroup")
+                        .WithMany("Products")
+                        .HasForeignKey("ProductGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.ProductGroup", "Group")
+                        .WithMany("ProductList")
+                        .HasForeignKey("SubGroup");
+
+                    b.Navigation("Group");
+
+                    b.Navigation("ProductGroup");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductColor", b =>
+                {
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Color", "Color")
+                        .WithMany("ProductColors")
+                        .HasForeignKey("ColorId");
+
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Product", "Product")
+                        .WithMany("ProductColors")
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Color");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
                 {
                     b.HasOne("OnlineShop.DataLayer.Entities.Product.ProductGroup", "Groups")
@@ -293,6 +505,44 @@ namespace OnlineShop.DataLayer.Migrations
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Groups");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductPicture", b =>
+                {
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Picture", "Picture")
+                        .WithMany("ProductPictures")
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Product", "Product")
+                        .WithMany("ProductPictures")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Picture");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductSize", b =>
+                {
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Product", "Product")
+                        .WithMany("ProductSizes")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Size", "Size")
+                        .WithMany("ProductSizes")
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Size");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.UserRole", b =>
@@ -336,9 +586,37 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("RolePermissions");
                 });
 
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Color", b =>
+                {
+                    b.Navigation("ProductColors");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Picture", b =>
+                {
+                    b.Navigation("ProductPictures");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Product", b =>
+                {
+                    b.Navigation("ProductColors");
+
+                    b.Navigation("ProductPictures");
+
+                    b.Navigation("ProductSizes");
+                });
+
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
                 {
                     b.Navigation("ProductGroups");
+
+                    b.Navigation("ProductList");
+
+                    b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Size", b =>
+                {
+                    b.Navigation("ProductSizes");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>
