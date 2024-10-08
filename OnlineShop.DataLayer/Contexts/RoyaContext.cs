@@ -210,6 +210,14 @@ public class RoyaContext : DbContext
                     .HasForeignKey(f => f.ColorId);
             });
 
+        modelBuilder.Entity<Size>(
+            s =>
+            {
+                s.HasKey(h => h.SizeId);
+                s.Property(p => p.SizeName).HasMaxLength(50).IsRequired();
+                s.Property(p => p.Description).HasMaxLength(500).IsRequired();
+            });
+
         #endregion
 
         base.OnModelCreating(modelBuilder);

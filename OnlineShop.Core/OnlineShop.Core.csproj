@@ -1,10 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="FakesAssemblies\**" />
+	  <EmbeddedResource Remove="FakesAssemblies\**" />
+	  <None Remove="FakesAssemblies\**" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor" Version="2.2.0" />
@@ -18,6 +24,15 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="DTOs\Master\" />
+		<Folder Include="Senders\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AdditionalDesignTimeBuildInput Remove="FakesAssemblies\**" />
 	</ItemGroup>
 
 	<ItemGroup>

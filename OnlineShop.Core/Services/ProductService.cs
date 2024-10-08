@@ -54,4 +54,49 @@ public class ProductService : IProductService
         _context.SaveChanges();
         return color.ColorId;
     }
+
+    public Color GetColorByIdForAdmin(int colorId)
+    {
+        return _context.Colors.Find(colorId);
+    }
+
+    public void UpdateColor(Color color)
+    {
+        _context.Colors.Update(color);
+        _context.SaveChanges();
+    }
+
+    public void DeleteColor(Color color)
+    {
+        color.IsDeleted = true;
+        UpdateColor(color);
+    }
+
+    public List<Size> GetSizes()
+    {
+        return _context.Sizes.ToList();
+    }
+
+    public void AddSize(Size size)
+    {
+        _context.Sizes.Add(size);
+        _context.SaveChanges();
+    }
+
+    public Size GetSizeByIdForAdmin(int sizeId)
+    {
+        return _context.Sizes.Find(sizeId);
+    }
+
+    public void UpdateSize(Size size)
+    {
+        _context.Sizes.Update(size);
+        _context.SaveChanges();
+    }
+
+    public void DeleteSize(Size size)
+    {
+        _context.Sizes.Remove(size);
+        _context.SaveChanges();
+    }
 }

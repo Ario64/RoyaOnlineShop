@@ -8,7 +8,7 @@ public class Color
     public int ColorId { get; set; }
 
     [DisplayName("رنگ محصول")]
-    [Required(ErrorMessage = "{} را وارد کنید !")]
+    [Required(ErrorMessage = "{0} را وارد کنید !")]
     [MaxLength(100,ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
     public string ColorName { get; set; }
 

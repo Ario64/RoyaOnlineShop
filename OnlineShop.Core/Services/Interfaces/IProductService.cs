@@ -18,6 +18,19 @@ public interface IProductService
 
     List<Color> GetColors();
     int AddColor(Color color);
+    Color GetColorByIdForAdmin(int colorId);
+    void UpdateColor(Color color);
+    void DeleteColor(Color color);
+
+    #endregion
+
+    #region Product Size
+
+    List<Size> GetSizes();
+    void AddSize(Size size);
+    Size GetSizeByIdForAdmin(int sizeId);
+    void UpdateSize(Size size);
+    void DeleteSize(Size size);
 
     #endregion
 

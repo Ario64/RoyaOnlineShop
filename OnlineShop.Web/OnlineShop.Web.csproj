@@ -27,7 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Admin\Sizes\" />
     <Folder Include="wwwroot\useravatar\" />
   </ItemGroup>
 

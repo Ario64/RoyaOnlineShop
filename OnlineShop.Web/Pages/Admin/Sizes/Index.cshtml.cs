@@ -1,12 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using OnlineShop.Core.Security;
 using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Entities.Product;
 
-namespace OnlineShop.Web.Pages.Admin.Colors
+namespace OnlineShop.Web.Pages.Admin.Sizes
 {
-    [PermissionChecker(15)]
     public class IndexModel : PageModel
     {
         private IProductService _productService;
@@ -16,11 +14,11 @@ namespace OnlineShop.Web.Pages.Admin.Colors
             _productService = productService;
         }
 
-        public List<Color> Colors { get; set; }
+        public List<Size> Sizes { get; set; }
 
         public void OnGet()
         {
-            Colors = _productService.GetColors();
+            Sizes = _productService.GetSizes();
         }
     }
 }

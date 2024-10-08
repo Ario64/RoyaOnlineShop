@@ -1,0 +1,29 @@
+﻿@page "{id}"
+@model OnlineShop.Web.Pages.Admin.Colors.EditColorModel
+@{
+    ViewData["Title"] = "ویرایش رنگ";
+}
+<div class="col-lg-12">
+    <h1>@ViewData["Title"]</h1>
+</div>
+<hr />
+<div class="row">
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Color.ColorId"/>
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    اطلاعات رنگ
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>عنوان رنگ</label>
+                        <input type="text" asp-for="@Model.Color.ColorName" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-group-lg btn-success">ویرایش</button>
+                    <div asp-validation-summary="All"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
