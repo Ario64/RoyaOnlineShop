@@ -5,25 +5,24 @@
 namespace OnlineShop.DataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class Mig_Addsizetbl : Migration
+    public partial class Mig_Addfiltertosizetbl : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Description",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsDeleted",
                 table: "Sizes",
-                type: "nvarchar(500)",
-                maxLength: 500,
+                type: "bit",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: false);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Description",
+                name: "IsDeleted",
                 table: "Sizes");
         }
     }

@@ -12,8 +12,8 @@ using OnlineShop.DataLayer.Contexts;
 namespace OnlineShop.DataLayer.Migrations
 {
     [DbContext(typeof(RoyaContext))]
-    [Migration("20241004110953_Mig_InitDb")]
-    partial class Mig_InitDb
+    [Migration("20241010062536_Mig_Addfiltertosizetbl")]
+    partial class Mig_Addfiltertosizetbl
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,24 +90,6 @@ namespace OnlineShop.DataLayer.Migrations
                     b.HasKey("ColorId");
 
                     b.ToTable("Colors");
-                });
-
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Picture", b =>
-                {
-                    b.Property<int>("PictureId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PictureId"));
-
-                    b.Property<string>("PictureName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("PictureId");
-
-                    b.ToTable("Pictures");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Product", b =>
@@ -221,15 +203,15 @@ namespace OnlineShop.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductPictureId"));
 
-                    b.Property<int>("ImageId")
-                        .HasColumnType("int");
+                    b.Property<string>("PictureName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.HasKey("ProductPictureId");
-
-                    b.HasIndex("ImageId");
 
                     b.HasIndex("ProductId");
 
@@ -266,6 +248,14 @@ namespace OnlineShop.DataLayer.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("SizeName")
                         .IsRequired()
@@ -509,19 +499,11 @@ namespace OnlineShop.DataLayer.Migrations
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductPicture", b =>
                 {
-                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Picture", "Picture")
-                        .WithMany("ProductPictures")
-                        .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("OnlineShop.DataLayer.Entities.Product.Product", "Product")
                         .WithMany("ProductPictures")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Picture");
 
                     b.Navigation("Product");
                 });
@@ -589,11 +571,6 @@ namespace OnlineShop.DataLayer.Migrations
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Color", b =>
                 {
                     b.Navigation("ProductColors");
-                });
-
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Picture", b =>
-                {
-                    b.Navigation("ProductPictures");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Product", b =>

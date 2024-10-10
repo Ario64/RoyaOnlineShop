@@ -47,6 +47,7 @@ public class RoyaContext : DbContext
     public DbSet<Size> Sizes { get; set; }
     public DbSet<Color> Colors { get; set; }
     public DbSet<ProductColor> ProductColors { get; set; }
+    public DbSet<SizeColorQuantity> SizeColorQuantities { get; set; }
 
     #endregion
 
@@ -182,16 +183,6 @@ public class RoyaContext : DbContext
               
             });
 
-        modelBuilder.Entity<ProductSize>(
-            ps =>
-            {
-                ps.HasKey(h => h.ProductSizeId);
-                ps.HasOne(h => h.Product).WithMany("ProductSizes")
-                    .HasForeignKey(f => f.ProductId);
-                ps.HasOne(h => h.Size).WithMany("ProductSizes")
-                    .HasForeignKey(f => f.SizeId);
-            });
-
         modelBuilder.Entity<Color>(
             c =>
             {
@@ -216,6 +207,29 @@ public class RoyaContext : DbContext
                 s.HasKey(h => h.SizeId);
                 s.Property(p => p.SizeName).HasMaxLength(50).IsRequired();
                 s.Property(p => p.Description).HasMaxLength(500).IsRequired();
+                s.Property(p => p.IsDeleted);
+                s.HasQueryFilter(h => !h.IsDeleted);
+            });
+
+        modelBuilder.Entity<ProductSize>(
+            ps =>
+            {
+                ps.HasKey(h => h.ProductSizeId);
+                ps.HasOne(h => h.Product).WithMany("ProductSizes")
+                    .HasForeignKey(f => f.ProductId);
+                ps.HasOne(h => h.Size).WithMany("ProductSizes")
+                    .HasForeignKey(f => f.SizeId);
+            });
+
+        modelBuilder.Entity<SizeColorQuantity>(
+            sc =>
+            {
+                sc.HasKey(h => h.SizeColorQuantityId);
+                sc.Property(p => p.Quantity);
+                sc.HasOne(h => h.Size).WithMany("SizeColorQuantities")
+                    .HasForeignKey(f => f.SizeId);
+                sc.HasOne(h => h.Color).WithMany("SizeColorQuantities")
+                    .HasForeignKey(f => f.ColorId);
             });
 
         #endregion

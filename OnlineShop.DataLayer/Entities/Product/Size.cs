@@ -17,9 +17,12 @@ public class Size
     [MaxLength(500, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
     public string Description { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     #region Relations
 
     public List<ProductSize>? ProductSizes { get; set; }
+    public List<SizeColorQuantity>? SizeColorQuantities { get; set; }
 
     #endregion
 

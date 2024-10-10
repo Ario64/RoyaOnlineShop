@@ -12,8 +12,8 @@ using OnlineShop.DataLayer.Contexts;
 namespace OnlineShop.DataLayer.Migrations
 {
     [DbContext(typeof(RoyaContext))]
-    [Migration("20241007064030_Mig_Addsizetbl")]
-    partial class Mig_Addsizetbl
+    [Migration("20241010061615_Mig_Initdb")]
+    partial class Mig_Initdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

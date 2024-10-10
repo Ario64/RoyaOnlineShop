@@ -12,8 +12,8 @@ using OnlineShop.DataLayer.Contexts;
 namespace OnlineShop.DataLayer.Migrations
 {
     [DbContext(typeof(RoyaContext))]
-    [Migration("20241004111516_Mig_Removepicturetbl")]
-    partial class Mig_Removepicturetbl
+    [Migration("20241010073310_Mig_Addsizecolorquantitytbl")]
+    partial class Mig_Addsizecolorquantitytbl
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -249,6 +249,14 @@ namespace OnlineShop.DataLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeId"));
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("SizeName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -257,6 +265,32 @@ namespace OnlineShop.DataLayer.Migrations
                     b.HasKey("SizeId");
 
                     b.ToTable("Sizes");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.SizeColorQuantity", b =>
+                {
+                    b.Property<int>("SizeColorQuantityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeColorQuantityId"));
+
+                    b.Property<int>("ColorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SizeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SizeColorQuantityId");
+
+                    b.HasIndex("ColorId");
+
+                    b.HasIndex("SizeId");
+
+                    b.ToTable("SizeColorQuantities");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>
@@ -519,6 +553,25 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("Size");
                 });
 
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.SizeColorQuantity", b =>
+                {
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Color", "Color")
+                        .WithMany("SizeColorQuantities")
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Size", "Size")
+                        .WithMany("SizeColorQuantities")
+                        .HasForeignKey("SizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Color");
+
+                    b.Navigation("Size");
+                });
+
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.UserRole", b =>
                 {
                     b.HasOne("OnlineShop.DataLayer.Entities.User.Role", "Role")
@@ -563,6 +616,8 @@ namespace OnlineShop.DataLayer.Migrations
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Color", b =>
                 {
                     b.Navigation("ProductColors");
+
+                    b.Navigation("SizeColorQuantities");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Product", b =>
@@ -586,6 +641,8 @@ namespace OnlineShop.DataLayer.Migrations
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Size", b =>
                 {
                     b.Navigation("ProductSizes");
+
+                    b.Navigation("SizeColorQuantities");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OnlineShop.DataLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class Mig_InitDb : Migration
+    public partial class Mig_Initdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,19 +42,6 @@ namespace OnlineShop.DataLayer.Migrations
                         column: x => x.ParentId,
                         principalTable: "Permissions",
                         principalColumn: "PermissionId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Pictures",
-                columns: table => new
-                {
-                    PictureId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PictureName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pictures", x => x.PictureId);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,7 +84,8 @@ namespace OnlineShop.DataLayer.Migrations
                 {
                     SizeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SizeName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    SizeName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -283,17 +271,11 @@ namespace OnlineShop.DataLayer.Migrations
                     ProductPictureId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    ImageId = table.Column<int>(type: "int", nullable: false)
+                    PictureName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductPictures", x => x.ProductPictureId);
-                    table.ForeignKey(
-                        name: "FK_ProductPictures_Pictures_ImageId",
-                        column: x => x.ImageId,
-                        principalTable: "Pictures",
-                        principalColumn: "PictureId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ProductPictures_Products_ProductId",
                         column: x => x.ProductId,
@@ -347,11 +329,6 @@ namespace OnlineShop.DataLayer.Migrations
                 name: "IX_ProductGroups_ParentId",
                 table: "ProductGroups",
                 column: "ParentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductPictures_ImageId",
-                table: "ProductPictures",
-                column: "ImageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPictures_ProductId",
@@ -432,9 +409,6 @@ namespace OnlineShop.DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Colors");
-
-            migrationBuilder.DropTable(
-                name: "Pictures");
 
             migrationBuilder.DropTable(
                 name: "Products");
