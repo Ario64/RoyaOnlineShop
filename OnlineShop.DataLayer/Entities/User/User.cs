@@ -31,7 +31,7 @@ public class User
     [DisplayName("آدرس")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(300, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
-    public string Address { get; set; }
+    public string? Address { get; set; }
 
     [DisplayName("کد فعال سازی")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -61,6 +61,7 @@ public class User
 
     public List<UserRole>? UserRoles { get; set; }
     public List<Wallet.Wallet>? Wallets{ get; set; }
+    public List<UserProduct>? UserProducts { get; set; }
 
     #endregion
 }

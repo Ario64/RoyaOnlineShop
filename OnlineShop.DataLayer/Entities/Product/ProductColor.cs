@@ -1,10 +1,16 @@
-﻿namespace OnlineShop.DataLayer.Entities.Product;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
+
+namespace OnlineShop.DataLayer.Entities.Product;
 
 public class ProductColor
 {
-    public int ProductColorId { get; set; }
-    public int? ProductId { get; set; }
+    public int PcId { get; set; }
     public int? ColorId { get; set; }
+    public int? ProductId { get; set; }
+
+    [DisplayName("تعداد")]
+    public int? Quantity { get; set; } 
 
     #region Relations
 
@@ -12,5 +18,4 @@ public class ProductColor
     public Color? Color { get; set; }
 
     #endregion
-
 }

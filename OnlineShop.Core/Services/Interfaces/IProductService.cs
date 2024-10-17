@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using OnlineShop.Core.DTOs.Product;
 using OnlineShop.DataLayer.Entities.Product;
 
 namespace OnlineShop.Core.Services.Interfaces;
@@ -11,6 +13,9 @@ public interface IProductService
     List<ProductGroup> GetGroups();
     List<SelectListItem> GetMainGroup();
     List<SelectListItem> GetSubMainGroup(int groupId);
+    int AddProduct(Product product, IFormFile imgProduct);
+    ShowProductsForAdminViewModel GetAllProduct(int pageId = 1, string filterProductName = "");
+    void AddColorToProductByAdmin(int productId, List<int>? SelectedColor, List<int>? ColorQuantities);
 
     #endregion
 

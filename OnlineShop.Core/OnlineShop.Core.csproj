@@ -7,8 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="DTOs\Master\**" />
 	  <Compile Remove="FakesAssemblies\**" />
+	  <EmbeddedResource Remove="DTOs\Master\**" />
 	  <EmbeddedResource Remove="FakesAssemblies\**" />
+	  <None Remove="DTOs\Master\**" />
 	  <None Remove="FakesAssemblies\**" />
 	</ItemGroup>
 
@@ -27,7 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="DTOs\Master\" />
+		<Folder Include="DTOs\Product\" />
 		<Folder Include="Senders\" />
 	</ItemGroup>
 

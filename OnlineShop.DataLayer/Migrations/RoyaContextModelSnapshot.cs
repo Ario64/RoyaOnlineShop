@@ -110,6 +110,11 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Property<int>("ProductGroupId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ProductImageName")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasMaxLength(400)
@@ -145,11 +150,11 @@ namespace OnlineShop.DataLayer.Migrations
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductColor", b =>
                 {
-                    b.Property<int>("ProductColorId")
+                    b.Property<int>("PcId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductColorId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PcId"));
 
                     b.Property<int?>("ColorId")
                         .HasColumnType("int");
@@ -157,7 +162,10 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductColorId");
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("PcId");
 
                     b.HasIndex("ColorId");
 
@@ -192,52 +200,6 @@ namespace OnlineShop.DataLayer.Migrations
                     b.ToTable("ProductGroups");
                 });
 
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductPicture", b =>
-                {
-                    b.Property<int>("ProductPictureId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductPictureId"));
-
-                    b.Property<string>("PictureName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductPictureId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductPictures");
-                });
-
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductSize", b =>
-                {
-                    b.Property<int>("ProductSizeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductSizeId"));
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SizeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductSizeId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SizeId");
-
-                    b.ToTable("ProductSizes");
-                });
-
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Size", b =>
                 {
                     b.Property<int>("SizeId")
@@ -254,6 +216,12 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<string>("SizeName")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -261,33 +229,9 @@ namespace OnlineShop.DataLayer.Migrations
 
                     b.HasKey("SizeId");
 
+                    b.HasIndex("ProductId");
+
                     b.ToTable("Sizes");
-                });
-
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.SizeColorQuantity", b =>
-                {
-                    b.Property<int>("SizeColorQuantityId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeColorQuantityId"));
-
-                    b.Property<int>("ColorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SizeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SizeColorQuantityId");
-
-                    b.HasIndex("ColorId");
-
-                    b.HasIndex("SizeId");
-
-                    b.ToTable("SizeColorQuantities");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>
@@ -374,6 +318,29 @@ namespace OnlineShop.DataLayer.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.UserProduct", b =>
+                {
+                    b.Property<int>("UserProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserProductId"));
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserProducts");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.UserRole", b =>
@@ -520,10 +487,10 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("Groups");
                 });
 
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductPicture", b =>
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Size", b =>
                 {
                     b.HasOne("OnlineShop.DataLayer.Entities.Product.Product", "Product")
-                        .WithMany("ProductPictures")
+                        .WithMany("Sizes")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -531,42 +498,23 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductSize", b =>
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.UserProduct", b =>
                 {
                     b.HasOne("OnlineShop.DataLayer.Entities.Product.Product", "Product")
-                        .WithMany("ProductSizes")
+                        .WithMany("UserProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Size", "Size")
-                        .WithMany("ProductSizes")
-                        .HasForeignKey("SizeId")
+                    b.HasOne("OnlineShop.DataLayer.Entities.User.User", "User")
+                        .WithMany("UserProducts")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");
 
-                    b.Navigation("Size");
-                });
-
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.SizeColorQuantity", b =>
-                {
-                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Color", "Color")
-                        .WithMany("SizeColorQuantities")
-                        .HasForeignKey("ColorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Size", "Size")
-                        .WithMany("SizeColorQuantities")
-                        .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Color");
-
-                    b.Navigation("Size");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.UserRole", b =>
@@ -613,17 +561,15 @@ namespace OnlineShop.DataLayer.Migrations
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Color", b =>
                 {
                     b.Navigation("ProductColors");
-
-                    b.Navigation("SizeColorQuantities");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Product", b =>
                 {
                     b.Navigation("ProductColors");
 
-                    b.Navigation("ProductPictures");
+                    b.Navigation("Sizes");
 
-                    b.Navigation("ProductSizes");
+                    b.Navigation("UserProducts");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
@@ -635,13 +581,6 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Size", b =>
-                {
-                    b.Navigation("ProductSizes");
-
-                    b.Navigation("SizeColorQuantities");
-                });
-
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.Role", b =>
                 {
                     b.Navigation("RolePermissions");
@@ -651,6 +590,8 @@ namespace OnlineShop.DataLayer.Migrations
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.User", b =>
                 {
+                    b.Navigation("UserProducts");
+
                     b.Navigation("UserRoles");
 
                     b.Navigation("Wallets");

@@ -1,11 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using OnlineShop.Core.Security;
 using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Entities.Product;
 
 namespace OnlineShop.Web.Pages.Admin.Products
 {
+    [PermissionChecker(13)]
     public class AddProductModel : PageModel
     {
         private IProductService _productService;
@@ -25,6 +27,22 @@ namespace OnlineShop.Web.Pages.Admin.Products
 
             var subGroup = _productService.GetSubMainGroup(int.Parse(mainGroups.First().Value));
             ViewData["SubMainGroups"] = new SelectList(subGroup, "Value", "Text");
+
+            ViewData["Colors"] = _productService.GetColors();
+
+            ViewData["Sizes"] = _productService.GetSizes();
+        }
+
+        public IActionResult OnPost(IFormFile imgProductUp, List<int>? SelectedColors, List<int>? ColorQuantities)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            int productId = _productService.AddProduct(Product, imgProductUp);
+            _productService.AddColorToProductByAdmin(productId, SelectedColors, ColorQuantities);
+            return RedirectToPage("Index");
         }
     }
 }

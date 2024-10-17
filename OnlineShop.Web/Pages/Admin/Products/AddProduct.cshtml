@@ -1,4 +1,8 @@
 ﻿@page
+@using System.Collections
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using OnlineShop.DataLayer.Entities.Product
 @model OnlineShop.Web.Pages.Admin.Products.AddProductModel
 @{
     ViewData["Title"] = "افزودن محصول جدید";
@@ -34,21 +38,68 @@
                     <div class="form-group">
                         <label>قیمت محصول</label>
                         <input type="number" asp-for="Product.ProductPrice" class="form-control"></input>
-                    </div> 
-
-                    <div class="form-group">
-                        <label>شرح محصول</label>
-                        <textarea type="text" rows="7" asp-for="Product.Description" class="form-control"></textarea>
                     </div>
 
                     <div class="form-group">
                         <label>تعداد </label>
-                        <input type="number" rows="7" asp-for="Product.Quantity" class="form-control"></input>
+                        <input type="number" asp-for="Product.Quantity" class="form-control"></input>
+                    </div>
+
+                    <div class="form-group">
+                        <label>شرح محصول</label>
+                        <textarea type="text" rows="4" asp-for="Product.Description" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>سئو</label>
+                        <textarea type="text" rows="4" asp-for="Product.SeoDescription" class="form-control"></textarea>
                     </div>
                     
                     <div class="form-group">
                         <label>برچسب ها </label>
                         <input type="text" rows="7" asp-for="Product.Tags" class="form-control"></input>
+                        <p class="help-block">
+                            کلمات را با '-' جدا کنید !
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>رنگ ها </label>
+                        @{
+                            List<Color> colors = ViewData["Colors"] as List<Color>;
+                        }
+                        @foreach (var color in colors)
+                        {
+                            <div>
+                                <input type="checkbox" name="SelectedColors" value="@color.ColorId"/> @color.ColorName
+                                <div>
+                                    <label>تعداد</label>
+                                    <input type="number" name="ColorQuantities" class="form-control" />
+                                    <p class="help-block">
+                                     در صورت عدم انتخاب این رنگ، لطفا تعداد آن را "صفر" قرار دهید !
+                                    </p>
+                                </div>
+                                <hr/>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label>سایزها</label>
+                        @{
+                            List<Size>? sizes = ViewData["Sizes"] as List<Size>;
+                        }
+                        @foreach (Size size in sizes)
+                        {
+                            <div>
+                                <input type="checkbox" name="SelectedSizes" value="@size.SizeId" /> @size.SizeName
+                                <div>
+                                    <label>تعداد</label>
+                                    <input type="number" name="SizeQuantities" class="form-control"/>
+                                </div>
+                                <hr/>
+                            </div>
+                        }
                     </div>
 
                     <button type="submit" class="btn btn-group-lg btn-success">ثبت محصول</button>
@@ -62,10 +113,10 @@
                     تصویر پروفایل
                 </div>
                 <div class="panel-body">
-                    <img class="thumbnail" id="img" src="/useravatar/DefaultAvatar.jpg" style="max-width: 350px; max-height: 550px;" />
+                    <img class="thumbnail" id="img" style="max-width: 300px; max-height: 450px;" />
                     <div class="form-group">
                         <label>انتخاب تصویر</label>
-                        <input type="file" id="imgInp" />
+                        <input type="file" id="imgInp" name="imgProductUp"/>
                     </div>
                 </div>
             </div>

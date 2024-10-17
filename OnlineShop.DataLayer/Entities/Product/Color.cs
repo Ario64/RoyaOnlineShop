@@ -17,7 +17,6 @@ public class Color
     #region Relations
 
     public List<ProductColor>? ProductColors { get; set; }
-    public List<SizeColorQuantity>? SizeColorQuantities { get; set; }
 
     #endregion
 

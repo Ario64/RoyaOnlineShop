@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using OnlineShop.Core.DTOs.Product;
+using OnlineShop.Core.Generators;
 using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Contexts;
 using OnlineShop.DataLayer.Entities.Product;
@@ -33,14 +36,85 @@ public class ProductService : IProductService
 
     public List<SelectListItem> GetSubMainGroup(int groupId)
     {
-       return _context.ProductGroups
-            .Where(w => w.ParentId == groupId)
-            .Select(s =>
-                new SelectListItem()
-                {
-                    Text = s.GroupTitle,
-                    Value = s.ProductGroupId.ToString()
-                }).ToList();
+        return _context.ProductGroups
+             .Where(w => w.ParentId == groupId)
+             .Select(s =>
+                 new SelectListItem()
+                 {
+                     Text = s.GroupTitle,
+                     Value = s.ProductGroupId.ToString()
+                 }).ToList();
+    }
+
+    public int AddProduct(Product product, IFormFile imgProduct)
+    {
+        product.CreateDate = DateTime.Now;
+        product.ProductImageName = "no-photo.jpg";
+
+        if (imgProduct != null)
+        {
+            product.ProductImageName = NameGenerator.GenerateUniqueName() + Path.GetExtension(imgProduct.FileName);
+            string imgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/product/images/", product.ProductImageName);
+
+            using (var stream = new FileStream(imgPath, FileMode.Create))
+            {
+                imgProduct.CopyTo(stream);
+            }
+        }
+
+        _context.Products.Add(product);
+        _context.SaveChanges();
+        return product.ProductId;
+    }
+
+    public ShowProductsForAdminViewModel GetAllProduct(int pageId = 1, string filterProductName = "")
+    {
+        int take = 20;
+        int skip = (pageId - 1) * take;
+
+        IQueryable<Product> products = _context.Products;
+
+        if (!string.IsNullOrEmpty(filterProductName))
+        {
+            products = products.Where(w => w.ProductName.Contains(filterProductName));
+        }
+
+        var list = new ShowProductsForAdminViewModel();
+        list.CurrentPage = pageId;
+        int Quantity = products.OrderByDescending(o => o.CreateDate).Count();
+
+        if (Quantity % 2 == 0)
+        {
+            list.PageCount = Quantity / take;
+        }
+        else
+        {
+            list.PageCount = (Quantity / take) + 1;
+        }
+
+        list.Products = products.OrderByDescending(o => o.CreateDate)
+            .Skip(skip)
+            .Take(take)
+            .ToList();
+
+        return list;
+    }
+
+    public void AddColorToProductByAdmin(int productId, List<int>? SelectedColor, List<int>? ColorQuantities)
+    {
+        if (SelectedColor is null)
+            return; // there are no colors
+
+        for (int i = 0; i < SelectedColor.Count; i++)
+        {
+            _context.ProductColors.Add(new ProductColor()
+            {
+                ProductId = productId,
+                ColorId = SelectedColor[i],
+                Quantity = ColorQuantities?[i]
+            });
+        }
+        _context.SaveChanges();
     }
 
     public List<Color> GetColors()
@@ -96,7 +170,8 @@ public class ProductService : IProductService
 
     public void DeleteSize(Size size)
     {
-        _context.Sizes.Remove(size);
-        _context.SaveChanges();
+        size.IsDeleted = true;
+        UpdateSize(size);
     }
+
 }

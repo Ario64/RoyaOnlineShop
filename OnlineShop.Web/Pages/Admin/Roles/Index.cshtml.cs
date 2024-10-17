@@ -6,7 +6,7 @@ using OnlineShop.DataLayer.Entities.User;
 
 namespace OnlineShop.Web.Pages.Admin.Roles
 {
-    [PermissionChecker(11)]
+    [PermissionChecker(8)]
     public class IndexModel : PageModel
     {
         private IPermissionService _permissionService;

@@ -21,6 +21,7 @@ public class RoyaContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
+    public DbSet<UserProduct> UserProducts { get; set; }
 
     #endregion
 
@@ -42,12 +43,9 @@ public class RoyaContext : DbContext
 
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductGroup> ProductGroups { get; set; }
-    public DbSet<ProductSize> ProductSizes { get; set; }
-    public DbSet<ProductPicture> ProductPictures { get; set; }
     public DbSet<Size> Sizes { get; set; }
     public DbSet<Color> Colors { get; set; }
     public DbSet<ProductColor> ProductColors { get; set; }
-    public DbSet<SizeColorQuantity> SizeColorQuantities { get; set; }
 
     #endregion
 
@@ -64,7 +62,7 @@ public class RoyaContext : DbContext
                 u.Property(p => p.Email).HasMaxLength(100).IsRequired();
                 u.Property(p => p.PhoneNumber).HasMaxLength(11).IsRequired();
                 u.Property(p => p.ActiveCode).HasMaxLength(50).IsRequired();
-                u.Property(p => p.Address).HasMaxLength(300).IsRequired();
+                u.Property(p => p.Address).HasMaxLength(300);
                 u.Property(p => p.UserAvatar).HasMaxLength(50);
                 u.Property(p => p.IsActive).HasDefaultValue(false);
                 u.Property(p => p.RegisterDate);
@@ -88,6 +86,16 @@ public class RoyaContext : DbContext
                     .HasForeignKey(f => f.UserId);
                 ur.HasOne(h => h.Role).WithMany("UserRoles")
                     .HasForeignKey(f => f.RoleId);
+            });
+
+        modelBuilder.Entity<UserProduct>(
+            up =>
+            {
+                up.HasKey(h => h.UserProductId);
+                up.HasOne(h => h.Product).WithMany("UserProducts")
+                    .HasForeignKey(f => f.ProductId);
+                up.HasOne(h => h.User).WithMany("UserProducts")
+                    .HasForeignKey(f => f.UserId);
             });
 
         #endregion
@@ -165,22 +173,13 @@ public class RoyaContext : DbContext
                 pr.Property(p => p.Quantity).IsRequired();
                 pr.Property(p => p.Tags).HasMaxLength(600).IsRequired();
                 pr.Property(p => p.SeoDescription).HasMaxLength(300).IsRequired();
+                pr.Property(p => p.ProductImageName).HasMaxLength(60).IsRequired();
                 pr.Property(p => p.CreateDate);
                 pr.HasOne(h => h.ProductGroup).WithMany("Products")
                     .HasForeignKey(f => f.ProductGroupId);
                 pr.HasOne(h => h.Group).WithMany("ProductList")
                     .HasForeignKey(f => f.SubGroup);
                 pr.HasQueryFilter(h => !h.IsDeleted);
-            });
-
-        modelBuilder.Entity<ProductPicture>(
-            pi =>
-            {
-                pi.HasKey(h => h.ProductPictureId);
-                pi.Property(p => p.PictureName).HasMaxLength(50).IsRequired();
-                pi.HasOne(h => h.Product).WithMany("ProductPictures")
-                    .HasForeignKey(f => f.ProductId);
-              
             });
 
         modelBuilder.Entity<Color>(
@@ -194,43 +193,26 @@ public class RoyaContext : DbContext
         modelBuilder.Entity<ProductColor>(
             pc =>
             {
-                pc.HasKey(h => h.ProductColorId);
-                pc.HasOne(h => h.Product).WithMany("ProductColors")
-                    .HasForeignKey(f => f.ProductId);
+                pc.HasKey(h => h.PcId);
+                pc.Property(p => p.Quantity);
                 pc.HasOne(h => h.Color).WithMany("ProductColors")
                     .HasForeignKey(f => f.ColorId);
-            });
+                pc.HasOne(h => h.Product).WithMany("ProductColors")
+                    .HasForeignKey(f => f.ProductId);
+            }
+    );
 
         modelBuilder.Entity<Size>(
-            s =>
-            {
-                s.HasKey(h => h.SizeId);
-                s.Property(p => p.SizeName).HasMaxLength(50).IsRequired();
-                s.Property(p => p.Description).HasMaxLength(500).IsRequired();
-                s.Property(p => p.IsDeleted);
-                s.HasQueryFilter(h => !h.IsDeleted);
-            });
-
-        modelBuilder.Entity<ProductSize>(
-            ps =>
-            {
-                ps.HasKey(h => h.ProductSizeId);
-                ps.HasOne(h => h.Product).WithMany("ProductSizes")
-                    .HasForeignKey(f => f.ProductId);
-                ps.HasOne(h => h.Size).WithMany("ProductSizes")
-                    .HasForeignKey(f => f.SizeId);
-            });
-
-        modelBuilder.Entity<SizeColorQuantity>(
-            sc =>
-            {
-                sc.HasKey(h => h.SizeColorQuantityId);
-                sc.Property(p => p.Quantity);
-                sc.HasOne(h => h.Size).WithMany("SizeColorQuantities")
-                    .HasForeignKey(f => f.SizeId);
-                sc.HasOne(h => h.Color).WithMany("SizeColorQuantities")
-                    .HasForeignKey(f => f.ColorId);
-            });
+                s =>
+                {
+                    s.HasKey(h => h.SizeId);
+                    s.Property(p => p.SizeName).HasMaxLength(50).IsRequired();
+                    s.Property(p => p.Description).HasMaxLength(500).IsRequired();
+                    s.Property(p => p.IsDeleted);
+                    s.HasOne(h => h.Product).WithMany("Sizes")
+                        .HasForeignKey(f => f.ProductId);
+                    s.HasQueryFilter(h => !h.IsDeleted);
+                });
 
         #endregion
 

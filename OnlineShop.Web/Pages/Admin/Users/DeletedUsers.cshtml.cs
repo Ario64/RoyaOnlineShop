@@ -6,7 +6,7 @@ using OnlineShop.Core.Services.Interfaces;
 
 namespace OnlineShop.Web.Pages.Admin.Users
 {
-    [PermissionChecker(10)]
+    [PermissionChecker(7)]
     public class DeletedUsersModel : PageModel
     {
         private IUserService _userService;

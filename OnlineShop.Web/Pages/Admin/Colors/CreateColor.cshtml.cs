@@ -6,7 +6,6 @@ using OnlineShop.DataLayer.Entities.Product;
 
 namespace OnlineShop.Web.Pages.Admin.Colors
 {
-    [PermissionChecker(16)]
     public class CreateColorModel : PageModel
     {
         private IProductService _productService;

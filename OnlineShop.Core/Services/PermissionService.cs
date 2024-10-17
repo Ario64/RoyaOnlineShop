@@ -40,6 +40,7 @@ public class PermissionService : IPermissionService
             .Where(w => w.UserId == userId)
             .ToList()
             .ForEach(f => _context.UserRoles.Remove(f));
+
         AddRolesToUser(userId, userRoles);
     }
 

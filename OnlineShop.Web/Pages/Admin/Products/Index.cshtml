@@ -1,4 +1,8 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using OnlineShop.Core.Convertors
+@using OnlineShop.Core.DTOs.Product
+@using OnlineShop.DataLayer.Entities.Product
 @model OnlineShop.Web.Pages.Admin.Products.IndexModel
 @{
     ViewData["Title"] = "محصولات سایت";
@@ -13,11 +17,75 @@
             <div class="panel-heading">
                 @ViewData["Title"]
             </div>
+            <!-- /.panel-heading -->
             <div class="panel-body">
-                <div style="margin: 10px 0px;">
-                    <a asp-page="AddProduct" class="btn btn-outline btn-success">افزودن محصول جدید</a>
+                <div class="table-responsive">
+                    <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                        <div class="row" style="margin-bottom: 10px;">
+                            <form>
+                                <div class="col-md-6">
+                                    <input class="form-control" type="text" placeholder="نام محصول" name="filterProductName" />
+                                </div>
+                              
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary">جستجو</button>
+                                    <a href="/admin/products" class="btn btn-outline btn-info">بازگشت به صفحه پیش فرض</a>
+                                </div>
+                            </form>
+                        </div>
+                        <div style="margin: 10px 0px;">
+                            <a asp-page="AddProduct" class="btn btn-outline btn-success">افزودن محصول جدید</a>
+                        </div>
+                        <table class="table table-striped table-bordered table-hover dataTable no-footer" id="dataTables-example" aria-describedby="dataTables-example_info">
+                            <thead>
+                            <tr>
+                                <th>تصویر</th>
+                                <th>نام محصول</th>
+                                <th>تعداد</th>
+                                <th>تاریخ عرضه</th>
+                                <th>دستورات</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (Product product in Model.Product.Products)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="/product/images/@product.ProductImageName"/>
+                                        </td>
+                                        <td>@product.ProductName</td>
+                                        <td>@product.Quantity</td>
+
+                                        <td>@product.CreateDate.ToShamsi()</td>
+                                        <td>
+                                            <a href="/admin/products/editproduct/@product.ProductId" class="btn btn-xs btn-warning">ویرایش</a>
+                                            <a href="/admin/products/deleteproduct/@product.ProductId" class="btn btn-xs btn-danger">حذف</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div class="row text-center">
+                            <div class="col-sm-12">
+                                <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                                    <ul class="pagination">
+                                        @for (int i = 1; i <= Model.Product.PageCount; i++)
+                                        {
+                                            <li class="paginate_button @((i==Model.Product.CurrentPage)?"active":"")" aria-controls="dataTables-example" tabindex="0">
+                                                <a href="/admin/products?pageid=@i">@i</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <!-- /.table-responsive -->
             </div>
+            <!-- /.panel-body -->
         </div>
+        <!-- /.panel -->
     </div>
+    <!-- /.col-lg-12 -->
 </div>
