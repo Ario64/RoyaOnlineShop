@@ -7,8 +7,6 @@ public class Size
 {
     public int SizeId { get; set; }
 
-    public int ProductId { get; set; }
-
     [DisplayName("سایز محصول")]
     [Required(ErrorMessage = "{0} را وارد کنید !")]
     [MaxLength(50, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
@@ -19,15 +17,11 @@ public class Size
     [MaxLength(500, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
     public string Description { get; set; }
 
-    [DisplayName("تعداد")]
-    [Required(ErrorMessage = "{0} را وارد کنید !")]
-    public int Quantity { get; set; }
-
     public bool IsDeleted { get; set; }
 
     #region Relations
 
-    public Product? Product { get; set; }
+    public List<ProductSize>? ProductSizes { get; set; }
 
     #endregion
 

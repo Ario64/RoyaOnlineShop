@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShop.DataLayer.Contexts;
 
@@ -11,9 +12,11 @@ using OnlineShop.DataLayer.Contexts;
 namespace OnlineShop.DataLayer.Migrations
 {
     [DbContext(typeof(RoyaContext))]
-    partial class RoyaContextModelSnapshot : ModelSnapshot
+    [Migration("20241018071415_Mig_Addpstbl")]
+    partial class Mig_Addpstbl
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,12 +245,17 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SizeName")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("SizeId");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("Sizes");
                 });
@@ -520,6 +528,15 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("Size");
                 });
 
+            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Size", b =>
+                {
+                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Product", null)
+                        .WithMany("Sizes")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.User.UserProduct", b =>
                 {
                     b.HasOne("OnlineShop.DataLayer.Entities.Product.Product", "Product")
@@ -590,6 +607,8 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("ProductColors");
 
                     b.Navigation("ProductSizes");
+
+                    b.Navigation("Sizes");
 
                     b.Navigation("UserProducts");
                 });

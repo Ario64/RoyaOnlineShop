@@ -21,7 +21,7 @@ public class Product
     public string Description { get; set; }
 
     [DisplayName("شرح محصول برای سئو")]
-    [MaxLength(300,ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
+    [MaxLength(300, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
     //[MinLength(200,ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
     public string? SeoDescription { get; set; }
 
@@ -46,15 +46,15 @@ public class Product
     public DateTime CreateDate { get; set; }
 
     public bool IsDeleted { get; set; }
-    
+
 
     #region Relations
 
     public ProductGroup? ProductGroup { get; set; }
     public ProductGroup? Group { get; set; }
-    public List<Size>? Sizes { get; set; }
     public List<ProductColor>? ProductColors { get; set; }
     public List<UserProduct>? UserProducts { get; set; }
+    public List<ProductSize>? ProductSizes { get; set; }
 
     #endregion
 

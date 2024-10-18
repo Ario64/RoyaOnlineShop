@@ -174,4 +174,23 @@ public class ProductService : IProductService
         UpdateSize(size);
     }
 
+    public void AddSizeToProductByAdmin(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities)
+    {
+        if (SelectedSizes is null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < SelectedSizes.Count; i++)
+        {
+            _context.ProductSizes.Add(new ProductSize()
+            {
+                ProductId = productId,
+                SizeId = SelectedSizes[i],
+                Quantity = SizeQuantities?[i]
+            });
+        }
+
+        _context.SaveChanges();
+    }
 }

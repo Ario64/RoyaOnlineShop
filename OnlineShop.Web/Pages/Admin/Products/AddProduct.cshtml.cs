@@ -33,7 +33,7 @@ namespace OnlineShop.Web.Pages.Admin.Products
             ViewData["Sizes"] = _productService.GetSizes();
         }
 
-        public IActionResult OnPost(IFormFile imgProductUp, List<int>? SelectedColors, List<int>? ColorQuantities)
+        public IActionResult OnPost(IFormFile imgProductUp, List<int>? SelectedColors, List<int>? ColorQuantities, List<int>? SelectedSizes,List<int>? SizeQuantities)
         {
             if (!ModelState.IsValid)
             {
@@ -42,6 +42,7 @@ namespace OnlineShop.Web.Pages.Admin.Products
 
             int productId = _productService.AddProduct(Product, imgProductUp);
             _productService.AddColorToProductByAdmin(productId, SelectedColors, ColorQuantities);
+            _productService.AddSizeToProductByAdmin(productId,SelectedSizes, SizeQuantities);
             return RedirectToPage("Index");
         }
     }

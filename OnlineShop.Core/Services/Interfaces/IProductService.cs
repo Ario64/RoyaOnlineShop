@@ -15,7 +15,7 @@ public interface IProductService
     List<SelectListItem> GetSubMainGroup(int groupId);
     int AddProduct(Product product, IFormFile imgProduct);
     ShowProductsForAdminViewModel GetAllProduct(int pageId = 1, string filterProductName = "");
-    void AddColorToProductByAdmin(int productId, List<int>? SelectedColor, List<int>? ColorQuantities);
+    
 
     #endregion
 
@@ -26,6 +26,7 @@ public interface IProductService
     Color GetColorByIdForAdmin(int colorId);
     void UpdateColor(Color color);
     void DeleteColor(Color color);
+    void AddColorToProductByAdmin(int productId, List<int>? SelectedColor, List<int>? ColorQuantities);
 
     #endregion
 
@@ -36,6 +37,7 @@ public interface IProductService
     Size GetSizeByIdForAdmin(int sizeId);
     void UpdateSize(Size size);
     void DeleteSize(Size size);
+    void AddSizeToProductByAdmin(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities);
 
     #endregion
 

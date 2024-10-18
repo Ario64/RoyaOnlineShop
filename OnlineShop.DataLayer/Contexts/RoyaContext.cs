@@ -46,6 +46,7 @@ public class RoyaContext : DbContext
     public DbSet<Size> Sizes { get; set; }
     public DbSet<Color> Colors { get; set; }
     public DbSet<ProductColor> ProductColors { get; set; }
+    public DbSet<ProductSize> ProductSizes { get; set; }
 
     #endregion
 
@@ -209,10 +210,19 @@ public class RoyaContext : DbContext
                     s.Property(p => p.SizeName).HasMaxLength(50).IsRequired();
                     s.Property(p => p.Description).HasMaxLength(500).IsRequired();
                     s.Property(p => p.IsDeleted);
-                    s.HasOne(h => h.Product).WithMany("Sizes")
-                        .HasForeignKey(f => f.ProductId);
                     s.HasQueryFilter(h => !h.IsDeleted);
                 });
+
+        modelBuilder.Entity<ProductSize>(
+            ps =>
+            {
+                ps.HasKey(h => h.PsId);
+                ps.Property(p => p.Quantity);
+                ps.HasOne(h => h.Product).WithMany("ProductSizes")
+                    .HasForeignKey(f => f.ProductId);
+                ps.HasOne(h => h.Size).WithMany("ProductSizes")
+                    .HasForeignKey(f => f.SizeId);
+            });
 
         #endregion
 
