@@ -8,14 +8,16 @@ namespace OnlineShop.Core.Services.Interfaces;
 public interface IProductService
 {
 
-    #region Product Group
+    #region Product
 
     List<ProductGroup> GetGroups();
     List<SelectListItem> GetMainGroup();
     List<SelectListItem> GetSubMainGroup(int groupId);
     int AddProduct(Product product, IFormFile imgProduct);
     ShowProductsForAdminViewModel GetAllProduct(int pageId = 1, string filterProductName = "");
-    
+    Product GetProductByProductId(int productId);
+    Tuple<List<Color>, List<GetColorQuantitiesForShow>> GetProductColorsForShow(int productId);
+    void UpdateProduct(Product product, IFormFile? file);
 
     #endregion
 
@@ -26,7 +28,8 @@ public interface IProductService
     Color GetColorByIdForAdmin(int colorId);
     void UpdateColor(Color color);
     void DeleteColor(Color color);
-    void AddColorToProductByAdmin(int productId, List<int>? SelectedColor, List<int>? ColorQuantities);
+    void AddColorToProductByAdmin(int productId, List<int>? SelectedColor, List<string>? ColorQuantities);
+    void UpdateColors(int productId, List<int>? SelectedColors, List<string>? ColorQuantities);
 
     #endregion
 
@@ -37,7 +40,10 @@ public interface IProductService
     Size GetSizeByIdForAdmin(int sizeId);
     void UpdateSize(Size size);
     void DeleteSize(Size size);
-    void AddSizeToProductByAdmin(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities);
+    void AddSizeToProductByAdmin(int productId, List<int>? SelectedSizes, List<string>? SizeQuantities);
+    List<int?> GetProductSizes(int productId);
+    Tuple<List<Size>, List<GetSizeAndQuantities>> GetProductSizesForShow(int productId);
+    void UpdateSizes(int productId, List<int>? SelectedSizes, List<string>? SizeQuantities);
 
     #endregion
 

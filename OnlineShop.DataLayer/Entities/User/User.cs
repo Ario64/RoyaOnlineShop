@@ -29,7 +29,6 @@ public class User
     public string PhoneNumber { get; set; }
 
     [DisplayName("آدرس")]
-    [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
     [MaxLength(300, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
     public string? Address { get; set; }
 

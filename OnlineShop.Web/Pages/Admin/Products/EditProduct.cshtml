@@ -1,11 +1,9 @@
-﻿@page
-@using System.Collections
-@using System.Linq.Expressions
-@using Microsoft.AspNetCore.Mvc.TagHelpers
+﻿@page "{id}"
+@using OnlineShop.Core.DTOs.Product
 @using OnlineShop.DataLayer.Entities.Product
-@model OnlineShop.Web.Pages.Admin.Products.AddProductModel
+@model OnlineShop.Web.Pages.Admin.Products.EditProductModel
 @{
-    ViewData["Title"] = "افزودن محصول جدید";
+    ViewData["Title"] = "ویرایش محصول";
 }
 <div class="col-lg-12">
     <h1>@ViewData["Title"]</h1>
@@ -13,6 +11,9 @@
 <hr />
 <div class="row">
     <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="@Model.Product.ProductId" />
+        <input type="hidden" asp-for="@Model.Product.ProductImageName" />
+        <input type="hidden" asp-for="@Model.Product.CreateDate" />
         <div class="col-lg-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -62,52 +63,43 @@
                             کلمات را با '-' جدا کنید !
                         </p>
                     </div>
-
+                    <hr />
                     <div class="form-group">
                         <label>رنگ ها </label>
-                        <hr />
                         @{
-                            List<Color> colors = ViewData["Colors"] as List<Color>;
+                            var ColorAndQuantities = ViewData["ColorsAndQuantities"] as Tuple<List<Color>, List<GetColorQuantitiesForShow>>;
                         }
-                        @foreach (var color in colors)
+                        @foreach (Color color in ColorAndQuantities.Item1)
                         {
                             <div>
-                                <input type="checkbox" name="SelectedColors" value="@color.ColorId" /> @color.ColorName
+                                <input type="checkbox" name="SelectedColors" value="@color.ColorId" @((ColorAndQuantities.Item2.Any(a => a.ColorId == color.ColorId)) ? "checked" : "") /> @color.ColorName
+
                                 <div>
                                     <label>تعداد</label>
-                                    <input type="text" name="ColorQuantities" class="form-control" />
-                                    <p class="help-block">
-                                        در صورت عدم انتخاب این رنگ، تعداد آن را "صفر" قرار دهید !
-                                    </p>
+                                    <input type="text" name="ColorQuantities" value="@((ColorAndQuantities.Item2.Any(a => a.ColorId == color.ColorId)) ? ColorAndQuantities.Item2.Where(w => w.ColorId == color.ColorId).Select(s => s.Quantity).Single() : "")" class="form-control" />
                                 </div>
-                                <hr />
                             </div>
                         }
                     </div>
-
+                    <hr />
                     <div class="form-group">
                         <label>سایزها</label>
-                        <hr />
                         @{
-                            List<Size>? sizes = ViewData["Sizes"] as List<Size>;
+                            var SizesAndQuantities = ViewData["SizesAndQuantities"] as Tuple<List<Size>, List<GetSizeAndQuantities>>;
                         }
-                        @foreach (Size size in sizes)
+                        @foreach (Size size in SizesAndQuantities.Item1)
                         {
                             <div>
-                                <input type="checkbox" name="SelectedSizes" value="@size.SizeId" /> @size.SizeName
+                                <input type="checkbox" name="SelectedSizes" value="@size.SizeId" @((SizesAndQuantities.Item2.Any(a => a.SizeId == size.SizeId) ? "checked" : "")) /> @size.SizeName
                                 <div>
                                     <label>تعداد</label>
-                                    <input type="number" name="SizeQuantities" class="form-control" />
-                                    <p class="help-block">
-                                        در صورت عدم انتخاب این سایز، تعداد آن را "صفر" قرار دهید !
-                                    </p>
+                                    <input type="number" name="SizeQuantities" value="@((SizesAndQuantities.Item2.Any(a => a.SizeId == size.SizeId)) ? SizesAndQuantities.Item2.Where(w => w.SizeId == size.SizeId).Select(s => s.Quantity).Single() : "")" class="form-control" />
                                 </div>
-                                <hr />
                             </div>
                         }
                     </div>
 
-                    <button type="submit" class="btn btn-group-lg btn-success">ثبت محصول</button>
+                    <button type="submit" class="btn btn-group-lg btn-success">ذخیره تغییرات</button>
                     <div asp-validation-summary="All"></div>
                 </div>
             </div>
@@ -118,7 +110,7 @@
                     تصویر پروفایل
                 </div>
                 <div class="panel-body">
-                    <img class="thumbnail" id="img" style="max-width: 300px; max-height: 450px;" />
+                    <img class="thumbnail" src="/product/images/@Model.Product.ProductImageName" id="img" style="max-width: 300px; max-height: 450px;" />
                     <div class="form-group">
                         <label>انتخاب تصویر</label>
                         <input type="file" id="imgInp" name="imgProductUp" />

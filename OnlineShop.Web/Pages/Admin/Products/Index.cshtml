@@ -51,7 +51,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            <img src="/product/images/@product.ProductImageName"/>
+                                            <img src="/product/thumb/@product.ProductImageName" class="thumbnail"/>
                                         </td>
                                         <td>@product.ProductName</td>
                                         <td>@product.Quantity</td>
@@ -59,7 +59,6 @@
                                         <td>@product.CreateDate.ToShamsi()</td>
                                         <td>
                                             <a href="/admin/products/editproduct/@product.ProductId" class="btn btn-xs btn-warning">ویرایش</a>
-                                            <a href="/admin/products/deleteproduct/@product.ProductId" class="btn btn-xs btn-danger">حذف</a>
                                         </td>
                                     </tr>
                                 }

@@ -195,7 +195,7 @@ public class RoyaContext : DbContext
             pc =>
             {
                 pc.HasKey(h => h.PcId);
-                pc.Property(p => p.Quantity);
+                pc.Property(p => p.Quantity).HasMaxLength(100);
                 pc.HasOne(h => h.Color).WithMany("ProductColors")
                     .HasForeignKey(f => f.ColorId);
                 pc.HasOne(h => h.Product).WithMany("ProductColors")
@@ -217,7 +217,7 @@ public class RoyaContext : DbContext
             ps =>
             {
                 ps.HasKey(h => h.PsId);
-                ps.Property(p => p.Quantity);
+                ps.Property(p => p.Quantity).HasMaxLength(100);
                 ps.HasOne(h => h.Product).WithMany("ProductSizes")
                     .HasForeignKey(f => f.ProductId);
                 ps.HasOne(h => h.Size).WithMany("ProductSizes")

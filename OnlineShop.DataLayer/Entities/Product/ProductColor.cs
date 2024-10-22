@@ -10,7 +10,7 @@ public class ProductColor
     public int? ProductId { get; set; }
 
     [DisplayName("تعداد")]
-    public int? Quantity { get; set; } 
+    public string? Quantity { get; set; } 
 
     #region Relations
 
