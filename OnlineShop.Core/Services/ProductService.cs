@@ -137,7 +137,7 @@ public class ProductService : IProductService
         {
             if (product.ProductImageName != "no-photo.jpg")
             {
-               string deleteImgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/product/images/", product.ProductImageName);
+                string deleteImgPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/product/images/", product.ProductImageName);
                 if (File.Exists(deleteImgPath))
                 {
                     File.Delete(deleteImgPath);
@@ -166,6 +166,53 @@ public class ProductService : IProductService
 
         _context.Products.Update(product);
         _context.SaveChanges();
+    }
+
+    public List<ShowProductListItemViewModel> GetProducts(int pageId = 1, string filterName = "", string orderDate = "date", int startPrice = 0, int endPrice = 0, List<int>? selectedGroups = null, int take = 0)
+    {
+        if (take == 0)
+            take = 6;
+
+        int skip = (pageId - 1) * take;
+
+        IQueryable<Product> result = _context.Products;
+
+        if (!string.IsNullOrEmpty(filterName))
+        {
+            result = result.Where(w => w.ProductName.Contains(filterName));
+        }
+
+        switch (orderDate)
+        {
+            case "date":
+                {
+                    result = result.OrderByDescending(o => o.CreateDate);
+                    break;
+                }
+        }
+
+        if (startPrice < 0)
+        {
+            result = result.Where(w => w.ProductPrice > startPrice);
+        }
+
+        if (endPrice < 0)
+        {
+            result = result.Where(w => w.ProductPrice < endPrice);
+        }
+
+        if (selectedGroups != null && selectedGroups.Any())
+        {
+            //todo
+        }
+
+        return result.Select(s => new ShowProductListItemViewModel
+        {
+            ProductId = s.ProductId,
+            ProductName = s.ProductName,
+            Price = s.ProductPrice,
+            ImageName = s.ProductImageName
+        }).Skip(skip).Take(take).ToList();
     }
 
     public void AddColorToProductByAdmin(int productId, List<int>? SelectedColor, List<string>? ColorQuantities)

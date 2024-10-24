@@ -18,6 +18,7 @@ public interface IProductService
     Product GetProductByProductId(int productId);
     Tuple<List<Color>, List<GetColorQuantitiesForShow>> GetProductColorsForShow(int productId);
     void UpdateProduct(Product product, IFormFile? file);
+    List<ShowProductListItemViewModel> GetProducts(int pageId = 1, string filterName = "", string orderDate = "date", int startPrice = 0, int endPrice = 0, List<int>? selectedGroups = null, int take =0);
 
     #endregion
 

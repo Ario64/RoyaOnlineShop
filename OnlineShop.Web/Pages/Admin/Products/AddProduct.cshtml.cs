@@ -35,7 +35,6 @@ namespace OnlineShop.Web.Pages.Admin.Products
 
         public IActionResult OnPost(IFormFile? imgProductUp, List<int>? SelectedColors, List<string>? ColorQuantities, List<int>? SelectedSizes, List<string>? SizeQuantities)
         {
-
             if (!ModelState.IsValid)
             {
                 return Page();

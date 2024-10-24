@@ -1,0 +1,33 @@
+﻿@model OnlineShop.Core.DTOs.Product.ShowProductListItemViewModel
+
+<!-- Item -->
+<div class="small-8 medium-3 small-centered medium-uncentered large-3 large-uncentered columns f-product">
+  
+    <img src="/product/thumb/@Model.ImageName" alt="" />
+    <!-- Product Link -->
+    <div class="product-link text-center">
+        <a href="#">@Model.ProductName</a>
+    </div>
+    <!-- Product Rating -->
+    <div class="f-productrating">
+        <i class="icon-star"></i>
+        <i class="icon-star"></i>
+        <i class="icon-star"></i>
+        <i class="icon-star"></i>
+        <i class="icon-star"></i>
+    </div>
+    <!-- End Product Rating -->
+    <!-- Product Price -->
+    <div class="f-product-price">
+        @Model.Price تومان
+    </div>
+    <!-- Add to Cart Buttons -->
+    <div class="f-product-hover">
+        <div class="f-button">
+            <a href="#"><i class="icon-cart"></i></a>
+            <a href="#"><i class="icon-heart"></i></a>
+        </div>
+    </div>
+    <!-- End Add to Cart Buttons -->
+</div>
+<!-- End item -->

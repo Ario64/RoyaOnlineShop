@@ -21,3 +21,12 @@ public class GetSizeAndQuantities
     public int? SizeId { get; set; }
     public string? Quantity { get; set; }
 }
+
+public class ShowProductListItemViewModel
+{
+    public int ProductId { get; set; }
+    public string ProductName { get; set; }
+    public string ImageName { get; set; }
+    public int Price { get; set; }
+
+}
