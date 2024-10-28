@@ -1,14 +1,14 @@
 ﻿@using OnlineShop.Core.DTOs.Product
-@model IEnumerable<OnlineShop.Core.DTOs.Product.ShowProductListItemViewModel>
+@model Tuple<List<ShowProductListItemViewModel>,int>
 @{
     ViewData["Title"] = "صفحه اصلی";
 }
 @section SearchBox
 {
     <div class="small-12 medium-12 large-3 searchinputholder columns">
-
-        <input type="text" class="searchinput" placeholder=" جستجوی محصول ..." />
-
+        <form action="/Product" method="get">
+            <input type="text" class="searchinput" name="filterName" placeholder=" جستجوی محصول ..." />
+        </form>
     </div>
 }
 <!-- Main Banners -->
@@ -78,9 +78,9 @@
 <!-- End Heading -->
 <!-- Product Listing -->
 <div class="row">
-    @foreach (ShowProductListItemViewModel product in Model)
+    @foreach (ShowProductListItemViewModel product in Model.Item1)
     {
-        <partial name="_ProductBox" model="product"/>
+        <partial name="_ProductBox" model="product" />
     }
 </div>
 

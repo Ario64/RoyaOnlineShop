@@ -21,9 +21,9 @@ namespace OnlineShop.Web.Controllers
 
         #region Index
 
-        public IActionResult Index(int pageId = 1, string filterName = "", string orderDate = "date", int startPrice = 0, int endPrice = 0, List<int>? selectedGroups = null, int take = 0)
+        public IActionResult Index(int pageId = 1, string filterName = "", string orderDate = "lastDate", string price = "minPrice", List<int>? selectedGroups = null, int take = 0)
         {
-            return View(_productService.GetProducts(pageId, filterName, orderDate, startPrice, endPrice, selectedGroups, take));
+            return View(_productService.GetProducts(pageId, filterName, orderDate, price, selectedGroups, take));
         }
 
         #endregion

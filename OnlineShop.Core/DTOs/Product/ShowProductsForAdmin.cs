@@ -1,6 +1,4 @@
-﻿using OnlineShop.DataLayer.Entities.Product;
-
-namespace OnlineShop.Core.DTOs.Product;
+﻿namespace OnlineShop.Core.DTOs.Product;
 
 public class ShowProductsForAdminViewModel
 {
@@ -26,7 +24,7 @@ public class ShowProductListItemViewModel
 {
     public int ProductId { get; set; }
     public string ProductName { get; set; }
-    public string ImageName { get; set; }
+    public string? ImageName { get; set; }
     public int Price { get; set; }
 
 }

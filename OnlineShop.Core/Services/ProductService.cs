@@ -168,7 +168,7 @@ public class ProductService : IProductService
         _context.SaveChanges();
     }
 
-    public List<ShowProductListItemViewModel> GetProducts(int pageId = 1, string filterName = "", string orderDate = "date", int startPrice = 0, int endPrice = 0, List<int>? selectedGroups = null, int take = 0)
+    public Tuple<List<ShowProductListItemViewModel>, int> GetProducts(int pageId = 1, string filterName = "", string orderDate = "lastDate", string price = "minPrice", List<int>? selectedGroups = null, int take = 0)
     {
         if (take == 0)
             take = 6;
@@ -184,35 +184,62 @@ public class ProductService : IProductService
 
         switch (orderDate)
         {
-            case "date":
+            case "lastDate":
+                {
+                    result = result.OrderBy(o => o.CreateDate);
+                    break;
+                }
+            case "newDate":
                 {
                     result = result.OrderByDescending(o => o.CreateDate);
                     break;
                 }
         }
 
-        if (startPrice < 0)
+        switch (price)
         {
-            result = result.Where(w => w.ProductPrice > startPrice);
-        }
-
-        if (endPrice < 0)
-        {
-            result = result.Where(w => w.ProductPrice < endPrice);
+            case "minPrice":
+                {
+                    result = result.OrderByDescending(o => o.ProductPrice);
+                    break;
+                }
+            case "maxPrice":
+                {
+                    result = result.OrderBy(o => o.ProductPrice);
+                    break;
+                }
         }
 
         if (selectedGroups != null && selectedGroups.Any())
         {
-            //todo
+            foreach (int groupId in selectedGroups)
+            {
+                result = result.Where(w => w.ProductGroupId == groupId || w.SubGroup == groupId);
+            }
         }
 
-        return result.Select(s => new ShowProductListItemViewModel
+        int pageCount = result.Select(s => new ShowProductListItemViewModel
+        {
+            ProductId = s.ProductId,
+            ProductName = s.ProductName,
+            Price = s.ProductPrice,
+            ImageName = s.ProductImageName
+        }).Count() / take;
+
+        if (pageCount % 2 != 0)
+        {
+            pageCount += 1;
+        }
+
+        var list = result.Select(s => new ShowProductListItemViewModel
         {
             ProductId = s.ProductId,
             ProductName = s.ProductName,
             Price = s.ProductPrice,
             ImageName = s.ProductImageName
         }).Skip(skip).Take(take).ToList();
+
+        return Tuple.Create(list, pageCount);
     }
 
     public void AddColorToProductByAdmin(int productId, List<int>? SelectedColor, List<string>? ColorQuantities)
