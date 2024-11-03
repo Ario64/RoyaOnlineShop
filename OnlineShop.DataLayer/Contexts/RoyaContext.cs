@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using Azure.Identity;
 using OnlineShop.DataLayer.Entities.Permission;
 using OnlineShop.DataLayer.Entities.Product;
 using OnlineShop.DataLayer.Entities.User;
@@ -44,8 +45,6 @@ public class RoyaContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductGroup> ProductGroups { get; set; }
     public DbSet<Size> Sizes { get; set; }
-    public DbSet<Color> Colors { get; set; }
-    public DbSet<ProductColor> ProductColors { get; set; }
     public DbSet<ProductSize> ProductSizes { get; set; }
 
     #endregion
@@ -183,32 +182,11 @@ public class RoyaContext : DbContext
                 pr.HasQueryFilter(h => !h.IsDeleted);
             });
 
-        modelBuilder.Entity<Color>(
-            c =>
-            {
-                c.HasKey(h => h.ColorId);
-                c.Property(p => p.ColorName).HasMaxLength(100).IsRequired();
-                c.HasQueryFilter(h => !h.IsDeleted);
-            });
-
-        modelBuilder.Entity<ProductColor>(
-            pc =>
-            {
-                pc.HasKey(h => h.PcId);
-                pc.Property(p => p.Quantity).HasMaxLength(100);
-                pc.HasOne(h => h.Color).WithMany("ProductColors")
-                    .HasForeignKey(f => f.ColorId);
-                pc.HasOne(h => h.Product).WithMany("ProductColors")
-                    .HasForeignKey(f => f.ProductId);
-            }
-    );
-
         modelBuilder.Entity<Size>(
                 s =>
                 {
                     s.HasKey(h => h.SizeId);
                     s.Property(p => p.SizeName).HasMaxLength(50).IsRequired();
-                    s.Property(p => p.Description).HasMaxLength(500).IsRequired();
                     s.Property(p => p.IsDeleted);
                     s.HasQueryFilter(h => !h.IsDeleted);
                 });
@@ -216,12 +194,12 @@ public class RoyaContext : DbContext
         modelBuilder.Entity<ProductSize>(
             ps =>
             {
-                ps.HasKey(h => h.PsId);
-                ps.Property(p => p.Quantity).HasMaxLength(100);
+                ps.HasKey(h => h.PzId);
                 ps.HasOne(h => h.Product).WithMany("ProductSizes")
                     .HasForeignKey(f => f.ProductId);
                 ps.HasOne(h => h.Size).WithMany("ProductSizes")
                     .HasForeignKey(f => f.SizeId);
+                ps.Property(p => p.Quantity);
             });
 
         #endregion

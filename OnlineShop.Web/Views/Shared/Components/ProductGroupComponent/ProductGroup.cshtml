@@ -15,7 +15,7 @@
         @foreach (var group in Model.Where(w => w.ParentId == null))
         {
             <li>
-                <a href="#" title="Product Grid">@group.GroupTitle</a>
+                <a href="/product?selectedGroups=@group.ProductGroupId" title="Product Grid">@group.GroupTitle</a>
                 @if (Model.Any(a => a.ParentId == group.ProductGroupId))
                 {
                     <div class="dropdown-menu">
@@ -23,7 +23,7 @@
                             @foreach (var subGroup in Model.Where(w => w.ParentId == group.ProductGroupId))
                             {
                                 <li>
-                                    <a href="#" title="Product Grid">@subGroup.GroupTitle</a>
+                                    <a href="/product?selectedGroups=@subGroup.ProductGroupId" title="Product Grid">@subGroup.GroupTitle</a>
                                 </li>
                             }
                         </ul>

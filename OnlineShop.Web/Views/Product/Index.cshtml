@@ -90,17 +90,15 @@
                         </select>
 
                         <select name="orderDate" id="date">
-                            <option value="" />
-                            تاریخ اضافه شده
-                            <option value="newDate" />
-                            اخیر
-                            <option value="lastDate" />
-                            قدیمی
+                            <option value="">تاریخ</option>
+                            <option value="newDate">اخیر</option>
+                            <option value="lastDate">قدیمی</option>
                         </select>
+                    </div>
+                    <div class="small-12 small-centered medium-centered large-uncentered medium-5 large-3 sort-margin columns" style="margin-top:15px;">
                         <a href="/Product" class="btn-outline">حذف فیلترها</a>
                     </div>
                     <!-- End Selectboxes -->
-
                 </div>
                 <!-- End Sorting -->
                 <!-- PRODUCT LISTING -->
@@ -193,7 +191,7 @@
         }
     </script>
     <script>
-        function changPage(pageId){
+        function changPage(pageId) {
             $("#pageid").val(pageId);
             $("#submitForm").submit();
         }

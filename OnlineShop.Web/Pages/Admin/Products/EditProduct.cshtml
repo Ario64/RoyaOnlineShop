@@ -65,37 +65,23 @@
                     </div>
                     <hr />
                     <div class="form-group">
-                        <label>رنگ ها </label>
-                        @{
-                            var ColorAndQuantities = ViewData["ColorsAndQuantities"] as Tuple<List<Color>, List<GetColorQuantitiesForShow>>;
-                        }
-                        @foreach (Color color in ColorAndQuantities.Item1)
-                        {
-                            <div>
-                                <input type="checkbox" name="SelectedColors" value="@color.ColorId" @((ColorAndQuantities.Item2.Any(a => a.ColorId == color.ColorId)) ? "checked" : "") /> @color.ColorName
-
-                                <div>
-                                    <label>تعداد</label>
-                                    <input type="text" name="ColorQuantities" value="@((ColorAndQuantities.Item2.Any(a => a.ColorId == color.ColorId)) ? ColorAndQuantities.Item2.Where(w => w.ColorId == color.ColorId).Select(s => s.Quantity).Single() : "")" class="form-control" />
-                                </div>
-                            </div>
-                        }
-                    </div>
-                    <hr />
-                    <div class="form-group">
                         <label>سایزها</label>
                         @{
-                            var SizesAndQuantities = ViewData["SizesAndQuantities"] as Tuple<List<Size>, List<GetSizeAndQuantities>>;
+                            var sizesAndQuantities = ViewData["SizesAndQuantities"] as Tuple<List<Size>, List<GetSizeAndQuantities>>;
                         }
-                        @foreach (Size size in SizesAndQuantities.Item1)
+
+                        @if (sizesAndQuantities != null)
                         {
-                            <div>
-                                <input type="checkbox" name="SelectedSizes" value="@size.SizeId" @((SizesAndQuantities.Item2.Any(a => a.SizeId == size.SizeId) ? "checked" : "")) /> @size.SizeName
-                                <div>
-                                    <label>تعداد</label>
-                                    <input type="number" name="SizeQuantities" value="@((SizesAndQuantities.Item2.Any(a => a.SizeId == size.SizeId)) ? SizesAndQuantities.Item2.Where(w => w.SizeId == size.SizeId).Select(s => s.Quantity).Single() : "")" class="form-control" />
+                            foreach (Size size in sizesAndQuantities.Item1)
+                            {
+                                <div style="margin-top:5px;">
+                                    <input type="checkbox" name="SelectedSizes" value="@size.SizeId" @(sizesAndQuantities.Item2.Any(a => a.SizeId == size.SizeId) ? "checked" : "")/> @size.SizeName
+                                    <div>
+                                        <label>تعداد</label>
+                                        <input type="number" name="SizeQuantities" value="@((sizesAndQuantities.Item2.Any(a => a.SizeId == size.SizeId)) ? sizesAndQuantities.Item2.Where(w => w.SizeId == size.SizeId).Select(s => s.Quantity).Single() : "")" class="form-control"/>
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         }
                     </div>
 

@@ -28,20 +28,14 @@ namespace OnlineShop.Web.Pages.Admin.Products
             var subGroup = _productService.GetSubMainGroup(int.Parse(mainGroups.First().Value));
             ViewData["SubMainGroups"] = new SelectList(subGroup, "Value", "Text");
 
-            ViewData["Colors"] = _productService.GetColors();
 
             ViewData["Sizes"] = _productService.GetSizes();
         }
 
-        public IActionResult OnPost(IFormFile? imgProductUp, List<int>? SelectedColors, List<string>? ColorQuantities, List<int>? SelectedSizes, List<string>? SizeQuantities)
+        public IActionResult OnPost(IFormFile? imgProductUp, List<int>? SelectedSizes, List<int>? SizeQuantities)
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
+            
             int productId = _productService.AddProduct(Product, imgProductUp);
-            _productService.AddColorToProductByAdmin(productId, SelectedColors, ColorQuantities);
             _productService.AddSizeToProductByAdmin(productId, SelectedSizes, SizeQuantities);
             return RedirectToPage("Index");
         }

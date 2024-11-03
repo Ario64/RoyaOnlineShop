@@ -17,7 +17,7 @@ namespace OnlineShop.DataLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -66,27 +66,6 @@ namespace OnlineShop.DataLayer.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
-                });
-
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Color", b =>
-                {
-                    b.Property<int>("ColorId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ColorId"));
-
-                    b.Property<string>("ColorName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.HasKey("ColorId");
-
-                    b.ToTable("Colors");
                 });
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Product", b =>
@@ -148,33 +127,6 @@ namespace OnlineShop.DataLayer.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductColor", b =>
-                {
-                    b.Property<int>("PcId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PcId"));
-
-                    b.Property<int?>("ColorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Quantity")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("PcId");
-
-                    b.HasIndex("ColorId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductColors");
-                });
-
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
                 {
                     b.Property<int>("ProductGroupId")
@@ -203,23 +155,22 @@ namespace OnlineShop.DataLayer.Migrations
 
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductSize", b =>
                 {
-                    b.Property<int>("PsId")
+                    b.Property<int>("PzId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PsId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PzId"));
 
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Quantity")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int?>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<int?>("SizeId")
                         .HasColumnType("int");
 
-                    b.HasKey("PsId");
+                    b.HasKey("PzId");
 
                     b.HasIndex("ProductId");
 
@@ -235,11 +186,6 @@ namespace OnlineShop.DataLayer.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeId"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -482,21 +428,6 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("ProductGroup");
                 });
 
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductColor", b =>
-                {
-                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Color", "Color")
-                        .WithMany("ProductColors")
-                        .HasForeignKey("ColorId");
-
-                    b.HasOne("OnlineShop.DataLayer.Entities.Product.Product", "Product")
-                        .WithMany("ProductColors")
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Color");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.ProductGroup", b =>
                 {
                     b.HasOne("OnlineShop.DataLayer.Entities.Product.ProductGroup", "Groups")
@@ -581,15 +512,8 @@ namespace OnlineShop.DataLayer.Migrations
                     b.Navigation("RolePermissions");
                 });
 
-            modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Color", b =>
-                {
-                    b.Navigation("ProductColors");
-                });
-
             modelBuilder.Entity("OnlineShop.DataLayer.Entities.Product.Product", b =>
                 {
-                    b.Navigation("ProductColors");
-
                     b.Navigation("ProductSizes");
 
                     b.Navigation("UserProducts");

@@ -8,16 +8,10 @@ public class ShowProductsForAdminViewModel
 
 }
 
-public class GetColorQuantitiesForShow
-{
-    public int? ColorId { get; set; }
-    public string? Quantity { get; set; }
-}
-
 public class GetSizeAndQuantities
 {
     public int? SizeId { get; set; }
-    public string? Quantity { get; set; }
+    public int? Quantity { get; set; }
 }
 
 public class ShowProductListItemViewModel

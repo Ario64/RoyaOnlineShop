@@ -12,11 +12,6 @@ public class Size
     [MaxLength(50, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
     public string SizeName { get; set; }
 
-    [DisplayName("شرح سایز")]
-    [Required(ErrorMessage = "{0} را وارد کنید !")]
-    [MaxLength(500, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
-    public string Description { get; set; }
-
     public bool IsDeleted { get; set; }
 
     #region Relations

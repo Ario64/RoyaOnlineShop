@@ -52,7 +52,6 @@ public class Product
 
     public ProductGroup? ProductGroup { get; set; }
     public ProductGroup? Group { get; set; }
-    public List<ProductColor>? ProductColors { get; set; }
     public List<UserProduct>? UserProducts { get; set; }
     public List<ProductSize>? ProductSizes { get; set; }
 

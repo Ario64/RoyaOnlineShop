@@ -9,7 +9,6 @@ using OnlineShop.Core.Security;
 using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Contexts;
 using OnlineShop.DataLayer.Entities.Product;
-using Color = OnlineShop.DataLayer.Entities.Product.Color;
 using Size = OnlineShop.DataLayer.Entities.Product.Size;
 
 namespace OnlineShop.Core.Services;
@@ -115,22 +114,6 @@ public class ProductService : IProductService
         return _context.Products.Find(productId);
     }
 
-    public Tuple<List<Color>, List<GetColorQuantitiesForShow>> GetProductColorsForShow(int productId)
-    {
-        List<Color> colors = _context.Colors.ToList();
-
-        List<GetColorQuantitiesForShow> quantities = _context.ProductColors
-            .Where(w => w.ProductId == productId)
-            .Select(s =>
-                new GetColorQuantitiesForShow()
-                {
-                    ColorId = s.ColorId,
-                    Quantity = s.Quantity
-                }).ToList();
-
-        return Tuple.Create(colors, quantities);
-    }
-
     public void UpdateProduct(Product product, IFormFile? file)
     {
         if (file != null && file.IsImage())
@@ -168,7 +151,7 @@ public class ProductService : IProductService
         _context.SaveChanges();
     }
 
-    public Tuple<List<ShowProductListItemViewModel>, int> GetProducts(int pageId = 1, string filterName = "", string orderDate = "lastDate", string price = "minPrice", List<int>? selectedGroups = null, int take = 0)
+    public Tuple<List<ShowProductListItemViewModel>, int> GetProducts(int pageId = 1, string filterName = "", string orderDate = "", string price = "", List<int>? selectedGroups = null, int take = 0)
     {
         if (take == 0)
             take = 6;
@@ -179,7 +162,7 @@ public class ProductService : IProductService
 
         if (!string.IsNullOrEmpty(filterName))
         {
-            result = result.Where(w => w.ProductName.Contains(filterName));
+            result = result.Where(w => w.ProductName.Contains(filterName) || w.Tags.Contains(filterName));
         }
 
         switch (orderDate)
@@ -242,65 +225,26 @@ public class ProductService : IProductService
         return Tuple.Create(list, pageCount);
     }
 
-    public void AddColorToProductByAdmin(int productId, List<int>? SelectedColor, List<string>? ColorQuantities)
+    public Product GetProductForShow(int productId)
     {
-        if (SelectedColor is null)
-            return; // there are no colors
-
-        for (int i = 0; i < SelectedColor.Count; i++)
-        {
-            _context.ProductColors.Add(new ProductColor()
-            {
-                ProductId = productId,
-                ColorId = SelectedColor[i],
-                Quantity = ColorQuantities?[i]
-            });
-        }
-        _context.SaveChanges();
-    }
-
-    public void UpdateColors(int productId, List<int>? SelectedColors, List<string>? ColorQuantities)
-    {
-        _context.ProductColors
-            .Where(w => w.ProductId == productId)
-            .ToList()
-            .ForEach(f => _context.ProductColors.Remove(f));
-
-        AddColorToProductByAdmin(productId, SelectedColors, ColorQuantities);
-    }
-
-    public List<Color> GetColors()
-    {
-        return _context.Colors.ToList();
-    }
-
-    public int AddColor(Color color)
-    {
-        _context.Colors.Add(color);
-        _context.SaveChanges();
-        return color.ColorId;
-    }
-
-    public Color GetColorByIdForAdmin(int colorId)
-    {
-        return _context.Colors.Find(colorId);
-    }
-
-    public void UpdateColor(Color color)
-    {
-        _context.Colors.Update(color);
-        _context.SaveChanges();
-    }
-
-    public void DeleteColor(Color color)
-    {
-        color.IsDeleted = true;
-        UpdateColor(color);
+        return _context.Products.FirstOrDefault(w => w.ProductId == productId);
     }
 
     public List<Size> GetSizes()
     {
         return _context.Sizes.ToList();
+    }
+
+    public List<SelectListItem> GetProductSizeList(int productId)
+    {
+        return _context.ProductSizes
+            .Where(w => w.ProductId == productId)
+            .Select(s =>
+                new SelectListItem()
+                {
+                    Text = s.Size!.SizeName,
+                    Value = s.SizeId.ToString(),
+                }).ToList();
     }
 
     public void AddSize(Size size)
@@ -326,7 +270,7 @@ public class ProductService : IProductService
         UpdateSize(size);
     }
 
-    public void AddSizeToProductByAdmin(int productId, List<int>? SelectedSizes, List<string>? SizeQuantities)
+    public void AddSizeToProductByAdmin(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities)
     {
         if (SelectedSizes is null)
         {
@@ -370,8 +314,13 @@ public class ProductService : IProductService
         return Tuple.Create(sizes, quantities);
     }
 
-    public void UpdateSizes(int productId, List<int>? SelectedSizes, List<string>? SizeQuantities)
+    public void UpdateSizes(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities)
     {
+        if (SelectedSizes is null)
+        {
+            return;
+        }
+
         _context.ProductSizes
             .Where(w => w.ProductId == productId)
             .ToList()

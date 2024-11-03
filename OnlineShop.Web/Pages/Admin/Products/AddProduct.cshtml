@@ -64,46 +64,24 @@
                     </div>
 
                     <div class="form-group">
-                        <label>رنگ ها </label>
-                        <hr />
-                        @{
-                            List<Color> colors = ViewData["Colors"] as List<Color>;
-                        }
-                        @foreach (var color in colors)
-                        {
-                            <div>
-                                <input type="checkbox" name="SelectedColors" value="@color.ColorId" /> @color.ColorName
-                                <div>
-                                    <label>تعداد</label>
-                                    <input type="text" name="ColorQuantities" class="form-control" />
-                                    <p class="help-block">
-                                        در صورت عدم انتخاب این رنگ، تعداد آن را "صفر" قرار دهید !
-                                    </p>
-                                </div>
-                                <hr />
-                            </div>
-                        }
-                    </div>
-
-                    <div class="form-group">
                         <label>سایزها</label>
                         <hr />
                         @{
                             List<Size>? sizes = ViewData["Sizes"] as List<Size>;
                         }
-                        @foreach (Size size in sizes)
+                        @if (sizes != null)
                         {
-                            <div>
-                                <input type="checkbox" name="SelectedSizes" value="@size.SizeId" /> @size.SizeName
-                                <div>
-                                    <label>تعداد</label>
-                                    <input type="number" name="SizeQuantities" class="form-control" />
-                                    <p class="help-block">
-                                        در صورت عدم انتخاب این سایز، تعداد آن را "صفر" قرار دهید !
-                                    </p>
+                            @foreach (Size size in sizes)
+                            {
+                                <div style="margin-top:5px;">
+                                    <input type="checkbox" name="SelectedSizes" value="@size.SizeId" /> @size.SizeName
+                                    <div>
+                                        <label>تعداد</label>
+                                        <input type="number" name="SizeQuantities" class="form-control" />
+                                    </div>
+                                    <hr />
                                 </div>
-                                <hr />
-                            </div>
+                            }
                         }
                     </div>
 

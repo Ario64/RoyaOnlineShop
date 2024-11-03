@@ -1,5 +1,4 @@
-﻿@using OnlineShop.Core.DTOs.Product
-@model Tuple<List<ShowProductListItemViewModel>,int>
+﻿@model IEnumerable<OnlineShop.Core.DTOs.Product.ShowProductListItemViewModel>
 @{
     ViewData["Title"] = "صفحه اصلی";
 }
@@ -21,41 +20,11 @@
                 <li>
                     <a href="#"><img src="/img/slideshow/1.jpg" alt="" title="" /></a>
                     <!-- Slide Caption -->
-                    <div class="flex-caption slideDown">
-                        <div class="caption-heading">
-                            آخرین پوشاک مجموعه
-                        </div>
-                        <!-- Clear  -->
-                        <div class="clearing"></div>
-                        <div class="caption-sub-heading">
-                            لورم ایپسوم یا طرح‌نما
-                        </div>
-                        <!-- Button -->
-                        <div class="clearing"></div>
-                        <div class="main-banner-button">
-                            <a href="#">فهرست مجموعه</a>
-                        </div>
-                    </div>
                 </li>
                 <!-- Slide 2 -->
                 <li>
                     <a href="#"><img src="/img/slideshow/2.jpg" alt="" title="" /></a>
                     <!-- Slide Caption -->
-                    <div class="flex-caption slideUp">
-                        <div class="caption-heading">
-                            شلوارجین زنانه
-                        </div>
-                        <!-- Clear  -->
-                        <div class="clearing"></div>
-                        <div class="caption-sub-heading">
-                            لورم ایپسوم یا طرح‌نما
-                        </div>
-                        <!-- Button -->
-                        <div class="clearing"></div>
-                        <div class="main-banner-button">
-                            <a href="#">نمایش فروش!</a>
-                        </div>
-                    </div>
                 </li>
                 <!-- End slide 2 -->
             </ul>
@@ -78,9 +47,22 @@
 <!-- End Heading -->
 <!-- Product Listing -->
 <div class="row">
-    @foreach (ShowProductListItemViewModel product in Model.Item1)
+    @foreach (var product in Model)
     {
         <partial name="_ProductBox" model="product" />
     }
 </div>
 
+<div class="row featured-row">
+    <h1 class="text-center">محبوب ترین محصولات ما</h1>
+    <div class="heading-summary text-center">جدیدترین محصولات ما</div>
+    <div class="fr-border"></div>
+</div>
+<!-- End Heading -->
+<!-- Product Listing -->
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <partial name="_ProductBox" model="product" />
+    }
+</div>

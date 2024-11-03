@@ -3,10 +3,10 @@
 <!-- Item -->
 <div class="small-8 medium-4 small-centered medium-uncentered large-4 large-uncentered columns f-product">
   
-    <img src="/product/images/@Model.ImageName" alt="" />
+    <a href="/ShowProduct/@Model.ProductId"><img src="/product/images/@Model.ImageName" alt="" /></a>
     <!-- Product Link -->
     <div class="product-link text-center">
-        <a href="#">@Model.ProductName</a>
+        <a href="/ShowProduct/@Model.ProductId">@Model.ProductName</a>
     </div>
     <!-- Product Rating -->
     <div class="f-productrating">

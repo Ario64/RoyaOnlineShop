@@ -16,35 +16,24 @@ public interface IProductService
     int AddProduct(Product product, IFormFile imgProduct);
     ShowProductsForAdminViewModel GetAllProduct(int pageId = 1, string filterProductName = "");
     Product GetProductByProductId(int productId);
-    Tuple<List<Color>, List<GetColorQuantitiesForShow>> GetProductColorsForShow(int productId);
     void UpdateProduct(Product product, IFormFile? file);
-    Tuple<List<ShowProductListItemViewModel>, int > GetProducts(int pageId = 1, string filterName = "", string orderDate = "lastDate", string price = "minPrice", List<int>? selectedGroups = null, int take = 0);
-
-    #endregion
-
-    #region Product Color
-
-    List<Color> GetColors();
-    int AddColor(Color color);
-    Color GetColorByIdForAdmin(int colorId);
-    void UpdateColor(Color color);
-    void DeleteColor(Color color);
-    void AddColorToProductByAdmin(int productId, List<int>? SelectedColor, List<string>? ColorQuantities);
-    void UpdateColors(int productId, List<int>? SelectedColors, List<string>? ColorQuantities);
+    Tuple<List<ShowProductListItemViewModel>, int > GetProducts(int pageId = 1, string filterName = "", string orderDate = "", string price = "", List<int>? selectedGroups = null, int take = 0);
+    Product GetProductForShow(int productId);
 
     #endregion
 
     #region Product Size
 
     List<Size> GetSizes();
+    List<SelectListItem> GetProductSizeList(int productId);
     void AddSize(Size size);
     Size GetSizeByIdForAdmin(int sizeId);
     void UpdateSize(Size size);
     void DeleteSize(Size size);
-    void AddSizeToProductByAdmin(int productId, List<int>? SelectedSizes, List<string>? SizeQuantities);
+    void AddSizeToProductByAdmin(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities);
     List<int?> GetProductSizes(int productId);
     Tuple<List<Size>, List<GetSizeAndQuantities>> GetProductSizesForShow(int productId);
-    void UpdateSizes(int productId, List<int>? SelectedSizes, List<string>? SizeQuantities);
+    void UpdateSizes(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities);
 
     #endregion
 
