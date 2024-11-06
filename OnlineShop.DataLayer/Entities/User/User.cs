@@ -61,6 +61,7 @@ public class User
     public List<UserRole>? UserRoles { get; set; }
     public List<Wallet.Wallet>? Wallets{ get; set; }
     public List<UserProduct>? UserProducts { get; set; }
+    public List<Order.Order>? Orders { get; set; }
 
     #endregion
 }

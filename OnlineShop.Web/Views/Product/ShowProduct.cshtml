@@ -1,5 +1,4 @@
-﻿@using OnlineShop.DataLayer.Entities.Product
-@model OnlineShop.DataLayer.Entities.Product.Product
+﻿@model OnlineShop.DataLayer.Entities.Product.Product
 @{
     ViewData["Title"] = Model.ProductName;
 }
@@ -18,230 +17,218 @@
     <!-- End BreadCrumb -->
     <!-- Page Content Holder -->
     <div class="row">
-        <!-- Product Thumb -->
-        <div class="small-12 small-centered medium-4 medium-uncentered large-3 large-uncentered product-thumb columns">
-            <!-- Product Main Photo -->
-            <div class="product-main-photo">
-                <img class="p-photo" src="/product/images/@Model.ProductImageName" alt="Product Main Thumb" />
+            <!-- Product Thumb -->
+            <div class="small-12 small-centered medium-4 medium-uncentered large-3 large-uncentered product-thumb columns">
+                <!-- Product Main Photo -->
+                <div class="product-main-photo">
+                    <img class="p-photo" src="/product/images/@Model.ProductImageName" alt="Product Main Thumb" />
+                </div>
+                <!-- End product main photo -->
             </div>
-            <!-- End product main photo -->
-        </div>
-        <!-- End Product Thumb -->
-        <!-- Product Description -->
-        <div class="small-12 small-centered medium-5 medium-uncentered large-5 large-uncentered product-description columns">
-            <!-- Title -->
-            <div class="product-detail-title">
-                @Model.ProductName
-            </div>
-            <!-- End Title -->
-            <!-- Description -->
-            <div class="product-detail-description">
-            </div>
-            <!-- End Description -->
-            <!-- Border --><div class="fr-border"></div>
-            <!-- Product Size -->
-            <div class="small-12 small-centered medium-6 medium-uncentered large-6 large-uncentered columns">
-                <div class="product-attr-text">سایزها:</div>
+            <!-- End Product Thumb -->
+            <!-- Product Description -->
+            <div class="small-12 small-centered medium-5 medium-uncentered large-5 large-uncentered product-description columns">
+                <!-- Title -->
+                <div class="product-detail-title">
+                    @Model.ProductName
+                </div>
+                <!-- End Title -->
+                <!-- Description -->
+                <div class="product-detail-description">
+                </div>
+                <!-- End Description -->
+                <!-- Border -->
+                <div class="fr-border"></div>
+                <!-- Product Size -->
+                <div class="small-12 small-centered medium-6 medium-uncentered large-6 large-uncentered columns">
+                    <div class="product-attr-text">سایز:</div>
+                    <div class="clearing"></div>
+                    @Model.ProductSize
+                </div>
+                <!-- End Product Size -->
+                <!-- Stock -->
+                <div class="small-10 small-centered medium-6 medium-uncentered large-6 large-uncentered columns">
+                    @if (Model.Quantity == 0)
+                    {
+                        <div class="small-10 small-centered medium-6 medium-uncentered large-5 large-uncentered columns">
+                            <div class="product-attr-text">
+                                <span>ناموجود</span>
+                            </div>
+                        </div>
+                    }
+                    else if (Model.Quantity <= 5)
+                    {
+                        <div class="small-10 small-centered medium-6 medium-uncentered large-8 large-uncentered columns">
+                            <div class="product-attr-text">
+                                <span>@Model.Quantity عدد در انبار باقیمانده</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- End Stock -->
                 <div class="clearing"></div>
-                <select type="text" name="SelectedSize" asp-items="@ViewData["ProductSizeList"] as SelectList"></select>
-            </div>
-            <!-- End Product Size -->
-            <!-- Stock -->
-            <div class="small-10 small-centered medium-6 medium-uncentered large-6 large-uncentered columns">
-                @if (Model.Quantity == 0)
-                {
-                    <div class="small-10 small-centered medium-6 medium-uncentered large-5 large-uncentered columns">
-                        <div class="product-attr-text">
-                            <span>ناموجود</span>
-                        </div>
+                <!-- Border -->
+                <div class="fr-border"></div>
+                <!-- Product Quantity -->
+                <div class="small-12 small-centered medium-6 medium-uncentered large-7 large-uncentered columns">
+                    <div class="product-attr-text q-lineheight">با لایک کردن این محصول، آنرا به دیگران هم پیشنهاد دهید.</div>
+                </div>
+                <!-- End Product Quantity -->
+                <!-- Add to wishlist + compare -->
+                <div class="small-10 small-centered medium-6 medium-uncentered large-5 large-uncentered q-lineheight columns">
+                    <div class="f-button">
+                        <a href="#" title="Add to Wishlist">
+                            <i class="icon-heart"></i>
+                        </a>
+                        <p>1000</p>
                     </div>
-                }
-                else if (Model.Quantity <= 5)
-                {
-                    <div class="small-10 small-centered medium-6 medium-uncentered large-8 large-uncentered columns">
-                        <div class="product-attr-text">
-                            <span>@Model.Quantity عدد در انبار باقیمانده</span>
-                        </div>
+                </div>
+                <!-- End Add to wishlist + compare -->
+                <div class="clearing"></div>
+                <!-- Border -->
+                <div class="fr-border"></div>
+                <!-- Product Price and Add To Cart -->
+                <div class="small-12 small-centered medium-5 medium-uncentered large-6 q-lineheight large-uncentered columns">
+                    <div class="main-price">
+                        @Model.ProductPrice.ToString("#,0 تومان")
                     </div>
-                }
+                </div>
+                <!-- End Product Price -->
+                <!-- Add To Cart -->
+                <div class="small-12 small-centered medium-7 medium-uncentered large-6 large-uncentered q-lineheight cart-area columns">
+                    <div class="continue-button">
+                    <a href="/product/addtocart/@Model.ProductId" title="Add to cart">
+                            <i class="icon-cart"></i>
+                            اضافه کردن به سبد
+                        </a>
+                    </div>
+                </div>
+                <!-- End Add to Cart -->
+                <div class="clearing"></div>
+                <!-- Border -->
+                <div class="fr-border"></div>
+                <!-- End Product Price and Add to cart -->
+                <!-- Product Rating -->
+                <div class="small-6 medium-5 large-5 columns">
+                    <div class="product-rating">
+                        <i class="icon-star"></i>
+                    </div>
+                    <div class="product-rating">
+                        <i class="icon-star"></i>
+                    </div>
+                    <div class="product-rating">
+                        <i class="icon-star"></i>
+                    </div>
+                    <div class="product-rating">
+                        <i class="icon-star"></i>
+                    </div>
+                    <div class="product-rating">
+                        <i class="icon-star"></i>
+                    </div>
+                </div>
+                <!-- End Product Rating -->
+                <!-- Product Review Links -->
+                <div class="small-6 medium-6 large-6 ratinglink columns">
+                    <div class="rating-link">
+                        <a title="View Reviews">رضایت مشتریان از این محصول</a>
+                    </div>
+                </div>
+                <div class="clearing"></div>
+                <script type="text/javascript">var switchTo5x = true;</script>
+                <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+                <script type="text/javascript">stLight.options({ publisher: "ur-91f7351c-4e1e-33ef-9cac-f7276559ca2f", doNotHash: false, doNotCopy: false, hashAddressBar: false });</script>
+                <!-- Share Widget -->
+                <div class="share-widget">
+                    <span displaytext='Google +1' class='st_plusone'></span>
+                    <span class='st_facebook' displaytext='Facebook'></span>
+                    <span class='st_twitter' displaytext='Tweet'></span>
+                    <span class='st_linkedin' displaytext='LinkedIn'></span>
+                    <span class='st_pinterest' displaytext='Pinterest'></span>
+                </div>
+                <!-- End Share Widget -->
             </div>
-            <!-- End Stock -->
+            <!-- End Product Description -->
             <div class="clearing"></div>
-
-            <!-- Border --><div class="fr-border"></div>
-
-            <!-- Product Quantity -->
-            <div class="small-12 small-centered medium-6 medium-uncentered large-7 large-uncentered columns">
-                <div class="product-attr-text q-lineheight">با لایک کردن این محصول، آنرا به دیگران هم پیشنهاد دهید.</div>
-            </div>
-            <!-- End Product Quantity -->
-            <!-- Add to wishlist + compare -->
-            <div class="small-10 small-centered medium-6 medium-uncentered large-5 large-uncentered q-lineheight columns">
-                <div class="f-button">
-                    <a href="#" title="Add to Wishlist">
-                        <i class="icon-heart"></i>
+            <!-- PAGE TABS -->
+            <ul class="tabs">
+                <li>
+                    <a href="#self" id="#tab0" class="active">
+                        توضیحات
                     </a>
-                    <p>1000</p>
-                </div>
-            </div>
-            <!-- End Add to wishlist + compare -->
-            <div class="clearing"></div>
-            <!-- Border --><div class="fr-border"></div>
-            <!-- Product Price and Add To Cart -->
-            <div class="small-12 small-centered medium-5 medium-uncentered large-6 q-lineheight large-uncentered columns">
-                <div class="main-price">
-                    @Model.ProductPrice.ToString("#,0 ریال")
-                </div>
-            </div>
-            <!-- End Product Price -->
-            <!-- Add To Cart -->
-            <div class="small-12 small-centered medium-7 medium-uncentered large-6 large-uncentered q-lineheight cart-area columns">
-
-                <div class="continue-button">
-                    <a href="/Cart/@Model.ProductId" title="Add to cart">
-                        <i class="icon-cart"></i>
-                        اضافه کردن به سبد
+                </li>
+                <li>
+                    <a href="#self" id="#tab1">
+                        نظرات شما
                     </a>
+                </li>
+                <li>
+                    <a href="#self" id="#tab2">
+                        برچسب ها
+                    </a>
+                </li>
+            </ul>
+            <!-- Tab 0  -->
+            <div class="tab-content small-12 medium-12 large-12 columns" id="tab0" style="display:block;">
+                <!-- Description -->
+                <div class="product-detail-description">
+                    @Model.Description
                 </div>
-
+                <!-- End Description -->
             </div>
-            <!-- End Add to Cart -->
-
-            <div class="clearing"></div>
-            <!-- Border --><div class="fr-border"></div>
-            <!-- End Product Price and Add to cart -->
-            <!-- Product Rating -->
-            <div class="small-6 medium-5 large-5 columns">
-                <div class="product-rating">
-                    <i class="icon-star"></i>
-                </div>
-                <div class="product-rating">
-                    <i class="icon-star"></i>
-                </div>
-                <div class="product-rating">
-                    <i class="icon-star"></i>
-                </div>
-                <div class="product-rating">
-                    <i class="icon-star"></i>
-                </div>
-                <div class="product-rating">
-                    <i class="icon-star"></i>
-                </div>
-
-
-            </div>
-            <!-- End Product Rating -->
-            <!-- Product Review Links -->
-            <div class="small-6 medium-6 large-6 ratinglink columns">
-                <div class="rating-link">
-                    <a title="View Reviews">رضایت مشتریان از این محصول</a>
-                </div>
-            </div>
-
-            <div class="clearing"></div>
-            <script type="text/javascript">var switchTo5x = true;</script>
-            <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-            <script type="text/javascript">stLight.options({ publisher: "ur-91f7351c-4e1e-33ef-9cac-f7276559ca2f", doNotHash: false, doNotCopy: false, hashAddressBar: false });</script>
-            <!-- Share Widget -->
-            <div class="share-widget">
-                <span displaytext='Google +1' class='st_plusone'></span>
-                <span class='st_facebook' displaytext='Facebook'></span>
-                <span class='st_twitter' displaytext='Tweet'></span>
-                <span class='st_linkedin' displaytext='LinkedIn'></span>
-                <span class='st_pinterest' displaytext='Pinterest'></span>
-
-            </div>
-            <!-- End Share Widget -->
-        </div>
-        <!-- End Product Description -->
-        <div class="clearing"></div>
-
-        <!-- PAGE TABS -->
-        <ul class="tabs">
-            <li>
-                <a href="#self" id="#tab0" class="active">
-                    توضیحات
-                </a>
-            </li>
-            <li>
-                <a href="#self" id="#tab1">
-                    نظرات شما
-                </a>
-            </li>
-            <li>
-                <a href="#self" id="#tab2">
-                    برچسب ها
-                </a>
-            </li>
-        </ul>
-        <!-- Tab 0  -->
-        <div class="tab-content small-12 medium-12 large-12 columns" id="tab0" style="display:block;">
-            <!-- Description -->
-            <div class="product-detail-description">
-                @Model.Description
-            </div>
-            <!-- End Description -->
-        </div>
-
-        <!-- Tab1 -->
-        <div class="tab-content small-12 medium-12 large-12 columns" id="tab1">
-            <!-- Review -->
-            <div class="row">
-                <!-- Reviews -->
-                <div class="small-12 medium-5 large-5 columns">
-                    <h1>
-                        نظرات مشتری
-                    </h1>
-                    <div class="fr-border"></div>
-                    <!-- Review -->
-                    <div class="rev-box">
-                        <div class="rev-name">الهامیان<span>در اکتبر 9</span></div>
-                        <p class="product-detail-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است</p>
+            <!-- Tab1 -->
+            <div class="tab-content small-12 medium-12 large-12 columns" id="tab1">
+                <!-- Review -->
+                <div class="row">
+                    <!-- Reviews -->
+                    <div class="small-12 medium-5 large-5 columns">
+                        <h1>
+                            نظرات مشتری
+                        </h1>
+                        <div class="fr-border"></div>
+                        <!-- Review -->
+                        <div class="rev-box">
+                            <div class="rev-name">الهامیان<span>در اکتبر 9</span></div>
+                            <p class="product-detail-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است</p>
+                        </div>
+                        <!-- End Review -->
+                        <!-- Review -->
+                        <div class="rev-box">
+                            <div class="rev-name">الهامیان<span>در اکتبر 9</span></div>
+                            <p class="product-detail-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است</p>
+                        </div>
+                        <!-- End Review -->
                     </div>
-                    <!-- End Review -->
-                    <!-- Review -->
-                    <div class="rev-box">
-                        <div class="rev-name">الهامیان<span>در اکتبر 9</span></div>
-                        <p class="product-detail-description">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است</p>
+                    <!-- End Reivewis -->
+                    <!-- Write a Review -->
+                    <div class="small-12 medium-5 large-6 columns">
+                        <h1>ثبت نظر</h1>
+                        <div class="fr-border"></div>
+                        <!-- Form -->
+                        <form action="#self" id="review_form" method="post">
+                            <label>نام:</label>
+                            <input type="text" id="name" />
+                            <label>ایمیل:</label>
+                            <input type="text" id="email" />
+                            <label>
+                                متن
+                            </label>
+                            <textarea name="" id="review"></textarea>
+                            <button class="form-btn"><i class="icon-arrow-left"></i>ارسال</button>
+                        </form>
                     </div>
-                    <!-- End Review -->
-
                 </div>
-                <!-- End Reivewis -->
-                <!-- Write a Review -->
-                <div class="small-12 medium-5 large-6 columns">
-                    <h1>ثبت نظر</h1>
-                    <div class="fr-border"></div>
-                    <!-- Form -->
-                    <form action="#self" id="review_form" method="post">
-                        <label>نام:</label>
-                        <input type="text" id="name" />
-                        <label>ایمیل:</label>
-                        <input type="text" id="email" />
-
-                        <label>
-                            متن
-                        </label>
-                        <textarea name="" id="review"></textarea>
-
-                        <button class="form-btn"><i class="icon-arrow-left"></i>ارسال</button>
-                    </form>
-
-                </div>
-
+                <!-- End Review Module -->
             </div>
-            <!-- End Review Module -->
-        </div>
-        <!-- Tab2 -->
-        <div class="tab-content small-12 medium-12 large-12 columns" id="tab2">
-            @if (Model.Tags != null)
-            {
-                @foreach (string tag in Model.Tags.Split('-', StringSplitOptions.RemoveEmptyEntries))
+            <!-- Tab2 -->
+            <div class="tab-content small-12 medium-12 large-12 columns" id="tab2">
+                @if (Model.Tags != null)
                 {
-                    <a href="/Product?filterName=@tag">@tag</a>
+                    @foreach (string tag in Model.Tags.Split('-', StringSplitOptions.RemoveEmptyEntries))
+                    {
+                        <a href="/Product?filterName=@tag">@tag</a>
+                    }
                 }
-            }
-        </div>
+            </div>
     </div>
     <!-- End Page Content Holder -->
     @section Scripts
@@ -250,58 +237,42 @@
         </script>
         <script src="/js/foundation/foundation.js"></script>
         <script type="text/javascript" src="/js/nexx.js"></script>
-
         <!-- FlexSlider -->
         <script type="text/javascript" src="/js/vendor/jquery.flexslider-min.js"></script>
         <script type="text/javascript">
             var $ = jQuery.noConflict();
             $(window).load(function () {
-
                 $('.flexslider').flexslider();
-
             });
-
         </script>
-
-        <!-- Jquery Selectric (Custom Selecbox Styling ) -->
+        <!-- Jquery Selectric (Custom Select box Styling ) -->
         <script type="text/javascript" src="/js/jquery.selectric.js"></script>
         <script type="text/javascript">
             $(function () {
                 $('select').selectric(); // this function turn all <select> to custom Styling for specific select box use $("#selectbox").selectric();
             });
         </script>
-
         <!-- Owl Carousel -->
         <script src="owl-carousel/owl.carousel.min.js"></script>
-
         <!--  Image Zoom Plugin -->
         <script src="/js/zoomsl-3.0.min.js"></script>
         <script>
             jQuery(function () {
-
                 $(".p-photo").imagezoomsl({
-
-
                     zoomrange: [1.68, 10],
                     zoomstart: 1.68,
                     cursorshadeborder: "10px solid black",
                     magnifiereffectanimate: "fadeIn",
                 });
-
-
                 $(".item img").click(function () {
-
                     var that = this;
                     $(".p-photo").fadeOut(600, function () {
-
                         $(this).attr("src", $(that).attr("data-medium"))
                             .attr("data-large", $(that).attr("data-tmb-large"))
                             .fadeIn(1000);
                     });
-
                     return false;
                 });
-
             });
         </script>
     }

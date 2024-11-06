@@ -1,9 +1,10 @@
 ﻿@using OnlineShop.Core.Convertors
-@using OnlineShop.Core.DTOs.Wallet
-@model OnlineShop.Core.DTOs.Wallet.ChargeWalletViewModel
+@using OnlineShop.DataLayer.Entities.Order
+@model IEnumerable<OnlineShop.DataLayer.Entities.Order.Order>
 @{
-    ViewData["Title"] = "کیف پول شما";
+    ViewData["Title"] = "لیست فاکتورها";
 }
+
 <div class="breadcrumb-holder">
     <!-- Content Row -->
     <div class="row">
@@ -20,50 +21,33 @@
         <div class="lft-module-heading">
             @ViewData["Title"]
         </div>
-        <h1>شارژ کیف پول</h1>
         <div class="fr-border"></div>
         <div class="small-6 small-centered medium-12 medium-uncentered large-12 large-uncentered featured-row columns">
-            <form asp-action="Index" class="form" method="post">
-                <div class="input-group" style="margin-top: 15px; width: 50%;">
-                    <span class="input-group-addon"><i>مبلغ :</i></span>
-                    <input type="number" asp-for="Amount" class="form-control" placeholder="مبلغ به تومان ..." />
-                </div>
-                <div style="margin-top: 15px;">
-                    <button class="btn-sm btn-xs btn-success">شارژ کیف پول</button>
-                </div>
-
-                <div asp-validation-summary="All" style="margin-top: 15px;"></div>
-            </form>
-            <hr />
-            @{
-                List<WalletViewModel>? Wallets = ViewBag.WalletList as List<WalletViewModel>;
-            }
             <table class="form table-bordered" width="100%">
                 <thead>
                     <tr>
                         <th>تاریخ</th>
                         <th>مبلغ</th>
-                        <th>نوع تراکنش</th>
+                        <th>وضعیت</th>
                         <th>شرح</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var wallet in Wallets)
+                    @foreach (Order order in Model)
                     {
                         <tr>
-                            <th class="text-center">@wallet.CreateDate.ToShamsi()</th>
-                            <td class="text-center">@wallet.Amount.ToString("#,0 تومان")</td>
+                            <th class="text-center">@order.CreateDate.ToShamsi()</th>
+                            <td class="text-center">@order.OrderSum.ToString("#,0 تومان")</td>
                             <td class="text-center">
-                                @if (wallet.TypeId == 1)
+                                @if (order.IsFinally)
                                 {
-                                    <p class="text-success">واریز</p>
+                                    <p class="text-success">پرداخت شده</p>
                                 }
                                 else
                                 {
-                                    <p class="text-danger">برداشت</p>
+                                    <p class="text-danger">پرداخت نشده</p>
                                 }
                             </td>
-                            <td class="text-center">@wallet.Description</td>
                         </tr>
                     }
                 </tbody>
@@ -71,4 +55,5 @@
         </div>
     </div>
 </div>
+
 

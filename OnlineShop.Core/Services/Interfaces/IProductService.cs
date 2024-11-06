@@ -22,19 +22,4 @@ public interface IProductService
 
     #endregion
 
-    #region Product Size
-
-    List<Size> GetSizes();
-    List<SelectListItem> GetProductSizeList(int productId);
-    void AddSize(Size size);
-    Size GetSizeByIdForAdmin(int sizeId);
-    void UpdateSize(Size size);
-    void DeleteSize(Size size);
-    void AddSizeToProductByAdmin(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities);
-    List<int?> GetProductSizes(int productId);
-    Tuple<List<Size>, List<GetSizeAndQuantities>> GetProductSizesForShow(int productId);
-    void UpdateSizes(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities);
-
-    #endregion
-
 }

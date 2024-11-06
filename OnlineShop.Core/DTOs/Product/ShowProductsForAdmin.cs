@@ -8,17 +8,12 @@ public class ShowProductsForAdminViewModel
 
 }
 
-public class GetSizeAndQuantities
-{
-    public int? SizeId { get; set; }
-    public int? Quantity { get; set; }
-}
-
 public class ShowProductListItemViewModel
 {
     public int ProductId { get; set; }
     public string ProductName { get; set; }
     public string? ImageName { get; set; }
     public int Price { get; set; }
+    public DateTime CreateDate { get; set; }
 
 }

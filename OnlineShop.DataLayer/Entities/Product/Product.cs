@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using OnlineShop.DataLayer.Entities.Order;
 
 namespace OnlineShop.DataLayer.Entities.Product;
 
@@ -24,6 +25,16 @@ public class Product
     [MaxLength(300, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
     //[MinLength(200,ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
     public string? SeoDescription { get; set; }
+
+    [DisplayName("سایز محصول")]
+    [Required(ErrorMessage = "{0} را وارد کنید !")]
+    [MaxLength(150, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
+    public string ProductSize { get; set; }
+
+    [DisplayName("رنگ محصول")]
+    [Required(ErrorMessage = "{0} را وارد کنید !")]
+    [MaxLength(150, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد !")]
+    public string ProductColor { get; set; }
 
     [DisplayName("قیمت محصول")]
     [Required(ErrorMessage = "{0} را وارد کنید !")]
@@ -53,7 +64,7 @@ public class Product
     public ProductGroup? ProductGroup { get; set; }
     public ProductGroup? Group { get; set; }
     public List<UserProduct>? UserProducts { get; set; }
-    public List<ProductSize>? ProductSizes { get; set; }
+    public List<OrderDetail>? OrderDetails { get; set; }
 
     #endregion
 

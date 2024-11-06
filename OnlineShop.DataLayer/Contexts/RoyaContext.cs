@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Azure.Identity;
+using OnlineShop.DataLayer.Entities.Order;
 using OnlineShop.DataLayer.Entities.Permission;
 using OnlineShop.DataLayer.Entities.Product;
 using OnlineShop.DataLayer.Entities.User;
@@ -44,8 +45,13 @@ public class RoyaContext : DbContext
 
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductGroup> ProductGroups { get; set; }
-    public DbSet<Size> Sizes { get; set; }
-    public DbSet<ProductSize> ProductSizes { get; set; }
+
+    #endregion
+
+    #region Order Tables
+
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<OrderDetail> OrderDetails { get; set; }
 
     #endregion
 
@@ -169,6 +175,8 @@ public class RoyaContext : DbContext
                 pr.HasKey(h => h.ProductId);
                 pr.Property(p => p.ProductName).HasMaxLength(400).IsRequired();
                 pr.Property(p => p.Description).IsRequired();
+                pr.Property(p => p.ProductSize).HasMaxLength(150).IsRequired();
+                pr.Property(p => p.ProductColor).HasMaxLength(150).IsRequired();
                 pr.Property(p => p.ProductPrice).IsRequired();
                 pr.Property(p => p.Quantity).IsRequired();
                 pr.Property(p => p.Tags).HasMaxLength(600).IsRequired();
@@ -182,24 +190,31 @@ public class RoyaContext : DbContext
                 pr.HasQueryFilter(h => !h.IsDeleted);
             });
 
-        modelBuilder.Entity<Size>(
-                s =>
-                {
-                    s.HasKey(h => h.SizeId);
-                    s.Property(p => p.SizeName).HasMaxLength(50).IsRequired();
-                    s.Property(p => p.IsDeleted);
-                    s.HasQueryFilter(h => !h.IsDeleted);
-                });
+        #endregion
 
-        modelBuilder.Entity<ProductSize>(
-            ps =>
+        #region Order Data
+
+        modelBuilder.Entity<Order>(
+            o =>
             {
-                ps.HasKey(h => h.PzId);
-                ps.HasOne(h => h.Product).WithMany("ProductSizes")
+                o.HasKey(h => h.OrderId);
+                o.Property(p => p.OrderSum);
+                o.Property(p => p.IsFinally);
+                o.Property(p => p.CreateDate);
+                o.HasOne(h => h.User).WithMany("Orders")
+                    .HasForeignKey(f => f.UserId);
+            });
+
+        modelBuilder.Entity<OrderDetail>(
+            od =>
+            {
+                od.HasKey(h => h.OrderDetailId);
+                od.Property(p => p.Price);
+                od.Property(p => p.Quantity);
+                od.HasOne(h => h.Product).WithMany("OrderDetails")
                     .HasForeignKey(f => f.ProductId);
-                ps.HasOne(h => h.Size).WithMany("ProductSizes")
-                    .HasForeignKey(f => f.SizeId);
-                ps.Property(p => p.Quantity);
+                od.HasOne(h => h.Order).WithMany("OrderDetails")
+                    .HasForeignKey(f => f.OrderId);
             });
 
         #endregion

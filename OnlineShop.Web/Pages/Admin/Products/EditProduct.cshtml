@@ -39,6 +39,16 @@
                     <div class="form-group">
                         <label>قیمت محصول</label>
                         <input type="number" asp-for="Product.ProductPrice" class="form-control"></input>
+                    </div> 
+
+                    <div class="form-group">
+                        <label>سایز محصول</label>
+                        <input type="text" asp-for="Product.ProductSize" class="form-control"></input>
+                    </div> 
+                    
+                    <div class="form-group">
+                        <label>رنگ محصول</label>
+                        <input type="text" asp-for="Product.ProductColor" class="form-control"></input>
                     </div>
 
                     <div class="form-group">
@@ -64,26 +74,6 @@
                         </p>
                     </div>
                     <hr />
-                    <div class="form-group">
-                        <label>سایزها</label>
-                        @{
-                            var sizesAndQuantities = ViewData["SizesAndQuantities"] as Tuple<List<Size>, List<GetSizeAndQuantities>>;
-                        }
-
-                        @if (sizesAndQuantities != null)
-                        {
-                            foreach (Size size in sizesAndQuantities.Item1)
-                            {
-                                <div style="margin-top:5px;">
-                                    <input type="checkbox" name="SelectedSizes" value="@size.SizeId" @(sizesAndQuantities.Item2.Any(a => a.SizeId == size.SizeId) ? "checked" : "")/> @size.SizeName
-                                    <div>
-                                        <label>تعداد</label>
-                                        <input type="number" name="SizeQuantities" value="@((sizesAndQuantities.Item2.Any(a => a.SizeId == size.SizeId)) ? sizesAndQuantities.Item2.Where(w => w.SizeId == size.SizeId).Select(s => s.Quantity).Single() : "")" class="form-control"/>
-                                    </div>
-                                </div>
-                            }
-                        }
-                    </div>
 
                     <button type="submit" class="btn btn-group-lg btn-success">ذخیره تغییرات</button>
                     <div asp-validation-summary="All"></div>

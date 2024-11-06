@@ -3,10 +3,10 @@
 <!-- Item -->
 <div class="small-8 medium-4 small-centered medium-uncentered large-4 large-uncentered columns f-product">
   
-    <a href="/ShowProduct/@Model.ProductId"><img src="/product/images/@Model.ImageName" alt="" /></a>
+    <a href="/showproduct/@Model.ProductId"><img src="/product/images/@Model.ImageName" alt="" /></a>
     <!-- Product Link -->
     <div class="product-link text-center">
-        <a href="/ShowProduct/@Model.ProductId">@Model.ProductName</a>
+        <a href="/showproduct/@Model.ProductId">@Model.ProductName</a>
     </div>
     <!-- Product Rating -->
     <div class="f-productrating">
@@ -24,8 +24,7 @@
     <!-- Add to Cart Buttons -->
     <div class="f-product-hover">
         <div class="f-button">
-            <a href="#"><i class="icon-cart"></i></a>
-            <a href="#"><i class="icon-heart"></i></a>
+            <a href="/product/addtocart/@Model.ProductId"><i class="icon-cart"></i></a>
         </div>
     </div>
     <!-- End Add to Cart Buttons -->

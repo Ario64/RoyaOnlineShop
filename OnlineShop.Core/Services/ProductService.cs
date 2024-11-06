@@ -9,7 +9,6 @@ using OnlineShop.Core.Security;
 using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Contexts;
 using OnlineShop.DataLayer.Entities.Product;
-using Size = OnlineShop.DataLayer.Entities.Product.Size;
 
 namespace OnlineShop.Core.Services;
 
@@ -154,7 +153,7 @@ public class ProductService : IProductService
     public Tuple<List<ShowProductListItemViewModel>, int> GetProducts(int pageId = 1, string filterName = "", string orderDate = "", string price = "", List<int>? selectedGroups = null, int take = 0)
     {
         if (take == 0)
-            take = 6;
+            take = 8;
 
         int skip = (pageId - 1) * take;
 
@@ -206,7 +205,8 @@ public class ProductService : IProductService
             ProductId = s.ProductId,
             ProductName = s.ProductName,
             Price = s.ProductPrice,
-            ImageName = s.ProductImageName
+            ImageName = s.ProductImageName,
+            CreateDate = s.CreateDate
         }).Count() / take;
 
         if (pageCount % 2 != 0)
@@ -219,113 +219,16 @@ public class ProductService : IProductService
             ProductId = s.ProductId,
             ProductName = s.ProductName,
             Price = s.ProductPrice,
-            ImageName = s.ProductImageName
-        }).Skip(skip).Take(take).ToList();
+            ImageName = s.ProductImageName,
+            CreateDate = s.CreateDate
+        }).OrderByDescending(o=>o.CreateDate).Skip(skip).Take(take).ToList();
 
         return Tuple.Create(list, pageCount);
     }
 
     public Product GetProductForShow(int productId)
     {
-        return _context.Products.FirstOrDefault(w => w.ProductId == productId);
+      return _context.Products.Find(productId);
     }
 
-    public List<Size> GetSizes()
-    {
-        return _context.Sizes.ToList();
-    }
-
-    public List<SelectListItem> GetProductSizeList(int productId)
-    {
-        return _context.ProductSizes
-            .Where(w => w.ProductId == productId)
-            .Select(s =>
-                new SelectListItem()
-                {
-                    Text = s.Size!.SizeName,
-                    Value = s.SizeId.ToString(),
-                }).ToList();
-    }
-
-    public void AddSize(Size size)
-    {
-        _context.Sizes.Add(size);
-        _context.SaveChanges();
-    }
-
-    public Size GetSizeByIdForAdmin(int sizeId)
-    {
-        return _context.Sizes.Find(sizeId);
-    }
-
-    public void UpdateSize(Size size)
-    {
-        _context.Sizes.Update(size);
-        _context.SaveChanges();
-    }
-
-    public void DeleteSize(Size size)
-    {
-        size.IsDeleted = true;
-        UpdateSize(size);
-    }
-
-    public void AddSizeToProductByAdmin(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities)
-    {
-        if (SelectedSizes is null)
-        {
-            return;
-        }
-
-        for (int i = 0; i < SelectedSizes.Count; i++)
-        {
-            _context.ProductSizes.Add(new ProductSize()
-            {
-                ProductId = productId,
-                SizeId = SelectedSizes[i],
-                Quantity = SizeQuantities?[i]
-            });
-        }
-
-        _context.SaveChanges();
-    }
-
-    public List<int?> GetProductSizes(int productId)
-    {
-        return _context.ProductSizes
-            .Where(w => w.ProductId == productId)
-            .Select(s => s.SizeId)
-            .ToList();
-    }
-
-    public Tuple<List<Size>, List<GetSizeAndQuantities>> GetProductSizesForShow(int productId)
-    {
-        List<Size> sizes = _context.Sizes.ToList();
-
-        List<GetSizeAndQuantities> quantities = _context.ProductSizes
-            .Where(w => w.ProductId == productId)
-            .Select(s =>
-                new GetSizeAndQuantities()
-                {
-                    SizeId = s.SizeId,
-                    Quantity = s.Quantity
-                }).ToList();
-
-        return Tuple.Create(sizes, quantities);
-    }
-
-    public void UpdateSizes(int productId, List<int>? SelectedSizes, List<int>? SizeQuantities)
-    {
-        if (SelectedSizes is null)
-        {
-            return;
-        }
-
-        _context.ProductSizes
-            .Where(w => w.ProductId == productId)
-            .ToList()
-            .ForEach(f => _context.ProductSizes.Remove(f));
-
-        AddSizeToProductByAdmin(productId, SelectedSizes, SizeQuantities);
-    }
 }

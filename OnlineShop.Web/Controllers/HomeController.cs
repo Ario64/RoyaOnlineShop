@@ -1,10 +1,6 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Newtonsoft.Json.Linq;
 using OnlineShop.Core.Services.Interfaces;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace OnlineShop.Web.Controllers
 {

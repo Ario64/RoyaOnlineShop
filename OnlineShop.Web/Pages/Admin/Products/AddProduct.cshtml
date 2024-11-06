@@ -34,10 +34,19 @@
                         <label>گروه فرعی</label>
                         <select type="text" asp-for="Product.SubGroup" asp-items="@(ViewData["SubMainGroups"] as SelectList)" class="form-control"></select>
                     </div>
-
                     <div class="form-group">
                         <label>قیمت محصول</label>
                         <input type="number" asp-for="Product.ProductPrice" class="form-control"></input>
+                    </div> 
+
+                    <div class="form-group">
+                        <label>سایز محصول</label>
+                        <input type="text" asp-for="Product.ProductSize" class="form-control"></input>
+                    </div> 
+                    
+                    <div class="form-group">
+                        <label>رنگ محصول</label>
+                        <input type="text" asp-for="Product.ProductColor" class="form-control"></input>
                     </div>
 
                     <div class="form-group">
@@ -62,28 +71,7 @@
                             کلمات را با '-' جدا کنید !
                         </p>
                     </div>
-
-                    <div class="form-group">
-                        <label>سایزها</label>
-                        <hr />
-                        @{
-                            List<Size>? sizes = ViewData["Sizes"] as List<Size>;
-                        }
-                        @if (sizes != null)
-                        {
-                            @foreach (Size size in sizes)
-                            {
-                                <div style="margin-top:5px;">
-                                    <input type="checkbox" name="SelectedSizes" value="@size.SizeId" /> @size.SizeName
-                                    <div>
-                                        <label>تعداد</label>
-                                        <input type="number" name="SizeQuantities" class="form-control" />
-                                    </div>
-                                    <hr />
-                                </div>
-                            }
-                        }
-                    </div>
+                    <hr />
 
                     <button type="submit" class="btn btn-group-lg btn-success">ثبت محصول</button>
                     <div asp-validation-summary="All"></div>

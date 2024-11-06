@@ -1,0 +1,114 @@
+﻿@using Microsoft.CodeAnalysis.Scripting
+@using OnlineShop.Core.Services.Interfaces
+@model OnlineShop.DataLayer.Entities.Order.Order
+@inject IUserService UserService
+@{
+    ViewData["Title"] = "سبد خرید";
+}
+<div class="breadcrumb-holder">
+    <!-- Content Row -->
+    <div class="row">
+        <ul class="breadcrumbs small-12 medium-8 large-8 columns">
+            <li><a href="/">فروشگاه آنلاین رویا</a></li>
+            <li><a>@ViewData["Title"]</a></li>
+        </ul>
+    </div>
+    <!-- End Content Row -->
+</div>
+<div class="row bottom-margin featured-row">
+    <partial name="_SideBar" />
+    <div class="small-6 small-centered medium-9 medium-uncentered large-9 large-uncentered featured-row columns">
+        <div class="lft-module-heading">
+            <h1>سبد خرید شما</h1>
+        </div>
+        <div class="fr-border"></div>
+        <!-- Breadcrumb -->
+        <!-- Page Content Holder -->
+        <div class="row featured-row">
+            <!-- Item List -->
+            @foreach (var detail in Model.OrderDetails)
+            {
+                <div class="small-10 small-centered large-12 medium-12 medium-uncentered large-uncentered columns shopping-cart-list ">
+                    <div class="small-12 small-centered medium-2 medium-uncentered large-2 shopping-cart-thumb large-uncentered columns">
+                        <img src="/product/thumb/@detail.Product.ProductImageName" alt="تصویر" />
+                    </div>
+                    <!-- End Thumb -->
+                    <!-- Content -->
+                    <div class="small-12 small-centered medium-8 medium-uncentered large-9 large-uncentered columns">
+                        <!-- Title -->
+                        <div class="product-detail-title  shopping-cart-item-title">
+                            <a href="/showproduct/@detail.Product.ProductId" title="Cool water Perfume">
+                                @detail.Product.ProductName
+                            </a>
+                        </div>
+                        <!-- End Title -->
+                        <div class="main-price shopping-cart-item-price">
+                            قیمت محصول: @detail.Price.ToString("#,0 تومان")
+                        </div>
+
+                        <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered shopping-cart-product-size columns">
+                            <div class="product-attr-text">
+                                سایز محصول:  @detail.Product.ProductSize
+                            </div>
+                        </div>
+
+                        <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered shopping-cart-product-size columns">
+                            <div class="product-attr-text">
+                                رنگ محصول:  @detail.Product.ProductColor
+                            </div>
+                        </div>
+
+                        <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered columns">
+                            <div class="product-attr-text q-lineheight">
+                                تعداد: @detail.Quantity
+                            </div>
+                        </div>
+                        <!-- End Product Quantity -->
+                    </div>
+                    <!-- End Content  -->
+                    <!-- Remove Button -->
+                    <div class="small-12 text-center medium-1 large-1 large-uncentered shp-remove-btn medium-uncentered columns">
+                        <div class="continue-button">
+                            <a href="#" title="remove item">
+                                X
+                            </a>
+                        </div>
+                    </div>
+                    <div class="clearing"></div>
+                </div>
+            }
+            <!-- End item list -->
+            <!-- Total -->
+            <div class="small-12 small-centered large-uncentered medium-uncentered large-12 medium-6 cart-total columns">
+                جمع فاکتور: @Model.OrderDetails.Sum(s => s.Quantity * s.Price).ToString("#,0 تومان")
+            </div>
+            <div class="small-12 small-centered large-uncentered medium-uncentered large-12 medium-6 cart-total columns">
+                <form method="post" action="/Account/Basket" novalidate="novalidate">
+                    <div class="clearing"></div>
+                    <div class="payment-way box-shadow">
+                        <span> انتخاب نحوه پرداخت </span>
+                        <div class="selected-ways">
+                            <ul>
+                                <li style="margin-top:15px;">
+                                    <input type="radio" id="payment-gateway" class="order-payment" value="OnlinePayment" checked="" data-val="true" data-val-required="The PaymentType field is required." name="PaymentType">
+                                    <label for="payment-gateway"> درگاه پرداخت آنلاین </label>
+                                </li>
+                                <li style="margin-top:5px;">
+                                    <input type="radio" id="wallet-way" class="order-payment" value="Wallet" name="PaymentType">
+                                    <label for="wallet-way">کیف پول ( موجودی :  @UserService.UserBalance(User.Identity.Name).ToString("#,0 تومان")))</label>
+                                </li>
+                                <br>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="small-12 large-12 cart-checkout-button left medium-6 columns" style="margin-top:20px;">
+                        <a class="small-12 large-12 medium-12 btn btn-3 btn-3b text-center">ثبت و تایید نهایی فاکتور</a>
+                    </div>
+                </form>
+            </div>
+            <!-- Check out button -->
+        </div>
+        <!-- End Page Content Holder -->
+    </div>
+</div>
+<!-- End Page Content Holder -->

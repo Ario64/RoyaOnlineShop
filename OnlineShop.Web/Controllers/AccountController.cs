@@ -101,8 +101,11 @@ namespace OnlineShop.Web.Controllers
             {
                 return View(login);
             }
+
             ViewBag.ReturnUrl = returnUrl;
+
             var user = _userService.LoginUser(login);
+
             if (user != null)
             {
                 if (user.IsActive)

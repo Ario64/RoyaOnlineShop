@@ -29,14 +29,11 @@ namespace OnlineShop.Web.Pages.Admin.Products
             ViewData["SubMainGroups"] = new SelectList(subGroup, "Value", "Text");
 
 
-            ViewData["Sizes"] = _productService.GetSizes();
         }
 
-        public IActionResult OnPost(IFormFile? imgProductUp, List<int>? SelectedSizes, List<int>? SizeQuantities)
+        public IActionResult OnPost(IFormFile? imgProductUp)
         {
-            
             int productId = _productService.AddProduct(Product, imgProductUp);
-            _productService.AddSizeToProductByAdmin(productId, SelectedSizes, SizeQuantities);
             return RedirectToPage("Index");
         }
     }
