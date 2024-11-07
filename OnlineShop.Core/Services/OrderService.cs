@@ -2,7 +2,8 @@
 using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Contexts;
 using OnlineShop.DataLayer.Entities.Order;
-using OnlineShop.DataLayer.Entities.Product;
+using OnlineShop.DataLayer.Entities.User;
+using OnlineShop.DataLayer.Entities.Wallet;
 
 namespace OnlineShop.Core.Services;
 
@@ -88,19 +89,100 @@ public class OrderService : IOrderService
     {
         int userId = _userService.GetUserIdByUserName(userName);
 
-         return  _context.Orders
-            .Include(i => i.OrderDetails)
-            .ThenInclude(t => t.Product)
-            .First(f => f.UserId == userId && f.OrderId == orderId);
-      
+        return _context.Orders
+           .Include(i => i.OrderDetails)
+           .ThenInclude(t => t.Product)
+           .FirstOrDefault(f => f.UserId == userId && f.OrderId == orderId);
+
     }
 
-    public List<Order> GetOrders(string userName)
+    public List<Order> GetUserOrders(string userName)
     {
         int userId = _userService.GetUserIdByUserName(userName);
+
         return _context.Orders
             .Include(i => i.OrderDetails)
             .Where(w => w.UserId == userId)
             .ToList();
     }
+
+    public bool FinallyOrder(string userName, int orderId)
+    {
+        int userId = _userService.GetUserIdByUserName(userName);
+
+        var order = _context.Orders
+            .Include(i => i.OrderDetails)
+            .ThenInclude(th => th.Product)
+            .FirstOrDefault(w => w.UserId == userId && w.OrderId == orderId);
+
+        if (order == null || order.IsFinally)
+            return false;
+
+        foreach (var detail in order.OrderDetails)
+        {
+            var product = _context.Products.Find(detail.ProductId);
+            if (product.Quantity < detail.Quantity)
+            {
+                return false;
+            }
+        }
+
+        if (_userService.UserBalance(userName) >= order.OrderSum)
+        {
+            order.IsFinally = true;
+            _userService.AddWallet(new Wallet()
+            {
+                CreateDate = DateTime.Now,
+                Description = "فاکتور شماره #" + order.OrderId,
+                Amount = order.OrderSum,
+                IsPayed = true,
+                UserId = userId,
+                WalletTypeId = 2
+            });
+            _context.Orders.Update(order);
+            foreach (var detail in order.OrderDetails)
+            {
+                _context.UserProducts.Add(new UserProduct()
+                {
+                    ProductId = detail.ProductId,
+                    UserId = userId
+                });
+                var product = _context.Products.Find(detail.ProductId);
+                product.Quantity -= detail.Quantity;
+            }
+            _context.SaveChanges();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public int DeleteOrderDetail(string userName, int detailId)
+    {
+        int userId = _userService.GetUserIdByUserName(userName);
+
+        var order = _context.Orders
+            .Include(i => i.OrderDetails)
+            .FirstOrDefault(f => f.UserId == userId && !f.IsFinally);
+
+        if (order != null)
+        {
+            foreach (var detail in order.OrderDetails)
+            {
+                _context.OrderDetails
+                    .Where(w => w.OrderDetailId == detailId)
+                    .ToList()
+                    .ForEach(f => _context.OrderDetails.Remove(f));
+            }
+        }
+        _context.SaveChanges();
+        if (!order.OrderDetails.Any())
+        {
+            _context.Orders.Remove(order);
+            _context.SaveChanges();
+        }
+        return order.OrderId;
+    }
+
 }

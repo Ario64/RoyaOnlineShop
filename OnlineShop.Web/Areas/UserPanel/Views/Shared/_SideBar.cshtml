@@ -1,9 +1,12 @@
 ﻿@using OnlineShop.Core.Convertors
 @using OnlineShop.Core.DTOs.User
+@using OnlineShop.Core.Services
 @using OnlineShop.Core.Services.Interfaces
 @inject IUserService UserService
+@inject IOrderService OrderService
 @{
     SideBarUserPanelViewModel user = UserService.GetUserInformationForSideBar(User.Identity.Name);
+    var orders = OrderService.GetUserOrders(User.Identity.Name);
 }
 <div class="small-3 small-centered medium-3 large-3 large-uncentered medium-uncentered  columns" style="margin-top: 16px;">
     <div class="lft-module-heading">
@@ -44,6 +47,19 @@
         </li>
         <li>
             <a href="/userpanel/order">فاکتورهای شما</a>
+        </li>
+        <li>
+            @if (orders.Any(a => !a.IsFinally))
+            {
+                @foreach (var order in orders.Where(w => !w.IsFinally))
+                {
+                    <a href="/userpanel/order/showcart/@order.OrderId">سبد خرید شما</a>
+                }
+            }
+            else
+            {
+                <a href="/userpanel/order/emptycart/">سبد خرید شما</a>
+            }
         </li>
         <li>
             <a href="/Logout">خروج از حساب کاربری</a>

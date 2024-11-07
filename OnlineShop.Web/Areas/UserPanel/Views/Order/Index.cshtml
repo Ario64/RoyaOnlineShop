@@ -19,34 +19,43 @@
     <partial name="_SideBar" />
     <div class="small-6 small-centered medium-9 medium-uncentered large-9 large-uncentered featured-row columns">
         <div class="lft-module-heading">
-            @ViewData["Title"]
+            فاکتورهای شما
         </div>
         <div class="fr-border"></div>
         <div class="small-6 small-centered medium-12 medium-uncentered large-12 large-uncentered featured-row columns">
             <table class="form table-bordered" width="100%">
                 <thead>
                     <tr>
+                        <th>شماره فاکتور</th>
                         <th>تاریخ</th>
-                        <th>مبلغ</th>
+                        <th>مبلغ فاکتور</th>
                         <th>وضعیت</th>
-                        <th>شرح</th>
+                        <th>دستورات</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (Order order in Model)
                     {
                         <tr>
+                            <th class="text-center">@order.OrderId</th>
                             <th class="text-center">@order.CreateDate.ToShamsi()</th>
                             <td class="text-center">@order.OrderSum.ToString("#,0 تومان")</td>
                             <td class="text-center">
                                 @if (order.IsFinally)
                                 {
-                                    <p class="text-success">پرداخت شده</p>
+                                    <span class="text-center text-success">
+                                        پرداخت شده
+                                    </span>
                                 }
                                 else
                                 {
-                                    <p class="text-danger">پرداخت نشده</p>
+                                    <span class="text-center text-danger">
+                                        پرداخت نشده
+                                    </span>
                                 }
+                            </td>
+                            <td class="text-center">
+                                <a href="/userpanel/order/showcart/@order.OrderId" class="btn btn-info">نمایش فاکتور</a>
                             </td>
                         </tr>
                     }
