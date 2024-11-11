@@ -86,7 +86,7 @@ $("ul.navigation li").mouseenter(function() {
 
 // Shopping Cart Dropdown
 
-$(document).ready(function() { 
+$(function() { 
 
 	$(".topcart-arrow-down a").click(function(e) { 
 		e.stopPropagation();
@@ -109,9 +109,6 @@ $(document).ready(function() {
 
 	
     });
-
-
-
 
 });
 

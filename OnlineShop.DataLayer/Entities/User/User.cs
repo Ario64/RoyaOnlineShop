@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using OnlineShop.DataLayer.Entities.Product;
 
 namespace OnlineShop.DataLayer.Entities.User;
 
@@ -62,6 +63,9 @@ public class User
     public List<Wallet.Wallet>? Wallets{ get; set; }
     public List<UserProduct>? UserProducts { get; set; }
     public List<Order.Order>? Orders { get; set; }
+    public List<UserDiscountCode>? UserDiscountCodes { get; set; }
+    public List<ProductComment>? ProductComments { get; set; }
 
     #endregion
+
 }

@@ -1,17 +1,17 @@
 /*
  * Foundation Responsive Library
- * http://foundation.zurb.com
+ * https://foundation.zurb.com
  * Copyright 2013, ZURB
  * Free to use under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
+ * https://www.opensource.org/licenses/mit-license.php
 */
 
 /*jslint unparam: true, browser: true, indent: 2 */
 
 // Accommodate running jQuery or Zepto in noConflict() mode by
 // using an anonymous function to redefine the $ shorthand name.
-// See http://docs.jquery.com/Using_jQuery_with_Other_Libraries
-// and http://zeptojs.com/
+// See https://docs.jquery.com/Using_jQuery_with_Other_Libraries
+// and https://zeptojs.com/
 var libFuncName = null;
 
 if (typeof jQuery === "undefined" &&
@@ -35,7 +35,7 @@ if (typeof jQuery === "undefined" &&
     Scott Jehl, Paul Irish, Nicholas Zakas. 
     Dual MIT/BSD license
 
-    https://github.com/paulirish/matchMedia.js
+    httpss://github.com/paulirish/matchMedia.js
   */
 
   window.matchMedia = window.matchMedia || (function( doc, undefined ) {

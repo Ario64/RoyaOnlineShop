@@ -3,7 +3,8 @@
 @inject IUserService UserService
 @{
     ViewData["Title"] = "سبد خرید";
-    int orderSum = Model.OrderDetails.Sum(s => s.Quantity * s.Price);
+    int orderSum = Model.OrderSum;
+    var discountType = ViewBag.discounttype;
 }
 <div class="breadcrumb-holder">
     <!-- Content Row -->
@@ -26,57 +27,107 @@
         <!-- Page Content Holder -->
         <div class="row featured-row">
             <!-- Item List -->
-            @foreach (var detail in Model.OrderDetails)
+            @if (!Model.IsFinally)
             {
-                <div class="small-10 small-centered large-12 medium-12 medium-uncentered large-uncentered columns shopping-cart-list ">
-                    <div class="small-12 small-centered medium-2 medium-uncentered large-2 shopping-cart-thumb large-uncentered columns">
-                        <img src="/product/thumb/@detail.Product.ProductImageName" alt="تصویر" />
-                    </div>
-                    <!-- End Thumb -->
-                    <!-- Content -->
-                    <div class="small-12 small-centered medium-8 medium-uncentered large-9 large-uncentered columns">
-                        <!-- Title -->
-                        <div class="product-detail-title  shopping-cart-item-title">
-                            <a href="/showproduct/@detail.Product.ProductId" title="Cool water Perfume">
-                                @detail.Product.ProductName
-                            </a>
+                @foreach (var detail in Model.OrderDetails)
+                {
+                    <div class="small-10 small-centered large-12 medium-12 medium-uncentered large-uncentered columns shopping-cart-list ">
+                        <div class="small-12 small-centered medium-2 medium-uncentered large-2 shopping-cart-thumb large-uncentered columns">
+                            <img src="/product/thumb/@detail.Product.ProductImageName" alt="تصویر" />
                         </div>
-                        <!-- End Title -->
-                        <div class="main-price shopping-cart-item-price">
-                            قیمت محصول: @detail.Price.ToString("#,0 تومان")
-                        </div>
+                        <!-- End Thumb -->
+                        <!-- Content -->
+                        <div class="small-12 small-centered medium-8 medium-uncentered large-9 large-uncentered columns">
+                            <!-- Title -->
+                            <div class="product-detail-title  shopping-cart-item-title">
+                                <a href="/showproduct/@detail.Product.ProductId" title="Cool water Perfume">
+                                    @detail.Product.ProductName
+                                </a>
+                            </div>
+                            <!-- End Title -->
+                            <div class="main-price shopping-cart-item-price">
+                                قیمت محصول: @detail.Price.ToString("#,0 تومان")
+                            </div>
 
-                        <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered shopping-cart-product-size columns">
-                            <div class="product-attr-text">
-                                سایز محصول: @detail.Product.ProductSize
+                            <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered shopping-cart-product-size columns">
+                                <div class="product-attr-text">
+                                    سایز محصول: @detail.Product.ProductSize
+                                </div>
+                            </div>
+
+                            <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered shopping-cart-product-size columns">
+                                <div class="product-attr-text">
+                                    رنگ محصول: @detail.Product.ProductColor
+                                </div>
+                            </div>
+
+                            <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered columns">
+                                <div class="product-attr-text q-lineheight">
+                                    تعداد: @detail.Quantity
+                                </div>
+                            </div>
+                            <!-- End Product Quantity -->
+                        </div>
+                        <!-- End Content  -->
+                        <!-- Remove Button -->
+                        <div class="small-12 text-center medium-1 large-1 large-uncentered shp-remove-btn medium-uncentered columns">
+                            <div class="continue-button">
+                                <a href="/UserPanel/Order/DeleteOrderDetail/@detail.OrderDetailId" title="remove item">
+                                    X
+                                </a>
                             </div>
                         </div>
-
-                        <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered shopping-cart-product-size columns">
-                            <div class="product-attr-text">
-                                رنگ محصول: @detail.Product.ProductColor
-                            </div>
-                        </div>
-
-                        <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered columns">
-                            <div class="product-attr-text q-lineheight">
-                                تعداد: @detail.Quantity
-                            </div>
-                        </div>
-                        <!-- End Product Quantity -->
+                        <div class="clearing"></div>
                     </div>
-                    <!-- End Content  -->
-                    <!-- Remove Button -->
-                    <div class="small-12 text-center medium-1 large-1 large-uncentered shp-remove-btn medium-uncentered columns">
-                        <div class="continue-button">
-                            <a href="/UserPanel/Order/DeleteOrderDetail/@detail.OrderDetailId" title="remove item">
-                                X
-                            </a>
-                        </div>
-                    </div>
-                    <div class="clearing"></div>
-                </div>
+                }
             }
+            else
+            {
+                @foreach (var detail in Model.OrderDetails)
+                {
+                    <div class="small-10 small-centered large-12 medium-12 medium-uncentered large-uncentered columns shopping-cart-list ">
+                        <div class="small-12 small-centered medium-2 medium-uncentered large-2 shopping-cart-thumb large-uncentered columns">
+                            <img src="/product/thumb/@detail.Product.ProductImageName" alt="تصویر" />
+                        </div>
+                        <!-- End Thumb -->
+                        <!-- Content -->
+                        <div class="small-12 small-centered medium-8 medium-uncentered large-9 large-uncentered columns">
+                            <!-- Title -->
+                            <div class="product-detail-title  shopping-cart-item-title">
+                                <a href="/showproduct/@detail.Product.ProductId" title="Cool water Perfume">
+                                    @detail.Product.ProductName
+                                </a>
+                            </div>
+                            <!-- End Title -->
+                            <div class="main-price shopping-cart-item-price">
+                                قیمت محصول: @detail.Price.ToString("#,0 تومان")
+                            </div>
+
+                            <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered shopping-cart-product-size columns">
+                                <div class="product-attr-text">
+                                    سایز محصول: @detail.Product.ProductSize
+                                </div>
+                            </div>
+
+                            <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered shopping-cart-product-size columns">
+                                <div class="product-attr-text">
+                                    رنگ محصول: @detail.Product.ProductColor
+                                </div>
+                            </div>
+
+                            <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered columns">
+                                <div class="product-attr-text q-lineheight">
+                                    تعداد: @detail.Quantity
+                                </div>
+                            </div>
+                            <!-- End Product Quantity -->
+                        </div>
+                        <!-- End Content  -->
+                        <div class="clearing"></div>
+                    </div>
+                }
+            }
+
             <!-- End item list -->
             <!-- Total -->
 
@@ -87,9 +138,68 @@
                     <div class="payment-way box-shadow">
                         <span>کد تخفیف</span>
                         <div class="selected-ways">
-                            <input type="text" class="form-control" />
-                            <input type="submit" class="btn-primary btn-outline btn-block" value="اعمال" />
+                            <form action="/userpanel/order/usediscount" method="post">
+                                <input type="hidden" name="orderId" value="@Model.OrderId" />
+                                <input type="text" name="code" class="form-control" />
+                                <input type="submit" class="btn-primary btn-outline btn-block" value="اعمال" />
+                            </form>
+                            @if (discountType != null)
+                            {
+                                switch (discountType)
+                                {
+                                    case "Success":
+                                    {
+                                        <div class="alert-success">
+                                            <p class="text-muted">
+                                                کد با موفقیت اعمال شد
+                                            </p>
+                                        </div>
+                                        break;
+                                    }
+
+                                    case "NotFound":
+                                    {
+                                        <div class="alert-danger">
+                                            <p class="text-muted">
+                                                کد وارد شده صحیح نیست !
+                                            </p>
+                                        </div>
+                                        break;
+                                    }
+
+                                    case "Expired":
+                                    {
+                                        <div class="alert-danger">
+                                            <p class="text-muted">
+                                                تاریخ استفاده از این کد به پایان رسیده !
+                                            </p>
+                                        </div>
+                                        break;
+                                    }
+
+                                    case "Finished":
+                                    {
+                                        <div class="alert-danger">
+                                            <p class="text-muted">
+                                                کد وارد شده معتبر نیست !
+                                            </p>
+                                        </div>
+                                        break;
+                                    }
+
+                                    case "Used":
+                                    {
+                                        <div class="alert-danger">
+                                            <p class="text-muted">
+                                                کد وارد شده قبلا استفاده شده !
+                                            </p>
+                                        </div>
+                                        break;
+                                    }
+                                }
+                            }
                         </div>
+                      
                     </div>
                 }
                 <div class="clearing"></div>
@@ -145,7 +255,7 @@
                 {
                     <div class="small-12 small-centered medium-12 medium-uncentered large-12 large-uncentered columns text-center">
                         <div class="input-group contact-item text-center" style="margin:8px;">
-                            <i> کاربر گرامی تعداد محصوا انتخاب شده بیشتر از موجودی سایت است !</i>
+                            <i> کاربر گرامی تعداد محصول انتخاب شده بیشتر از موجودی سایت است !</i>
                         </div>
                     </div>
                 }

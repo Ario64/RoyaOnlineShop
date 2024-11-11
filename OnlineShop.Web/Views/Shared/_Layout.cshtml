@@ -1,11 +1,14 @@
-﻿@using System.Security.Claims
-<!DOCTYPE html>
+﻿@using OnlineShop.Core.Services
+@using OnlineShop.Core.Services.Interfaces
+@inject IOrderService OrderService;
 
+<!DOCTYPE html>
 <html class="no-js" lang="en">
 
 <head>
-    <partial name="_MetaTags" />
     <title>فروشگاه آنلاین رویا | @ViewData["Title"]</title>
+    @RenderSection("MetaTag", false)
+    <partial name="_MetaTags" />
     <partial name="_Styles" />
     <script src="/js/vendor/custom.modernizr.js"></script>
 </head>
@@ -40,106 +43,31 @@
                 else
                 {
                     <div class="small-12 medium-5 large-4 welcome-guest-text columns">
-                        <a href="register" class="welcome-guest-text">عضویت</a> |
-                        <a href="login" class="welcome-guest-text">ورود</a>
+                        <a href="/register" class="welcome-guest-text">عضویت</a> |
+                        <a href="/login" class="welcome-guest-text">ورود</a>
                     </div>
                 }
                 <!-- End Welcome Txt -->
                 <!-- Top cart -->
-                <div class="small-12 medium-5 large-4 left topcartbg columns">
-                    <!-- Carticon -->
-                    <div class="topcart-icon text-center">
-                        <i class="icon-cart2"></i>
-                    </div>
-                    <!-- End Carticon -->
-                    <!-- Topcart Text -->
-                    <div class="topcart-text">
-                        سبد خرید (3 مورد)
-                    </div>
-                    <!-- End Topcart Text -->
-                    <!-- Topcart Arrow Down -->
-                    <div class="topcart-arrow-down">
-                        <a href="#">
-                            <i class="icon-arrow-down"></i>
-                        </a>
-                    </div>
-                    <!-- End Top cart Arrow Down -->
-                    <!-- Cart items -->
-                    <div class="small-12 medium-12 large-4 cart-dropdown">
-                        <!-- Item List -->
-                        <div class="cart-item-list">
-                            <!-- Thumb -->
-                            <div class="cart-item-thumb right">
-                                <img src="/img/cart/1.jpg" alt="Cart product 1" />
-                            </div>
-                            <!-- End thumb -->
-                            <!-- Content -->
-                            <div class="cart-item-content">
-                                <!-- {product name} -->
-                                <div class="cart-item-title">
-                                    <a href="#">
-                                        لورم ایپسوم یا طرح‌نما
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (OrderService.GetUserOrders(User.Identity.Name).Where(w => !w.IsFinally) != null)
+                    {
+                        @foreach (var detail in OrderService.GetUserOrders(User.Identity.Name).Where(w => !w.IsFinally).Select(s => s.OrderDetails))
+                        {
+                            <div class="small-12 medium-5 large-2 left topcartbg columns">
+                                <div class="topcart-icon text-center">
+                                    <a href="/userpanel/order/showcart/@OrderService.GetOrderByUserName(User.Identity.Name)">
+                                        <i class="icon-cart2"></i>
                                     </a>
                                 </div>
-                                <!-- PRice -->
-                                <div class="cart-item-price">
-                                    $109.00
-                                </div>
-                                <!-- Remove -->
-                                <a href="#" class="cart-remove">X</a>
-                                <!-- Quantity -->
-                                <div class="cart-item-quantity">
-                                    تعداد: (1)
+                                <div class="topcart-text">
+                                    <span>@detail.Count مورد</span>
                                 </div>
                             </div>
-                            <!-- End Content -->
-                            <!-- Clearing -->
-                            <div class="clearing"></div>
-                        </div>
-                        <!-- End item list -->
-                        <!-- Item List -->
-                        <div class="cart-item-list">
-                            <!-- Thumb -->
-                            <div class="cart-item-thumb right">
-                                <img src="/img/cart/1.jpg" alt="Cart product 1" />
-                            </div>
-                            <!-- End thumb -->
-                            <!-- Content -->
-                            <div class="cart-item-content">
-                                <!-- {product name} -->
-                                <div class="cart-item-title">
-                                    <a href="#">
-                                        لورم ایپسوم یا طرح‌نما
-                                    </a>
-                                </div>
-                                <!-- PRice -->
-                                <div class="cart-item-price">
-                                    $109.00
-                                </div>
-                                <!-- Remove -->
-                                <a href="#" class="cart-remove">X</a>
-                                <!-- Quantity -->
-                                <div class="cart-item-quantity">
-
-                                    تعداد: (1)
-                                </div>
-                            </div>
-                            <!-- End Content -->
-                            <!-- Clearing -->
-                            <div class="clearing"></div>
-                        </div>
-                        <!-- End item list -->
-                        <!-- Total -->
-                        <div class="small-12 large-12 text-center medium-12 columns cart-total">
-                            مجموع: 124.00 $
-                        </div>
-                        <button class="small-12 large-12 btn btn-3 btn-3a icon-arrow-left">
-                            سبد خرید
-                        </button>
-                        <button class="small-12 large-12 btn btn-3 btn-3a icon-lock">بررسی</button>
-                    </div>
-                    <!-- End Cart item -->
-                </div>
+                        }
+                    }
+                }
                 <!-- End Top cart -->
             </div>
             <!-- End Content Row -->

@@ -63,7 +63,10 @@
                                     <p class="text-danger">برداشت</p>
                                 }
                             </td>
-                            <td class="text-center">@wallet.Description</td>
+                            @{
+                                var hrefTag = "<a href = '/userpanel/order/showcart/" + wallet.Description.Replace("فاکتور شماره #", "") + "'>#</a>";
+                            }
+                            <td class="text-center">@Html.Raw(wallet.Description.Replace("#", hrefTag))</td>
                         </tr>
                     }
                 </tbody>

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<OnlineShop.Core.DTOs.Product.ShowProductListItemViewModel>
+﻿@using OnlineShop.Core.DTOs.Product
+@using OnlineShop.DataLayer.Entities.Product
+@model IEnumerable<OnlineShop.Core.DTOs.Product.ShowProductListItemViewModel>
 @{
     ViewData["Title"] = "صفحه اصلی";
 }
@@ -58,14 +60,23 @@
 </div>
 <div class="row featured-row">
     <h1 class="text-center">محبوب ترین محصولات ما</h1>
-    <div class="heading-summary text-center">جدیدترین محصولات ما</div>
     <div class="fr-border"></div>
 </div>
 <!-- End Heading -->
 <!-- Product Listing -->
 <div class="row">
-    @foreach (var product in Model)
-    {
-        <partial name="_ProductBox" model="product" />
+    @{
+        var populars = ViewBag.PopularProduct as List<ShowProductListItemViewModel>;
     }
+    @if (populars != null)
+    {
+        @foreach (var product in populars)
+        {
+            <partial name="_ProductBox" model="product" />
+        }
+    }
+</div>
+<div class="row featured-row">
+    <a href="/product"><h1 class="text-center"> مشاهده همه محصولات</h1></a>
+    <div class="fr-border"></div>
 </div>

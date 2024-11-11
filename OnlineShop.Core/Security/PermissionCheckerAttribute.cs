@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
-using OnlineShop.Core.Services;
 using OnlineShop.Core.Services.Interfaces;
-using OnlineShop.DataLayer.Entities.User;
+
 
 namespace OnlineShop.Core.Security;
 
@@ -21,7 +18,7 @@ public class PermissionCheckerAttribute : AuthorizeAttribute, IAuthorizationFilt
     }
 
     public void OnAuthorization(AuthorizationFilterContext context)
-    { 
+    {
         _permissionService = (IPermissionService)context.HttpContext.RequestServices.GetService(typeof(IPermissionService));
 
         if (context.HttpContext.User.Identity.IsAuthenticated)
@@ -30,7 +27,7 @@ public class PermissionCheckerAttribute : AuthorizeAttribute, IAuthorizationFilt
 
             if (!_permissionService.CheckPermission(userName, _permissionId))
             {
-                context.Result = new RedirectResult("/Login");
+                context.Result = new RedirectResult("/Login?" + context.HttpContext.Request.Path);
             }
         }
         else

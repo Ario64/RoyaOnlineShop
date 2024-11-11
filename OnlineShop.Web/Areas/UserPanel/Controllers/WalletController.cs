@@ -53,10 +53,10 @@ namespace OnlineShop.Web.Areas.UserPanel.Controllers
             #region Online Payment
 
             Payment payment = new Payment(model.Amount);
-            var res = payment.PaymentRequest("شارژ حساب", "https://localhost:7189/OnlinePayment/" + walletId);
+            var res = payment.PaymentRequest("شارژ حساب", "httpss://localhost:7189/OnlinePayment/" + walletId);
             if (res.Result.Status == 100)
             {
-                return Redirect("https://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
+                return Redirect("httpss://sandbox.zarinpal.com/pg/StartPay/" + res.Result.Authority);
             }
 
             #endregion

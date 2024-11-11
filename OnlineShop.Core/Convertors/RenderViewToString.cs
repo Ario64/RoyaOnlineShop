@@ -30,8 +30,8 @@ public class RenderViewToString : IViewRenderService
 
     public string RenderToStringAsync(string viewName, object model)
     {
-        var httpContext = new DefaultHttpContext { RequestServices = _serviceProvider };
-        var actionContext = new ActionContext(httpContext, new RouteData(), new ActionDescriptor());
+        var httpsContext = new DefaultHttpContext() { RequestServices = _serviceProvider };
+        var actionContext = new ActionContext(httpsContext, new RouteData(), new ActionDescriptor());
 
         using (var sw = new StringWriter())
         {

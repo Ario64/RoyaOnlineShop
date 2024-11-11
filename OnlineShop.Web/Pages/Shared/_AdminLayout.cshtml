@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using OnlineShop.Core.Services.Interfaces
+@inject IPermissionService PermissionService;
+
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -38,28 +41,56 @@
                         <li>
                             <a href="/admin"><i class="fa fa-dashboard fa-fw"></i> پنل ادمین</a>
                         </li>
+
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>مدیریت کاربران<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="/admin/users">کاربران</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/roles">دسترسی ها</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/users/DeletedUsers">کاربران حذف شده</a>
-                                </li>
+                                @if (PermissionService.CheckPermission(User.Identity.Name, 2))
+                                {
+                                    <li>
+                                        <a href="/admin/users">کاربران</a>
+                                    </li>
+                                }
+                                @if (PermissionService.CheckPermission(User.Identity.Name, 8))
+                                {
+                                    <li>
+                                        <a href="/admin/roles">دسترسی ها</a>
+                                    </li>
+                                }
+                                @if (PermissionService.CheckPermission(User.Identity.Name, 1))
+                                {
+                                    <li>
+                                        <a href="/admin/users/DeletedUsers">کاربران حذف شده</a>
+                                    </li>
+                                }
                             </ul>
                         </li>
+
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>مدیریت محصول<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="/admin/products">محصولات</a>
-                                </li>
+                                @if (PermissionService.CheckPermission(User.Identity.Name, 12))
+                                {
+                                    <li>
+                                        <a href="/admin/products">محصولات</a>
+                                    </li>
+                                }
+                                @if (PermissionService.CheckPermission(User.Identity.Name, 20))
+                                {
+                                    <li>
+                                        <a href="/admin/discounts">کدهای تخفیف</a>
+                                    </li>
+                                }
+                                @if (PermissionService.CheckPermission(User.Identity.Name, 16))
+                                {
+                                    <li>
+                                        <a href="/admin/groups">گروه ها</a>
+                                    </li>
+                                }
+
                             </ul>
                         </li>
+
                     </ul>
                     <!-- /#side-menu -->
                 </div>
@@ -88,7 +119,7 @@
 
     <!-- Page-Level Demo Scripts - Dashboard - Use for reference -->
     <script src="/admincontent/js/demo/dashboard-demo.js"></script>
-    @RenderSection("Scripts",false)
-    </body>
+    @RenderSection("Scripts", false)
+</body>
 
 </html>

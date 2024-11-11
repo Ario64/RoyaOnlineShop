@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OnlineShop.Core.DTOs.Order;
 using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Contexts;
 using OnlineShop.DataLayer.Entities.Order;
@@ -102,6 +103,7 @@ public class OrderService : IOrderService
 
         return _context.Orders
             .Include(i => i.OrderDetails)
+            .OrderByDescending(o => o.CreateDate)
             .Where(w => w.UserId == userId)
             .ToList();
     }
@@ -185,4 +187,99 @@ public class OrderService : IOrderService
         return order.OrderId;
     }
 
+    public Order GetOrderByOrderId(int orderId)
+    {
+        return _context.Orders.Find(orderId);
+    }
+
+    public void UpdateOrder(Order order)
+    {
+        _context.Orders.Update(order);
+        _context.SaveChanges();
+    }
+
+    public int GetOrderByUserName(string userName)
+    {
+        int userId = _userService.GetUserIdByUserName(userName);
+        var order = _context.Orders.SingleOrDefault(w => w.UserId == userId && !w.IsFinally);
+        return order.OrderId;
+    }
+
+    public DiscountUsageType UseDiscount(int orderId, string code)
+    {
+        var discount = _context.Discounts.SingleOrDefault(s => s.DiscountCode == code);
+
+        if (discount == null)
+        {
+            return DiscountUsageType.NotFound;
+        }
+
+        if (discount.StartDate != null && discount.StartDate < DateTime.Now)
+        {
+            return DiscountUsageType.Expired;
+        }
+
+        if (discount.StartDate != null && discount.EndDate >= DateTime.Now)
+        {
+            return DiscountUsageType.Expired;
+        }
+
+        if (discount.UsableCount != null && discount.UsableCount < 1)
+        {
+            return DiscountUsageType.Finished;
+        }
+
+        var order = GetOrderByOrderId(orderId);
+
+        if (_context.UserDiscountCodes.Any(a => a.UserId == order.UserId && a.DiscountId == discount.DiscountId))
+        {
+            return DiscountUsageType.Used;
+        }
+
+        var percent = (order.OrderSum * discount.DiscountPercent) / 100;
+
+        order.OrderSum -= percent;
+        UpdateOrder(order);
+        if (discount.UsableCount != null)
+        {
+            discount.UsableCount -= 1;
+        }
+
+        _context.Discounts.Update(discount);
+        _context.UserDiscountCodes.Add(new UserDiscountCode()
+        {
+            UserId = order.UserId,
+            DiscountId = discount.DiscountId
+        });
+
+        _context.SaveChanges();
+        return DiscountUsageType.Success;
+    }
+
+    public List<Discount> GetAllDiscounts()
+    {
+        return _context.Discounts.ToList();
+    }
+
+    public void AddDiscount(Discount discount)
+    {
+        _context.Discounts.Add(discount);
+        _context.SaveChanges();
+    }
+
+    public Discount GetDiscountById(int discountId)
+    {
+        return _context.Discounts.Find(discountId);
+    }
+
+    public void UpdateDiscount(Discount discount)
+    {
+        _context.Discounts.Update(discount);
+        _context.SaveChanges();
+    }
+
+    public bool IsExistCode(string code)
+    {
+        return _context.Discounts.Any(a => a.DiscountCode == code);
+    }
 }

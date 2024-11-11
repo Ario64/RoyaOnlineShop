@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnlineShop.Core.DTOs.Order;
 using OnlineShop.Core.Services.Interfaces;
 
 namespace OnlineShop.Web.Areas.UserPanel.Controllers
@@ -25,8 +26,7 @@ namespace OnlineShop.Web.Areas.UserPanel.Controllers
             return View(_orderService.GetUserOrders(userName));
         }
 
-        [Authorize]
-        public IActionResult ShowCart(int id, bool finaly = false, bool quantity = false)
+        public IActionResult ShowCart(int id, bool finaly = false, bool quantity = false, string type = "")
         {
             string userName = User.Identity.Name;
 
@@ -38,6 +38,7 @@ namespace OnlineShop.Web.Areas.UserPanel.Controllers
 
             ViewBag.finaly = finaly;
             ViewBag.quantity = quantity;
+            ViewBag.discounttype = type;
 
             return View(order);
         }
@@ -61,6 +62,12 @@ namespace OnlineShop.Web.Areas.UserPanel.Controllers
         {
             int orderId = _orderService.DeleteOrderDetail(User.Identity.Name, id);
             return Redirect("/UserPanel/Order/ShowCart/" + orderId);
+        }
+
+        public IActionResult UseDiscount(int orderId, string code)
+        {
+            DiscountUsageType type = _orderService.UseDiscount(orderId, code);
+            return Redirect($"/userpanel/Order/ShowCart/" + orderId + "?type=" + type);
         }
     }
 }

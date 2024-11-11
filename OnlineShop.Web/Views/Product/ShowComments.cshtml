@@ -1,0 +1,28 @@
+﻿@using OnlineShop.Core.Convertors
+@model Tuple<List<OnlineShop.DataLayer.Entities.Product.ProductComment>,int>
+
+@{
+    Layout = null;
+}
+
+@foreach (var comment in Model.Item1)
+{
+    <div class="rev-box">
+        <div class="rev-name">@comment.User.FullName<span>@comment.CreateDate.ToShamsi()</span></div>
+        <p class="product-detail-description">
+            @comment.Comment
+        </p>
+    </div>
+}
+
+<div class="small-10 small-centered medium-6 medium-uncentered large-6 large-uncentered columns">
+    @if (Model.Item2 > 1)
+    {
+        @for (int i = 1; i <= Model.Item2; i++)
+        {
+            <li class="pagination">
+                <a href="" onclick="pageComment(@i)">@i</a>
+            </li>
+        }
+    }
+</div>

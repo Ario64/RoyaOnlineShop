@@ -1,11 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using OnlineShop.Core.Security;
 using OnlineShop.Core.Services.Interfaces;
 using OnlineShop.DataLayer.Entities.Product;
 
 namespace OnlineShop.Web.Pages.Admin.Products
 {
+    [PermissionChecker(14)]
     public class EditProductModel : PageModel
     {
         private IProductService _productService;
@@ -23,16 +25,24 @@ namespace OnlineShop.Web.Pages.Admin.Products
             Product = _productService.GetProductByProductId(id);
 
             var mainGroups = _productService.GetMainGroup();
-            ViewData["MainGroups"] = new SelectList(mainGroups, "Value", "Text", Product.ProductId);
+            ViewData["MainGroups"] = new SelectList(mainGroups, "Value", "Text", Product.ProductGroupId);
 
-            var subGroup = _productService.GetSubMainGroup(int.Parse(mainGroups.First().Value));
-            ViewData["SubMainGroups"] = new SelectList(subGroup, "Value", "Text", Product.SubGroup ?? 0);
-
+            List<SelectListItem> subGroups = new List<SelectListItem>()
+            {
+                new() { Text = "انتخاب کنید !", Value = "" }
+            };
+            subGroups.AddRange(_productService.GetSubMainGroup(Product.ProductGroupId));
+            string? selectedSubGroup = null;
+            if (Product.SubGroup != null)
+            {
+                selectedSubGroup = Product.SubGroup.ToString();
+            }
+            ViewData["SubMainGroups"] = new SelectList(subGroups, "Value", "Text", selectedSubGroup);
         }
 
         public IActionResult OnPost(IFormFile? imgProductUp)
         {
-            _productService.UpdateProduct(Product,imgProductUp);
+            _productService.UpdateProduct(Product, imgProductUp);
 
             return RedirectToPage("Index");
         }

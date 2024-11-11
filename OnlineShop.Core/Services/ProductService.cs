@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Core.Convertors;
@@ -23,7 +22,7 @@ public class ProductService : IProductService
 
     public List<ProductGroup> GetGroups()
     {
-        return _context.ProductGroups.ToList();
+        return _context.ProductGroups.Include(i=>i.ProductGroups).ToList();
     }
 
     public List<SelectListItem> GetMainGroup()
@@ -221,14 +220,83 @@ public class ProductService : IProductService
             Price = s.ProductPrice,
             ImageName = s.ProductImageName,
             CreateDate = s.CreateDate
-        }).OrderByDescending(o=>o.CreateDate).Skip(skip).Take(take).ToList();
+        }).OrderByDescending(o => o.CreateDate).Skip(skip).Take(take).ToList();
 
         return Tuple.Create(list, pageCount);
     }
 
     public Product GetProductForShow(int productId)
     {
-      return _context.Products.Find(productId);
+        return _context.Products.Find(productId);
     }
 
+    public List<ShowProductListItemViewModel> GetPopularProducts()
+    {
+        return _context.Products
+            .Include(i => i.OrderDetails)
+            .Where(w => w.OrderDetails.Any())
+            .OrderByDescending(o => o.OrderDetails.Count)
+            .Select(s =>
+                new ShowProductListItemViewModel()
+                {
+                    ProductId = s.ProductId,
+                    ImageName = s.ProductImageName,
+                    CreateDate = s.CreateDate,
+                    Price = s.ProductPrice,
+                    ProductName = s.ProductName
+                })
+            .Take(6)
+            .ToList();
+    }
+
+    public void AddComment(ProductComment comment)
+    {
+
+        _context.ProductComments.Add(comment);
+        _context.SaveChanges();
+    }
+
+    public Tuple<List<ProductComment>, int> GetProductComments(int productId, int pageId = 1)
+    {
+        int take = 4;
+        int skip = (pageId - 1) * take;
+        int pageCount = 0;
+        int quantity;
+
+        quantity = _context.ProductComments
+            .Where(w => w.ProductId == productId && !w.IsDelete)
+            .ToList().Count;
+
+        if (quantity % 2 == 0)
+        {
+            pageCount = quantity / take;
+        }
+        else
+        {
+            pageId = (quantity / take + 1);
+        }
+
+        var list = _context.ProductComments
+            .Where(w => w.ProductId == productId && !w.IsDelete)
+            .Skip(skip).Take(take).OrderByDescending(o => o.CreateDate).ToList();
+
+        return Tuple.Create(list, pageCount);
+    }
+
+    public void AddGroup(ProductGroup group)
+    {
+        _context.ProductGroups.Add(group);
+        _context.SaveChanges();
+    }
+
+    public void UpdateGroup(ProductGroup group)
+    {
+        _context.ProductGroups.Update(group);
+        _context.SaveChanges();
+    }
+
+    public ProductGroup GetProductGroupByProductId(int groupId)
+    {
+        return _context.ProductGroups.Find(groupId);
+    }
 }

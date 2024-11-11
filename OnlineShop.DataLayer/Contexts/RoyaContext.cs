@@ -24,6 +24,7 @@ public class RoyaContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<UserProduct> UserProducts { get; set; }
+    public DbSet<UserDiscountCode> UserDiscountCodes { get; set; }
 
     #endregion
 
@@ -45,6 +46,7 @@ public class RoyaContext : DbContext
 
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductGroup> ProductGroups { get; set; }
+    public DbSet<ProductComment> ProductComments { get; set; }
 
     #endregion
 
@@ -52,6 +54,7 @@ public class RoyaContext : DbContext
 
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderDetail> OrderDetails { get; set; }
+    public DbSet<Discount> Discounts { get; set; }
 
     #endregion
 
@@ -102,6 +105,16 @@ public class RoyaContext : DbContext
                     .HasForeignKey(f => f.ProductId);
                 up.HasOne(h => h.User).WithMany("UserProducts")
                     .HasForeignKey(f => f.UserId);
+            });
+
+        modelBuilder.Entity<UserDiscountCode>(
+            u =>
+            {
+                u.HasKey(h => h.UserDiscountId);
+                u.HasOne(h => h.User).WithMany("UserDiscountCodes")
+                    .HasForeignKey(f => f.UserId);
+                u.HasOne(h => h.Discount).WithMany("UserDiscountCodes")
+                    .HasForeignKey(f => f.DiscountId);
             });
 
         #endregion
@@ -190,6 +203,20 @@ public class RoyaContext : DbContext
                 pr.HasQueryFilter(h => !h.IsDeleted);
             });
 
+        modelBuilder.Entity<ProductComment>(
+            p =>
+            {
+                p.HasKey(h => h.ProductCommentId);
+                p.Property(p => p.Comment).HasMaxLength(700);
+                p.Property(p => p.CreateDate);
+                p.Property(p => p.IsAdminRead).HasDefaultValue(false);
+                p.Property(p => p.IsDelete).HasDefaultValue(false);
+                p.HasOne(h => h.Product).WithMany("ProductComments")
+                    .HasForeignKey(f => f.ProductId);
+                p.HasOne(h => h.User).WithMany("ProductComments")
+                    .HasForeignKey(f => f.UserId);
+            });
+
         #endregion
 
         #region Order Data
@@ -215,6 +242,17 @@ public class RoyaContext : DbContext
                     .HasForeignKey(f => f.ProductId);
                 od.HasOne(h => h.Order).WithMany("OrderDetails")
                     .HasForeignKey(f => f.OrderId);
+            });
+
+        modelBuilder.Entity<Discount>(
+            d =>
+            {
+                d.HasKey(h => h.DiscountId);
+                d.Property(p => p.DiscountCode).HasMaxLength(50).IsRequired();
+                d.Property(p => p.DiscountPercent);
+                d.Property(p => p.UsableCount);
+                d.Property(p => p.StartDate);
+                d.Property(p => p.EndDate);
             });
 
         #endregion

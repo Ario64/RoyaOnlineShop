@@ -17,8 +17,24 @@ public interface IProductService
     ShowProductsForAdminViewModel GetAllProduct(int pageId = 1, string filterProductName = "");
     Product GetProductByProductId(int productId);
     void UpdateProduct(Product product, IFormFile? file);
-    Tuple<List<ShowProductListItemViewModel>, int > GetProducts(int pageId = 1, string filterName = "", string orderDate = "", string price = "", List<int>? selectedGroups = null, int take = 0);
+    Tuple<List<ShowProductListItemViewModel>, int> GetProducts(int pageId = 1, string filterName = "", string orderDate = "", string price = "", List<int>? selectedGroups = null, int take = 0);
     Product GetProductForShow(int productId);
+    List<ShowProductListItemViewModel> GetPopularProducts();
+
+    #endregion
+
+    #region Comments
+
+    void AddComment(ProductComment comment);
+    Tuple<List<ProductComment>, int> GetProductComments(int productId, int pageId = 1);
+
+    #endregion
+
+    #region Groups
+
+    void AddGroup(ProductGroup group);
+    void UpdateGroup(ProductGroup group);
+    ProductGroup GetProductGroupByProductId(int groupId);
 
     #endregion
 

@@ -1,0 +1,31 @@
+﻿@page "{id?}"
+@model OnlineShop.Web.Pages.Admin.Groups.CreateGroupModel
+@{
+    ViewData["Title"] = "افزودن گروه جدید";
+}
+<div class="col-lg-12">
+    <h1>@ViewData["Title"]</h1>
+</div>
+<hr />
+<div class="row">
+    <form method="post">
+        <input type="hidden" asp-for="Group.ParentId"/>
+        <div class="col-lg-11">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    گروه جدید
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>عنوان گروه</label>
+                        <input type="text" asp-for="Group.GroupTitle" class="form-control">
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-group-lg btn-success">افزودن</button>
+                        <div asp-validation-summary="All"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

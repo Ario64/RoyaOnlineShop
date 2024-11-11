@@ -65,6 +65,7 @@ public class Product
     public ProductGroup? Group { get; set; }
     public List<UserProduct>? UserProducts { get; set; }
     public List<OrderDetail>? OrderDetails { get; set; }
+    public List<ProductComment>? ProductComments { get; set; }
 
     #endregion
 

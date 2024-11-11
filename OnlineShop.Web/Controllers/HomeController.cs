@@ -19,6 +19,7 @@ namespace OnlineShop.Web.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.PopularProduct = _productService.GetPopularProducts();
             return View(_productService.GetProducts().Item1);
         }
 
