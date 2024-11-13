@@ -8,7 +8,7 @@
 {
     <div class="small-12 medium-12 large-3 searchinputholder columns">
         <form action="/Product" method="get">
-            <input type="text" class="searchinput" name="filterName" placeholder=" جستجوی محصول ..." />
+            <input type="text" class="searchinput" id="authoFilter" name="filterName" placeholder=" جستجوی محصول ..." />
         </form>
     </div>
 }
@@ -79,3 +79,14 @@
     <a href="/product"><h1 class="text-center"> مشاهده همه محصولات</h1></a>
     <div class="fr-border"></div>
 </div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#authoFilter").autocomplete({
+                source: 'api/productapi/search'
+            });
+        });
+    </script>
+}
