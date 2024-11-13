@@ -206,7 +206,7 @@
         <!-- Review -->
         <div class="row">
             <!-- Reviews -->
-            <div class="small-12 medium-5 large-5 columns" id="listcomment">
+            <div class="small-12 medium-5 large-5 columns" id="commentList">
                 <h1>
                     نظرات مشتریان
                 </h1>
@@ -234,7 +234,7 @@
                             متن
                         </label>
                         <textarea name="comment.Comment" id="comment_Comment"></textarea>
-                        <button class="form-btn" type="button">ثبت نظر</button>
+                        <button class="form-btn" type="submit">ثبت نظر</button>
                     </form>
                 }
                 else
@@ -264,7 +264,7 @@
 <!-- End Page Content Holder -->
 @section Scripts
 {
-    <script src="/js/jquery.unobtrusive-ajax.js"></script>
+
     <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
     <script>
         function Success() {
@@ -272,11 +272,11 @@
         }
 
         $(function () {
-            $("#listcomment").load("/Product/ShowComments/" + @Model.ProductId);
+            $("#commentList").load("/Product/ShowComments/@(Model.ProductId)");
         });
 
         function pageComment(pageid) {
-            $("#listcomment").load("/Product/ShowComments/" + @Model.ProductId+"?pageid=" + pageid);
+            $("#commentList").load("/Product/ShowComments/@(Model.ProductId)?pageid=" + pageid);
         }
 
         $(function () {
