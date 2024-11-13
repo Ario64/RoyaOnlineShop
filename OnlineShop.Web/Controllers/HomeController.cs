@@ -83,5 +83,14 @@ namespace OnlineShop.Web.Controllers
 
         #endregion
 
+        #region Error404
+
+        public IActionResult Error404()
+        {
+            return View();
+        }
+
+        #endregion
+
     }
 }
