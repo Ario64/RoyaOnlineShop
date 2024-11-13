@@ -1,4 +1,6 @@
-﻿@model OnlineShop.DataLayer.Entities.Product.Product
+﻿@using OnlineShop.Core.Services.Interfaces
+@model OnlineShop.DataLayer.Entities.Product.Product
+@inject IProductService ProductService
 @{
     ViewData["Title"] = Model.ProductName;
 }
@@ -87,23 +89,22 @@
         <!-- Border -->
         <div class="fr-border"></div>
         <!-- Product Quantity -->
-        <div class="small-12 small-centered medium-6 medium-uncentered large-7 large-uncentered columns">
-            <div class="product-attr-text q-lineheight">با لایک کردن این محصول، آنرا به دیگران هم پیشنهاد دهید.</div>
-        </div>
-        <!-- End Product Quantity -->
-        <!-- Add to wishlist + compare -->
-        <div class="small-10 small-centered medium-6 medium-uncentered large-5 large-uncentered q-lineheight columns">
-            <div class="f-button">
-                <a href="#" title="Add to Wishlist">
-                    <i class="icon-heart"></i>
-                </a>
-                <p>1000</p>
+        @if (User.Identity.IsAuthenticated && ProductService.IsUserInProduct(User.Identity.Name, @Model.ProductId))
+        {
+            <div class="small-12 small-centered medium-6 medium-uncentered large-7 large-uncentered columns">
+                <div class="product-attr-text q-lineheight">با لایک کردن این محصول، آنرا به دیگران هم پیشنهاد دهید.</div>
             </div>
-        </div>
-        <!-- End Add to wishlist + compare -->
-        <div class="clearing"></div>
-        <!-- Border -->
-        <div class="fr-border"></div>
+            <!-- End Product Quantity -->
+            <!-- Add to wishlist + compare -->
+            <div class="small-10 small-centered medium-6 medium-uncentered large-5 large-uncentered q-lineheight columns" id="vote">
+            </div>
+            <!-- End Add to wishlist + compare -->
+
+            <div class="clearing"></div>
+            <!-- Border -->
+            <div class="fr-border"></div>
+        }
+
         <!-- Product Price and Add To Cart -->
         <div class="small-12 small-centered medium-5 medium-uncentered large-6 q-lineheight large-uncentered columns">
             <div class="main-price">
@@ -164,8 +165,8 @@
         </div>
         <div class="clearing"></div>
         <script type="text/javascript">var switchTo5x = true;</script>
-        <script type="text/javascript" src="https://w.sharethis.com/button/buttons.js"></script>
-        
+        <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+
         <script type="text/javascript">stLight.options({ publisher: "ur-91f7351c-4e1e-33ef-9cac-f7276559ca2f", doNotHash: false, doNotCopy: false, hashAddressBar: false });</script>
         <!-- Share Widget -->
         <div class="share-widget">
@@ -276,6 +277,14 @@
 
         function pageComment(pageid) {
             $("#listcomment").load("/Product/ShowComments/" + @Model.ProductId+"?pageid=" + pageid);
+        }
+
+        $(function () {
+            $("#vote").load("/Product/Vote/" + @Model.ProductId);
+        });
+
+        function vote(vote) {
+            $("#vote").load("/Product/CreateVote/@(Model.ProductId)?vote=" + vote);
         }
     </script>
 }

@@ -20,6 +20,7 @@ public interface IProductService
     Tuple<List<ShowProductListItemViewModel>, int> GetProducts(int pageId = 1, string filterName = "", string orderDate = "", string price = "", List<int>? selectedGroups = null, int take = 0);
     Product GetProductForShow(int productId);
     List<ShowProductListItemViewModel> GetPopularProducts();
+    bool IsUserInProduct(string userName, int productId);
 
     #endregion
 
@@ -35,6 +36,14 @@ public interface IProductService
     void AddGroup(ProductGroup group);
     void UpdateGroup(ProductGroup group);
     ProductGroup GetProductGroupByProductId(int groupId);
+    void DeleteGroup(ProductGroup group);
+
+    #endregion
+
+    #region Vote
+
+    void AddVote(int userId, int productId, bool vote);
+    int GetProductVote(int productId);
 
     #endregion
 

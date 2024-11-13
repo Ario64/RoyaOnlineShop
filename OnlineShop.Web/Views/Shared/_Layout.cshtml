@@ -78,7 +78,9 @@
             <!-- Content Row -->
             <div class="row headerbottomrow">
                 <!--  Main Menu -->
-                @await Component.InvokeAsync("ProductGroupComponent")
+                <cache expires-after="@TimeSpan.FromHours(8)">
+                    @await Component.InvokeAsync("ProductGroupComponent")
+                </cache>
                 <!-- End Main Menu -->
                 <!-- Search box -->
                 @RenderSection("SearchBox", false)
@@ -93,7 +95,9 @@
     @RenderBody()
     <!-- end content -->
     <!-- Footer  -->
-    <partial name="_Footer" />
+    <cache expires-after="@TimeSpan.FromDays(1)">
+        <partial name="_Footer" />
+    </cache>
     <!-- End Footer Links -->
     <script type="text/javascript" src="/js/vendor/jquery.js"></script>
     <script src="/js/foundation/foundation.js"></script>

@@ -1,0 +1,6 @@
+﻿@model IEnumerable<OnlineShop.Core.DTOs.Product.ShowProductListItemViewModel>
+
+@foreach (var product in Model)
+{
+    <partial name="_ProductBox" model="product" />
+}

@@ -47,6 +47,7 @@ public class RoyaContext : DbContext
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductGroup> ProductGroups { get; set; }
     public DbSet<ProductComment> ProductComments { get; set; }
+    public DbSet<ProductVote> ProductVotes { get; set; }
 
     #endregion
 
@@ -215,6 +216,14 @@ public class RoyaContext : DbContext
                     .HasForeignKey(f => f.ProductId);
                 p.HasOne(h => h.User).WithMany("ProductComments")
                     .HasForeignKey(f => f.UserId);
+            });
+
+        modelBuilder.Entity<ProductVote>(
+            v =>
+            {
+                v.HasKey(h => h.VoteId);
+                v.Property(p => p.Vote);
+                v.Property(p => p.CreateDate);
             });
 
         #endregion

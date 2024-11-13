@@ -65,5 +65,17 @@ namespace OnlineShop.Web.Controllers
             return View(_productService.GetProductComments(id, pageId));
         }
 
+        public IActionResult Vote(int id)
+        {
+            return PartialView(_productService.GetProductVote(id));
+        }
+
+        [Authorize]
+        public IActionResult CreateVote(int id, bool vote)
+        {
+            int userId = _userService.GetUserIdByUserName(User.Identity.Name);
+            _productService.AddVote(userId, id, vote);
+            return PartialView("Vote", _productService.GetProductVote(id));
+        }
     }
 }

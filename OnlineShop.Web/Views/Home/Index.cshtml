@@ -49,10 +49,9 @@
 <!-- End Heading -->
 <!-- Product Listing -->
 <div class="row">
-    @foreach (var product in Model)
-    {
-        <partial name="_ProductBox" model="product" />
-    }
+    <cache expires-after="@TimeSpan.FromHours(1)">
+        @await Component.InvokeAsync("LatestProductsComponent")
+    </cache>
 </div>
 <div class="row featured-row">
     <a href="/product"><h1 class="text-center"> مشاهده همه محصولات</h1></a>

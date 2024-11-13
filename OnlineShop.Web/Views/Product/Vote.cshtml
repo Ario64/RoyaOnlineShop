@@ -1,0 +1,11 @@
+﻿@model int
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="f-button">
+        <a onclick="vote(true)" title="Add to Wishlist">
+            <i class="icon-heart"></i>
+        </a>
+        <p>@Model</p>
+    </div>
+}

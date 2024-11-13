@@ -31,7 +31,7 @@ public class User
 
     [DisplayName("آدرس")]
     [MaxLength(300, ErrorMessage = "{0} نباید بیشتر از {1} کاراکتر باشد")]
-    public string? Address { get; set; }
+    public string Address { get; set; }
 
     [DisplayName("کد فعال سازی")]
     [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -65,6 +65,7 @@ public class User
     public List<Order.Order>? Orders { get; set; }
     public List<UserDiscountCode>? UserDiscountCodes { get; set; }
     public List<ProductComment>? ProductComments { get; set; }
+    public List<ProductVote>? ProductVotes { get; set; }
 
     #endregion
 

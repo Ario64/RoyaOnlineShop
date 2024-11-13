@@ -74,5 +74,14 @@ namespace OnlineShop.Web.Controllers
 
         #endregion
 
+        #region ContactUs
+        [Route("contactus")]
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+
+        #endregion
+
     }
 }

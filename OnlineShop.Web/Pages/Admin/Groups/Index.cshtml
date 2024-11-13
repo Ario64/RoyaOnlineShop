@@ -41,7 +41,8 @@
                                                     @foreach (ProductGroup subGroup in group.ProductGroups)
                                                     {
                                                         <li>
-                                                            @subGroup.GroupTitle - <a href="/admin/groups/editgroup/@subGroup.ProductGroupId" class="btn-xs btn-outline btn-info">ویرایش</a>
+                                                            @subGroup.GroupTitle - <a href="/admin/groups/editgroup/@subGroup.ProductGroupId" class="btn-xs btn-outline btn-info">ویرایش</a> -
+                                                            <a href="/admin/groups/deletegroup/@subGroup.ProductGroupId" class="btn-xs btn-outline btn-danger">حذف</a>
                                                         </li>
                                                     }
                                                 </ul>

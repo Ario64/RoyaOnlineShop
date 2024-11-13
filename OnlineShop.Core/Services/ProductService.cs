@@ -14,15 +14,18 @@ namespace OnlineShop.Core.Services;
 public class ProductService : IProductService
 {
     private RoyaContext _context;
+    private IUserService _userService;
 
-    public ProductService(RoyaContext context)
+    public ProductService(RoyaContext context, IUserService userService)
     {
         _context = context;
+        _userService = userService;
+
     }
 
     public List<ProductGroup> GetGroups()
     {
-        return _context.ProductGroups.Include(i=>i.ProductGroups).ToList();
+        return _context.ProductGroups.Include(i => i.ProductGroups).ToList();
     }
 
     public List<SelectListItem> GetMainGroup()
@@ -249,6 +252,13 @@ public class ProductService : IProductService
             .ToList();
     }
 
+    public bool IsUserInProduct(string userName, int productId)
+    {
+        int userId = _userService.GetUserIdByUserName(userName);
+
+        return _context.UserProducts.Any(a => a.ProductId == productId && a.UserId == userId);
+    }
+
     public void AddComment(ProductComment comment)
     {
 
@@ -298,5 +308,43 @@ public class ProductService : IProductService
     public ProductGroup GetProductGroupByProductId(int groupId)
     {
         return _context.ProductGroups.Find(groupId);
+    }
+
+    public void DeleteGroup(ProductGroup group)
+    {
+        group.IsDeleted = true;
+        UpdateGroup(group);
+    }
+
+    public void AddVote(int userId, int productId, bool vote)
+    {
+        var productVote = _context.ProductVotes.FirstOrDefault(w => w.UserId == userId && w.ProductId == productId);
+
+        if (productVote != null)
+        {
+            productVote.Vote = false;
+        }
+        else
+        {
+            productVote = new ProductVote()
+            {
+                ProductId = productId,
+                UserId = userId,
+                CreateDate = DateTime.Now,
+                Vote = true
+            };
+            _context.ProductVotes.Add(productVote);
+        }
+
+        _context.SaveChanges();
+    }
+
+    public int GetProductVote(int productId)
+    {
+        var voteCount = _context.ProductVotes
+            .Where(w => w.ProductId == productId)
+            .Select(s => s.Vote).ToList();
+
+        return voteCount.Count(c=>c);
     }
 }
